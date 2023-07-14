@@ -4,9 +4,7 @@ namespace CatanGame.System;
 
 public interface IVertex
 {
-    void BuildSettlement();
-    void BuildCity();
-    EPlayer GetOwner();
-    EVertexStatus GetStatus();
-    bool IsPort();
+    EPlayer Owner { get; set; }
+    EVertexStatus Status { get; set; }
+    bool IsPort { get; set; }
 }

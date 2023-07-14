@@ -23,41 +23,20 @@ public class Mapper
                 
                 if (i + 1 < VerticesBoardSize)
                 {
-                    var verticalRoadOwner = board.GetRoadOwner(i + 1, j, ERoads.Verticals);
-                    showBoardApi.Pixels[i + 1, j] = GetRoadRepresentation(ERoads.Verticals, verticalRoadOwner);
+                    var verticalRoadOwner = board.GetRoadOwner(i, j, ERoads.Verticals);
+                    showBoardApi.Pixels[i*2+1, j*2] = GetRoadRepresentation(ERoads.Verticals, verticalRoadOwner);
                 }
 
                 if (j + 1 < VerticesBoardSize)
                 {
-                    var horizontalRoadOwner = board.GetRoadOwner(i, j + 1, ERoads.Horizontals);
-                    showBoardApi.Pixels[i, j + 1] = GetRoadRepresentation(ERoads.Horizontals, horizontalRoadOwner);
-                }
-            }
-        }
-
-        return showBoardApi;
-    }
-
-    private ShowBoardApi SetVertices(IBoard board, ShowBoardApi showBoardApi)
-    {
-        for (var i = 0; i < VerticesBoardSize; i++)
-        {
-            for (var j = 0; j < VerticesBoardSize; j++)
-            {
-                var eVertexStatus = board.GetVertexStatus(i, j);
-                var eOwner = board.GetVertexOwner(i, j);
-                showBoardApi.Pixels[i * 2, j * 2] = GetVertexRepresentation(eVertexStatus, eOwner);
-                
-                if (i + 1 < VerticesBoardSize)
-                {
-                    var verticalRoadOwner = board.GetRoadOwner(i + 1, j, ERoads.Verticals);
-                    showBoardApi.Pixels[i + 1, j] = GetRoadRepresentation(ERoads.Verticals, verticalRoadOwner);
+                    var horizontalRoadOwner = board.GetRoadOwner(i, j, ERoads.Horizontals);
+                    showBoardApi.Pixels[i*2, j*2+1] = GetRoadRepresentation(ERoads.Horizontals, horizontalRoadOwner);
                 }
 
-                if (j + 1 < VerticesBoardSize)
+                if (i + 1 < VerticesBoardSize && j + 1 < VerticesBoardSize)
                 {
-                    var horizontalRoadOwner = board.GetRoadOwner(i, j + 1, ERoads.Horizontals);
-                    showBoardApi.Pixels[i, j + 1] = GetRoadRepresentation(ERoads.Horizontals, horizontalRoadOwner);
+                    var resource = board.GetTileResource(i, j);
+                    showBoardApi.Pixels[i*2+1, j*2+1] = GetTileRepresentation(resource);
                 }
             }
         }
@@ -105,5 +84,34 @@ public class Mapper
             EPlayer.Player4 => ConsoleColor.Yellow,
             _ => throw new ArgumentOutOfRangeException(nameof(ePlayer), ePlayer, null)
         };
+    }
+
+    private static Pixel GetTileRepresentation(EResource eResource)
+    {
+        var pixel = new Pixel
+        {
+            Sign = eResource switch
+            {
+                EResource.Iron => 'I',
+                EResource.Wheat => 'H',
+                EResource.Sheep => 'S',
+                EResource.Tin => 'T',
+                EResource.Wood => 'W',
+                EResource.None => 'D',
+                _ => throw new ArgumentOutOfRangeException(nameof(eResource), eResource, null)
+            },
+            Color = eResource switch
+            {
+                EResource.Iron => ConsoleColor.Gray,
+                EResource.Wheat => ConsoleColor.Yellow,
+                EResource.Sheep => ConsoleColor.White,
+                EResource.Tin => ConsoleColor.DarkRed,
+                EResource.Wood => ConsoleColor.Green,
+                EResource.None => ConsoleColor.Magenta,
+                _ => throw new ArgumentOutOfRangeException(nameof(eResource), eResource, null)
+            }
+        };
+
+        return pixel;
     }
 }

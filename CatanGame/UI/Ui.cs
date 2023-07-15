@@ -81,6 +81,7 @@ public class Ui : IUi
         var resourceNames = GeneralFactory.CreateResourcesNames();
         var resourcesAmount = cards.GetResources();
         var totalPoints = cards.GetTotalPoints();
+        Console.WriteLine($"{_names[player]} Cards and Total Points:");
         foreach (var pair in resourceNames)
         {
             var resource = pair.Key;
@@ -92,6 +93,14 @@ public class Ui : IUi
 
     public void ShowAllCards(Dictionary<EPlayer, ICards> allCards)
     {
-        throw new NotImplementedException();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine();
+        Console.WriteLine("All Cards:");
+        foreach (var pair in allCards)
+        {
+            var player = pair.Key;
+            var cards = pair.Value;
+            ShowCards(cards, player);
+        }
     }
 }

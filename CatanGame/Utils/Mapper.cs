@@ -73,7 +73,7 @@ public class Mapper
         return pixel;
     }
 
-    private static ConsoleColor GetPlayerColor(EPlayer ePlayer)
+    public static ConsoleColor GetPlayerColor(EPlayer ePlayer)
     {
         return ePlayer switch
         {

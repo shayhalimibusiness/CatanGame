@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CatanGame.Enums;
 
 namespace CatanGame.System;
@@ -44,21 +45,26 @@ public class Board : IBoard
 
     public void SetVertexOwner(int x, int y, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        _vertices[x, y].Owner = ePlayer;
     }
 
     public void SetVertexStatus(int x, int y, EVertexStatus eVertexStatus)
     {
-        throw new NotImplementedException();
+        _vertices[x, y].Status = eVertexStatus;
     }
 
-    public void SetRoadOwner(int x, int y, ERoads eRoads)
+    public void SetRoadOwner(int x, int y, ERoads eRoads, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        var matrix = eRoads switch
+        {
+            ERoads.Horizontals => _horizontalRoads,
+            ERoads.Verticals => _verticalRoads
+        };
+        matrix[x, y].Owner = ePlayer;
     }
 
     public void SetTileResource(int x, int y, EResource resource)
     {
-        throw new NotImplementedException();
+        _tiles[x, y] = resource;
     }
 }

@@ -4,6 +4,44 @@ namespace CatanGame.System;
 
 public static class BoardFactory
 {
+    public static IBoard CreateRandomBoard()
+    {
+        var vertices = CreateBlankVertices();
+        var horizontalRoads = CreateBlankHorizontalRoads();
+        var verticalRoads = CreateBlankVerticalRoads();
+
+        var random = new Random();
+        var tiles = new Tile[4, 4];
+        for (var i = 0; i < tiles.GetLength(0); i++)
+        {
+            for (var j = 0; j < tiles.GetLength(1); j++)
+            {
+                tiles[i, j] = new Tile
+                {
+                    Number = random.Next(2, 13),
+                    EResource = random.Next(1, 7) switch
+                    {
+                        1 => EResource.Iron,
+                        2 => EResource.None,
+                        3 => EResource.Sheep,
+                        4 => EResource.Tin,
+                        5 => EResource.Wheat,
+                        6 => EResource.Wood,
+                        _ => throw new ArgumentOutOfRangeException()
+                    }
+                };
+            }
+        }
+
+        var board = new Board(
+            vertices: vertices, 
+            horizontalRoads: horizontalRoads, 
+            verticalRoads: verticalRoads,
+            tiles: tiles);
+
+        return board; 
+    }
+    
     public static IBoard CreateBlankBoard()
     {
         var tiles = CreateBlankTiles();
@@ -74,7 +112,7 @@ public static class BoardFactory
     
     private static IVertex[,] CreateBlankVertices()
     {
-        var map = new IVertex[4, 5];
+        var map = new IVertex[5, 5];
         for (var i = 0; i < map.GetLength(0); i++)
         {
             for (var j = 0; j < map.GetLength(1); j++)
@@ -126,7 +164,7 @@ public static class BoardFactory
     
     private static IRoad[,] CreateBlankHorizontalRoads()
     {
-        var map = new IRoad[4, 5];
+        var map = new IRoad[5, 4];
         for (var i = 0; i < map.GetLength(0); i++)
         {
             for (var j = 0; j < map.GetLength(1); j++)

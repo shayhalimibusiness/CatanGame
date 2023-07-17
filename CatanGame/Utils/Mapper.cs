@@ -49,9 +49,9 @@ public class Mapper
         var pixel = new Pixel();
         pixel.Sign = vertexStatus switch
         {
-            EVertexStatus.Unsettled => 'U',
-            EVertexStatus.Settlement => 'S',
-            EVertexStatus.City => 'C',
+            EVertexStatus.Unsettled => "U-",
+            EVertexStatus.Settlement => "S-",
+            EVertexStatus.City => "C-",
             _ => pixel.Sign
         };
         pixel.Color = GetPlayerColor(owner);
@@ -64,8 +64,8 @@ public class Mapper
         {
             Sign = eRoads switch
             {
-                ERoads.Horizontals => '-',
-                ERoads.Verticals => '|',
+                ERoads.Horizontals => "--",
+                ERoads.Verticals => "| ",
                 _ => throw new ArgumentOutOfRangeException(nameof(eRoads), eRoads, null)
             },
             Color = GetPlayerColor(owner)
@@ -92,17 +92,17 @@ public class Mapper
         {
             Sign = eResource switch
             {
-                EResource.Iron => 'I',
-                EResource.Wheat => 'H',
-                EResource.Sheep => 'S',
-                EResource.Tin => 'T',
-                EResource.Wood => 'W',
-                EResource.None => 'D',
+                EResource.Iron => "I ",
+                EResource.Wheat => "H ",
+                EResource.Sheep => "S ",
+                EResource.Tin => "T ",
+                EResource.Wood => "W ",
+                EResource.None => "D ",
                 _ => throw new ArgumentOutOfRangeException(nameof(eResource), eResource, null)
             },
             Color = eResource switch
             {
-                EResource.Iron => ConsoleColor.Gray,
+                EResource.Iron => ConsoleColor.Blue,
                 EResource.Wheat => ConsoleColor.Yellow,
                 EResource.Sheep => ConsoleColor.White,
                 EResource.Tin => ConsoleColor.DarkRed,

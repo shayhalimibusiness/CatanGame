@@ -19,4 +19,7 @@ var cards = CardsFactory.CreateCardsExample1();
 ui.ShowCards(cards, EPlayer.Player2);
 var allCards = CardsFactory.CreateAllCardsExample();
 ui.ShowAllCards(allCards);
+var randomBoard = BoardFactory.CreateRandomBoard();
+showBoardApi = Mapper.ShowBoardApiMapper(randomBoard);
+ui.ShowBoard(showBoardApi);
 Console.WriteLine("Hello, World!");

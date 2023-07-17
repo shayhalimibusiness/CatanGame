@@ -7,6 +7,6 @@ public class ShowBoardApi
 
 public class Pixel
 {
-    public char Sign { get; set; }
+    public string? Sign { get; set; }
     public ConsoleColor Color { get; set; }
 }

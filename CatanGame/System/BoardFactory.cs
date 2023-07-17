@@ -188,7 +188,7 @@ public static class BoardFactory
         return map;
     }
 
-    private static EResource[,] CreateExampleTiles()
+    private static Tile[,] CreateExampleTiles()
     {
         var map = new EResource[4, 4]
         {
@@ -218,17 +218,35 @@ public static class BoardFactory
             }
         };
 
-        return map;
+        var tiles = new Tile[4, 4];
+
+        for (var i = 0; i < 4; i++)
+        {
+            for (var j = 0; j < 4; j++)
+            {
+                tiles[i, j] = new Tile
+                {
+                    EResource = map[i, j],
+                    Number = 1,
+                };
+            }
+        }
+
+        return tiles;
     }
 
-    private static EResource[,] CreateBlankTiles()
+    private static Tile[,] CreateBlankTiles()
     {
-        var map = new EResource[4, 4];
+        var map = new Tile[4, 4];
         for (var i = 0; i < map.GetLength(0); i++)
         {
             for (var j = 0; j < map.GetLength(1); j++)
             {
-                map[i, j] = EResource.None;
+                map[i, j] = new Tile
+                {
+                    EResource = EResource.None,
+                    Number = 1
+                };
             }
         }
 

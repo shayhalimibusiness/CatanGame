@@ -72,4 +72,27 @@ public class BoardTests
         var resource = _board.GetTileResource(0, 0);
         Assert.That(resource, Is.EqualTo(EResource.Tin));
     }
+    
+    [Test]
+    public void GetTileNumber_Is1_Get1()
+    {
+        var number = _board.GetTileNumber(0, 0);
+        Assert.That(number, Is.EqualTo(1));
+    }
+    
+    [Test]
+    public void GetResources_Dice1_GetAllResources()
+    {
+        _board.SetTileResource(0, 0, EResource.Tin);
+        _board.SetVertexOwner(0,0, EPlayer.Player1);
+        _board.SetVertexStatus(0, 0, EVertexStatus.Settlement);
+        _board.SetVertexOwner(0,1, EPlayer.Player1);
+        _board.SetVertexStatus(0, 1, EVertexStatus.City);
+        _board.SetVertexOwner(1,1, EPlayer.Player2);
+        _board.SetVertexStatus(1, 1, EVertexStatus.Settlement);
+        
+        var resources = _board.GetResources(1);
+        Assert.That(resources[EPlayer.Player1][EResource.Tin], Is.EqualTo(3));
+        Assert.That(resources[EPlayer.Player2][EResource.Tin], Is.EqualTo(1));
+    }
 }

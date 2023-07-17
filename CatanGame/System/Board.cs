@@ -8,9 +8,9 @@ public class Board : IBoard
     private IVertex[,] _vertices;
     private IRoad[,] _horizontalRoads;
     private IRoad[,] _verticalRoads;
-    private EResource[,] _tiles;
-    
-    public Board(IVertex[,] vertices, IRoad[,] horizontalRoads, IRoad[,] verticalRoads, EResource[,] tiles)
+    private Tile[,] _tiles;
+
+    public Board(IVertex[,] vertices, IRoad[,] horizontalRoads, IRoad[,] verticalRoads, Tile[,] tiles)
     {
         _vertices = vertices;
         _horizontalRoads = horizontalRoads;
@@ -40,7 +40,22 @@ public class Board : IBoard
 
     public EResource GetTileResource(int x, int y)
     {
-        return _tiles[x, y];
+        return _tiles[x, y].EResource;
+    }
+
+    public int GetTileNumber(int x, int y)
+    {
+        return _tiles[x, y].Number;
+    }
+
+    public Dictionary<EPlayer, Dictionary<EResource, int>> GetResources(int diceRoll)
+    {
+        // var resources = new Dictionary<EPlayer, Dictionary<EResource, int>>();
+        // foreach (var tile in _tilesHistogram[diceRoll])
+        // {
+        //     
+        // }
+        throw new Exception();
     }
 
     public void SetVertexOwner(int x, int y, EPlayer ePlayer)
@@ -65,6 +80,6 @@ public class Board : IBoard
 
     public void SetTileResource(int x, int y, EResource resource)
     {
-        _tiles[x, y] = resource;
+        _tiles[x, y].EResource = resource;
     }
 }

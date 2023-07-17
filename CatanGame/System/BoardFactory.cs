@@ -2,8 +2,23 @@ using CatanGame.Enums;
 
 namespace CatanGame.System;
 
-public class BoardFactory
+public static class BoardFactory
 {
+    public static IBoard CreateBlankBoard()
+    {
+        var tiles = CreateBlankTiles();
+        var vertices = CreateBlankVertices();
+        var horizontalRoads = CreateBlankHorizontalRoads();
+        var verticalRoads = CreateBlankVerticalRoads();
+        var board = new Board(
+            vertices: vertices, 
+            horizontalRoads: horizontalRoads, 
+            verticalRoads: verticalRoads,
+            tiles: tiles);
+
+        return board;
+    }
+
     public static IBoard CreateExampleBoard()
     {
         var vertices = CreateExampleVertices();
@@ -57,6 +72,20 @@ public class BoardFactory
         return map;
     }
     
+    private static IVertex[,] CreateBlankVertices()
+    {
+        var map = new IVertex[4, 5];
+        for (var i = 0; i < map.GetLength(0); i++)
+        {
+            for (var j = 0; j < map.GetLength(1); j++)
+            {
+                map[i, j] = new Vertex(EPlayer.None, EVertexStatus.Unsettled);
+            }
+        }
+
+        return map;
+    }
+    
     private static IRoad[,] CreateExampleHorizontalRoads()
     {
         IRoad[,] map = {
@@ -91,6 +120,20 @@ public class BoardFactory
                 new Road { Owner = EPlayer.None }
             }
         };
+
+        return map;
+    }
+    
+    private static IRoad[,] CreateBlankHorizontalRoads()
+    {
+        var map = new IRoad[4, 5];
+        for (var i = 0; i < map.GetLength(0); i++)
+        {
+            for (var j = 0; j < map.GetLength(1); j++)
+            {
+                map[i, j] = new Road();
+            }
+        }
 
         return map;
     }
@@ -131,6 +174,20 @@ public class BoardFactory
         return map;
     }
 
+    private static IRoad[,] CreateBlankVerticalRoads()
+    {
+        var map = new IRoad[4, 5];
+        for (var i = 0; i < map.GetLength(0); i++)
+        {
+            for (var j = 0; j < map.GetLength(1); j++)
+            {
+                map[i, j] = new Road();
+            }
+        }
+
+        return map;
+    }
+
     private static EResource[,] CreateExampleTiles()
     {
         var map = new EResource[4, 4]
@@ -160,6 +217,20 @@ public class BoardFactory
                 EResource.Wood
             }
         };
+
+        return map;
+    }
+
+    private static EResource[,] CreateBlankTiles()
+    {
+        var map = new EResource[4, 4];
+        for (var i = 0; i < map.GetLength(0); i++)
+        {
+            for (var j = 0; j < map.GetLength(1); j++)
+            {
+                map[i, j] = EResource.None;
+            }
+        }
 
         return map;
     }

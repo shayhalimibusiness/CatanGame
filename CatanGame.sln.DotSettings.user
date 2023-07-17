@@ -1,2 +1,19 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3f7693f3_002D730b_002D4e5a_002D945a_002Db5d34936ac97/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetVertexOwner_IsNone_GetNone" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.GetVertexOwner_IsNone_GetNone&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.GetVertexStatus_IsUnsettled_GetUnsettled&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.GetRoadOwner_IsNone_GetNone&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ad94254b_002D3e2a_002D4de1_002D9b17_002Dfedfd0e101fd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetTileResource_IsNone_GetNone" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.GetTileResource_IsNone_GetNone&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.SetVertexOwner_SetPlayer1_GetPlayer1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.GetRoadOwner_IsNone_GetNone&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.SetVertexStatus_SetSettlement_GetSettlement&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.SetRoadOwner_SetPlayer1_GetPlayer1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.SetTileResource_SetTin_GetTin&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Catan/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

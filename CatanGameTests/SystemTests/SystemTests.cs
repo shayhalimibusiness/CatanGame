@@ -61,4 +61,33 @@ public class SystemTests
         Assert.That(points, Is.EqualTo(1));
         Assert.That(resources[EResource.Tin], Is.EqualTo(0));
     }
+    
+    [Test]
+    public void BuildSettlementUndo_UnsettledVertex_ThrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.BuildSettlementUndo(0, 0, EPlayer.Player1));
+    }
+    
+    [Test]
+    public void BuildSettlementUndo_Player1BuildAndUndo_BackToNormal()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        cards.TransferResources(EResource.Sheep, 1);
+        cards.TransferResources(EResource.Wood, 1);
+        cards.TransferResources(EResource.Wheat, 1);
+        cards.TransferResources(EResource.Tin, 1);
+        
+        _system.BuildSettlement(0, 0, EPlayer.Player1);
+        _system.BuildSettlementUndo(0, 0, EPlayer.Player1);
+
+        var owner = _system.GetBoard().GetVertexOwner(0, 0);
+        var status = _system.GetBoard().GetVertexStatus(0, 0);
+        var points = cards.GetTotalPoints();
+        var resources = cards.GetResources();
+        
+        Assert.That(owner, Is.EqualTo(EPlayer.None));
+        Assert.That(status, Is.EqualTo(EVertexStatus.Unsettled));
+        Assert.That(points, Is.EqualTo(0));
+        Assert.That(resources[EResource.Tin], Is.EqualTo(1));
+    }
 }

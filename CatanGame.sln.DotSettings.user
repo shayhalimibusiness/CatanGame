@@ -3,6 +3,8 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuildSettlement_NotEnoughResource_ThrowsException&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuildSettlement_Player1Build_VertexOwnedByPlayer1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuildSettlementUndo_Player1BuildAndUndo_BackToNormal&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuildSettlementUndo_UnsettledVertex_ThrowsException&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3f7693f3_002D730b_002D4e5a_002D945a_002Db5d34936ac97/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetVertexOwner_IsNone_GetNone" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

@@ -80,7 +80,24 @@ public class System : ISystem
 
     public void BuildSettlementUndo(int x, int y, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        if (_board.GetVertexOwner(x, y) != ePlayer)
+        {
+            throw new Exception("Can't revert build settlement! The settlement is not belonged to the player.");
+        }
+
+        if (_board.GetVertexStatus(x, y) != EVertexStatus.Settlement)
+        {
+            throw new Exception("Can't revert build settlement! There is no settlement in this place");
+        }
+        
+        _allCards[ePlayer].TransferResources(EResource.Sheep, 1);
+        _allCards[ePlayer].TransferResources(EResource.Wood, 1);
+        _allCards[ePlayer].TransferResources(EResource.Wheat, 1);
+        _allCards[ePlayer].TransferResources(EResource.Tin, 1);
+        
+        _board.SetVertexOwner(x, y, EPlayer.None);
+        _board.SetVertexStatus(x, y, EVertexStatus.Unsettled);
+        GetCards(ePlayer).TransferTotalPoints(-1);
     }
 
     public void BuildCity(int x, int y, EPlayer ePlayer)

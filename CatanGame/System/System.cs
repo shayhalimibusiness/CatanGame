@@ -29,27 +29,53 @@ public class System : ISystem
 
     public IBoard GetBoard()
     {
-        throw new NotImplementedException();
+        return _board;
     }
 
     public ICards GetCards(EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        return _allCards[ePlayer];
     }
 
     public Dictionary<EPlayer, ICards> GetAllCards()
     {
-        throw new NotImplementedException();
+        return _allCards;
     }
 
-    public GameSummaryApi GetGameSummery()
+    public void GetGameSummery()
     {
-        throw new NotImplementedException();
+        var showStatusApi = new ShowStatusApi
+        {
+            TotalPoints = new Dictionary<EPlayer, int>()
+        };
+        foreach (var (ePlayer, cards) in _allCards)
+        {
+            showStatusApi.TotalPoints[ePlayer] = cards.GetTotalPoints();
+        }
+
+        _ui.ShowStatus(showStatusApi);
     }
 
     public void BuildSettlement(int x, int y, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        if (_board.GetVertexOwner(x, y) != EPlayer.None)
+        {
+            throw new Exception("Can't build a settlement on owned vertex!");
+        }
+
+        if (_board.GetVertexStatus(x, y) != EVertexStatus.Unsettled)
+        {
+            throw new Exception("Can build a settlement only on unsettled vertex!");
+        }
+        
+        _allCards[ePlayer].TransferResources(EResource.Sheep, -1);
+        _allCards[ePlayer].TransferResources(EResource.Wood, -1);
+        _allCards[ePlayer].TransferResources(EResource.Wheat, -1);
+        _allCards[ePlayer].TransferResources(EResource.Tin, -1);
+        
+        _board.SetVertexOwner(x, y, ePlayer);
+        _board.SetVertexStatus(x, y, EVertexStatus.Settlement);
+        GetCards(ePlayer).TransferTotalPoints(1);
     }
 
     public void BuildSettlementUndo(int x, int y, EPlayer ePlayer)

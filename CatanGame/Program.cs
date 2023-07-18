@@ -19,3 +19,4 @@ var uiTest = new UiTests();
 // uiTest.ApiTests();
 uiTest.ShowBoard_GetRandomBoard_Show();
 uiTest.ShowDice_GetSystemRoll_Show();
+uiTest.ShowStatusApi_SystemGetGameSummery_Show();

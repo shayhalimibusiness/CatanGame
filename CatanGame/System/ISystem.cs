@@ -9,7 +9,7 @@ public interface ISystem
      IBoard GetBoard();
      ICards GetCards(EPlayer ePlayer);
      Dictionary<EPlayer, ICards> GetAllCards();
-     GameSummaryApi GetGameSummery();
+     void GetGameSummery();
      void BuildSettlement(int x, int y, EPlayer ePlayer);
      void BuildSettlementUndo(int x, int y, EPlayer ePlayer);
      void BuildCity(int x, int y, EPlayer ePlayer);

@@ -73,4 +73,13 @@ public class UiTests
     {
         _system.RoleDice();
     }
+
+    public void ShowStatusApi_SystemGetGameSummery_Show()
+    {
+        var player1Cards = _system.GetCards(EPlayer.Player1);
+        var player2Cards = _system.GetCards(EPlayer.Player2);
+        player1Cards.TransferTotalPoints(2);
+        player2Cards.TransferTotalPoints(3);
+        _system.GetGameSummery();
+    }
 }

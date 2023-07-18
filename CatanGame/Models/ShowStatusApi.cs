@@ -4,5 +4,5 @@ namespace CatanGame.Models;
 
 public class ShowStatusApi
 {
-    public Dictionary<EPlayer, int> TotalPoints { get; set; }
+    public Dictionary<EPlayer, int>? TotalPoints { get; set; }
 }

@@ -16,6 +16,10 @@ public class Cards : ICards
     public void TransferResources(EResource eResource, int amount)
     {
         _resources.TryAdd(eResource, 0);
+        if (_resources[eResource] + amount < 0)
+        {
+            throw new Exception("Can't be with negative amount of resources!");
+        }
         _resources[eResource] += amount;
     }
 
@@ -31,6 +35,10 @@ public class Cards : ICards
 
     public void TransferTotalPoints(int amount)
     {
+        if (_totalPoints + amount < 0)
+        {
+            throw new Exception("Can't be with a negative amount of points!");
+        }
         _totalPoints += amount;
     }
 }

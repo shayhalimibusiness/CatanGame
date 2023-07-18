@@ -4,6 +4,17 @@ namespace CatanGame.System;
 
 public static class CardsFactory
 {
+    public static Dictionary<EPlayer, ICards> CreateBlankAllCards()
+    {
+        var allCards = new Dictionary<EPlayer, ICards>
+        {
+            { EPlayer.Player1, new Cards() },
+            { EPlayer.Player2, new Cards() }
+        };
+
+        return allCards;
+    }
+    
     public static ICards CreateCardsExample1()
     {
         var cards = new Cards();

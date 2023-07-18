@@ -1,5 +1,6 @@
 using CatanGame.Enums;
 using CatanGame.Models;
+using CatanGame.UI;
 
 namespace CatanGame.System;
 
@@ -7,21 +8,23 @@ public class System : ISystem
 {
     private IBoard _board;
     private Dictionary<EPlayer, ICards> _allCards;
+    private IUi _ui;
+    private int _dice = 0;
 
-    public System(IBoard board, Dictionary<EPlayer, ICards> allCards)
+    public System(IBoard board, Dictionary<EPlayer, ICards> allCards, IUi ui)
     {
         _board = board;
         _allCards = allCards;
-    }
-
-    public void MakeBoard()
-    {
-        throw new NotImplementedException();
+        _ui = ui;
     }
 
     public void RoleDice()
     {
-        throw new NotImplementedException();
+        var random = new Random();
+        var cube1 = random.Next(1, 6);
+        var cube2 = random.Next(1, 6);
+        _dice = cube1 + cube2;
+        _ui.ShowDice(cube1, cube2);
     }
 
     public IBoard GetBoard()

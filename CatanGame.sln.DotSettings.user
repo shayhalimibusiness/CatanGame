@@ -14,6 +14,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dc6cb72a_002De4bf_002D4982_002D8f14_002D81cd9d06e390/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BoardTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.Tests.Test1&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Catan/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

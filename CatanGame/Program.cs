@@ -6,20 +6,16 @@ using CatanGame.System;
 using CatanGame.UI;
 using CatanGame.Utils;
 
-var board = BoardFactory.CreateExampleBoard();
-var showBoardApi = Mapper.ShowBoardApiMapper(board);
-var ui = UiFactory.CreateUi();
-ui.ShowBoard(showBoardApi);
-ui.ShowDice(5, 6);
-var showActionApi = ModelFactory.CreateShowActionApiExample1();
-ui.ShowAction(showActionApi);
-var showStatusApi = ModelFactory.CreateShowStatusApiExample();
-ui.ShowStatus(showStatusApi);
-var cards = CardsFactory.CreateCardsExample1();
-ui.ShowCards(cards, EPlayer.Player2);
-var allCards = CardsFactory.CreateAllCardsExample();
-ui.ShowAllCards(allCards);
-var randomBoard = BoardFactory.CreateRandomBoard();
-showBoardApi = Mapper.ShowBoardApiMapper(randomBoard);
-ui.ShowBoard(showBoardApi);
+
+
+
+
+
+
+
 Console.WriteLine("Hello, World!");
+
+var uiTest = new UiTests();
+// uiTest.ApiTests();
+uiTest.ShowBoard_GetRandomBoard_Show();
+uiTest.ShowDice_GetSystemRoll_Show();

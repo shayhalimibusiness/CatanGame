@@ -5,7 +5,6 @@ namespace CatanGame.System;
 
 public interface ISystem
 {
-     void MakeBoard();
      void RoleDice();
      IBoard GetBoard();
      ICards GetCards(EPlayer ePlayer);

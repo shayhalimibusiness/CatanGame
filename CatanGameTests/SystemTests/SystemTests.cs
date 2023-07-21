@@ -44,10 +44,7 @@ public class SystemTests
     public void BuildSettlement_Player1Build_VertexOwnedByPlayer1()
     {
         var cards = _system.GetCards(EPlayer.Player1);
-        cards.TransferResources(EResource.Sheep, 1);
-        cards.TransferResources(EResource.Wood, 1);
-        cards.TransferResources(EResource.Wheat, 1);
-        cards.TransferResources(EResource.Tin, 1);
+        TransferSettlementResources(EPlayer.Player1);
         
         _system.BuildSettlement(0, 0, EPlayer.Player1);
         
@@ -72,10 +69,7 @@ public class SystemTests
     public void BuildSettlementUndo_Player1BuildAndUndo_BackToNormal()
     {
         var cards = _system.GetCards(EPlayer.Player1);
-        cards.TransferResources(EResource.Sheep, 1);
-        cards.TransferResources(EResource.Wood, 1);
-        cards.TransferResources(EResource.Wheat, 1);
-        cards.TransferResources(EResource.Tin, 1);
+        TransferSettlementResources(EPlayer.Player1);
         
         _system.BuildSettlement(0, 0, EPlayer.Player1);
         _system.BuildSettlementUndo(0, 0, EPlayer.Player1);
@@ -89,5 +83,77 @@ public class SystemTests
         Assert.That(status, Is.EqualTo(EVertexStatus.Unsettled));
         Assert.That(points, Is.EqualTo(0));
         Assert.That(resources[EResource.Tin], Is.EqualTo(1));
+    }
+    
+    [Test]
+    public void BuildCity_UnsettledVertex_ThrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.BuildCity(0, 0, EPlayer.Player1));
+    }
+    
+    [Test]
+    public void BuildCity_Player1BuildCity_VertexHasPlayer1sCity()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        TransferSettlementResources(EPlayer.Player1);
+        _system.BuildSettlement(0, 0, EPlayer.Player1);
+        TransferCityResources(EPlayer.Player1);
+        
+        _system.BuildCity(0, 0, EPlayer.Player1);
+        
+        var owner = _system.GetBoard().GetVertexOwner(0, 0);
+        var status = _system.GetBoard().GetVertexStatus(0, 0);
+        var points = cards.GetTotalPoints();
+        var resources = cards.GetResources();
+        
+        Assert.That(owner, Is.EqualTo(EPlayer.Player1));
+        Assert.That(status, Is.EqualTo(EVertexStatus.City));
+        Assert.That(points, Is.EqualTo(2));
+        Assert.That(resources[EResource.Wheat], Is.EqualTo(0));
+    }
+    
+    [Test]
+    public void BuildCityUndo_VertexContainsSettlement_ThrowsException()
+    {
+        TransferSettlementResources(EPlayer.Player1);
+        Assert.Throws<Exception>(() => _system.BuildCityUndo(0, 0, EPlayer.Player1));
+    }
+    
+    [Test]
+    public void BuildCityUndo_Player1BuildAndUndo_VertexBackToNoraml()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        TransferSettlementResources(EPlayer.Player1);
+        TransferCityResources(EPlayer.Player1);
+        _system.BuildSettlement(0, 0, EPlayer.Player1);
+        _system.BuildCity(0, 0, EPlayer.Player1);
+        
+        _system.BuildCityUndo(0, 0, EPlayer.Player1);
+                
+        var owner = _system.GetBoard().GetVertexOwner(0, 0);
+        var status = _system.GetBoard().GetVertexStatus(0, 0);
+        var points = cards.GetTotalPoints();
+        var resources = cards.GetResources();
+        
+        Assert.That(owner, Is.EqualTo(EPlayer.Player1));
+        Assert.That(status, Is.EqualTo(EVertexStatus.Settlement));
+        Assert.That(points, Is.EqualTo(1));
+        Assert.That(resources[EResource.Wheat], Is.EqualTo(2));
+    }
+
+    private void TransferSettlementResources(EPlayer ePlayer)
+    {
+        var cards = _system.GetCards(ePlayer);
+        cards.TransferResources(EResource.Sheep, 1);
+        cards.TransferResources(EResource.Wood, 1);
+        cards.TransferResources(EResource.Wheat, 1);
+        cards.TransferResources(EResource.Tin, 1);
+    }
+    
+    private void TransferCityResources(EPlayer ePlayer)
+    {
+        var cards = _system.GetCards(ePlayer);
+        cards.TransferResources(EResource.Wheat, 2);
+        cards.TransferResources(EResource.Iron, 3);
     }
 }

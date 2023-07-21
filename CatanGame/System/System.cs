@@ -102,12 +102,40 @@ public class System : ISystem
 
     public void BuildCity(int x, int y, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        if (_board.GetVertexOwner(x, y) != ePlayer)
+        {
+            throw new Exception("Can't build a city! Player doesn't own a settlement here.");
+        }
+
+        if (_board.GetVertexStatus(x, y) != EVertexStatus.Settlement)
+        {
+            throw new Exception("Can build a city only on a settlement!");
+        }
+        
+        _allCards[ePlayer].TransferResources(EResource.Wheat, -2);
+        _allCards[ePlayer].TransferResources(EResource.Iron, -3);
+        
+        _board.SetVertexStatus(x, y, EVertexStatus.City);
+        GetCards(ePlayer).TransferTotalPoints(1);
     }
 
     public void BuildCityUndo(int x, int y, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        if (_board.GetVertexOwner(x, y) != ePlayer)
+        {
+            throw new Exception("Can't undo build a city! Player doesn't own a settlement here.");
+        }
+
+        if (_board.GetVertexStatus(x, y) != EVertexStatus.City)
+        {
+            throw new Exception("Can't undo build a city! There isn't a city here.");
+        }
+        
+        _allCards[ePlayer].TransferResources(EResource.Wheat, 2);
+        _allCards[ePlayer].TransferResources(EResource.Iron, 3);
+        
+        _board.SetVertexStatus(x, y, EVertexStatus.Settlement);
+        GetCards(ePlayer).TransferTotalPoints(-1);
     }
 
     public void BuildRoad(int x, int y, ERoads eRoads, EPlayer ePlayer)

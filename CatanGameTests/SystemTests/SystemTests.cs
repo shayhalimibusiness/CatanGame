@@ -141,6 +141,49 @@ public class SystemTests
         Assert.That(resources[EResource.Wheat], Is.EqualTo(2));
     }
 
+    [Test]
+    public void BuildRoad_NotEnoughResource_ThrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.BuildRoad(0, 0, ERoads.Horizontals, EPlayer.Player1));
+    }
+    
+    [Test]
+    public void BuildRoad_Player1Build_RoadOwnedByPlayer1()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        TransferRoadResources(EPlayer.Player1);
+        
+        _system.BuildRoad(0, 0, ERoads.Horizontals, EPlayer.Player1);
+        
+        var owner = _system.GetBoard().GetRoadOwner(0, 0, ERoads.Horizontals);
+        var resources = cards.GetResources();
+        
+        Assert.That(owner, Is.EqualTo(EPlayer.Player1));
+        Assert.That(resources[EResource.Tin], Is.EqualTo(0));
+    }
+    
+    [Test]
+    public void BuildRoadUndo_UnsettledRoad_ThrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.BuildRoadUndo(0, 0, ERoads.Horizontals, EPlayer.Player1));
+    }
+    
+    [Test]
+    public void BuildRoadUndo_Player1BuildAndUndo_BackToNormal()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        TransferRoadResources(EPlayer.Player1);
+        
+        _system.BuildRoad(0, 0, ERoads.Horizontals, EPlayer.Player1);
+        _system.BuildRoadUndo(0, 0, ERoads.Horizontals, EPlayer.Player1);
+
+        var owner = _system.GetBoard().GetRoadOwner(0, 0, ERoads.Horizontals);
+        var resources = cards.GetResources();
+        
+        Assert.That(owner, Is.EqualTo(EPlayer.None));
+        Assert.That(resources[EResource.Tin], Is.EqualTo(1));
+    }
+    
     private void TransferSettlementResources(EPlayer ePlayer)
     {
         var cards = _system.GetCards(ePlayer);
@@ -155,5 +198,12 @@ public class SystemTests
         var cards = _system.GetCards(ePlayer);
         cards.TransferResources(EResource.Wheat, 2);
         cards.TransferResources(EResource.Iron, 3);
+    }
+    
+    private void TransferRoadResources(EPlayer ePlayer)
+    {
+        var cards = _system.GetCards(ePlayer);
+        cards.TransferResources(EResource.Wood, 1);
+        cards.TransferResources(EResource.Tin, 1);
     }
 }

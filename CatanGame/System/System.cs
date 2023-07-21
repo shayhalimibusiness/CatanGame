@@ -140,12 +140,28 @@ public class System : ISystem
 
     public void BuildRoad(int x, int y, ERoads eRoads, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        if (_board.GetRoadOwner(x, y, eRoads) != EPlayer.None)
+        {
+            throw new Exception("Can't build a road here! it is already owned by someone else.");
+        }
+
+        _allCards[ePlayer].TransferResources(EResource.Wood, -1);
+        _allCards[ePlayer].TransferResources(EResource.Tin, -1);
+        
+        _board.SetRoadOwner(x, y, eRoads, ePlayer);
     }
 
     public void BuildRoadUndo(int x, int y, ERoads eRoads, EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        if (_board.GetRoadOwner(x, y, eRoads) != ePlayer)
+        {
+            throw new Exception("Can't revert build road! The road is not belonged to the player.");
+        }
+
+        _allCards[ePlayer].TransferResources(EResource.Wood, 1);
+        _allCards[ePlayer].TransferResources(EResource.Tin, 1);
+        
+        _board.SetRoadOwner(x, y, eRoads, EPlayer.None);
     }
 
     public void BuyCard(EPlayer ePlayer)

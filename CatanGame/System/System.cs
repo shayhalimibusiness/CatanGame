@@ -211,20 +211,24 @@ public class System : ISystem
         }
     }
 
-    public void Trade(EPlayer player, EResource sell, EResource buy, int times)
+    public void Trade(EPlayer ePlayer, EResource sell, EResource buy, int times)
     {
-        throw new NotImplementedException();
+        var marketRate = 4;
+        _allCards[ePlayer].TransferResources(sell, -times * marketRate);
+        _allCards[ePlayer].TransferResources(buy, times);
     }
 
-    public void TradeUndo(EPlayer player, EResource sell, EResource buy, int times)
+    public void TradeUndo(EPlayer ePlayer, EResource sell, EResource buy, int times)
     {
-        throw new NotImplementedException();
+        var marketRate = 4;
+        _allCards[ePlayer].TransferResources(sell, times * marketRate);
+        _allCards[ePlayer].TransferResources(buy, -times);
     }
 
     private bool IsPointCard()
     {
         var random = new Random();
-        int randomNumber = random.Next(2);
+        var randomNumber = random.Next(2);
         return randomNumber == 1;
     }
 }

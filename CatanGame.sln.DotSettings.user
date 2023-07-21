@@ -21,6 +21,10 @@
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCardUndo_Player1BuyAndUndo_BackToNormal&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCard_Player1Buy_SpendsResources&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCardUndo_NoCardsWhereBoughtBefore_TrowsException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.Trade_NotEnoughResources_ThrowsException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.Trade_TradeIronForSheep_HasSheepNoIron&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.TradeUndo_NotEnoughResources_TrowsException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.TradeUndo_Player1TradeAndUndo_BackToNormal&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=93da489d_002D6b6e_002D410f_002Da341_002D51b1c655556b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BuildRoad_NotEnoughResource_ThrowsException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

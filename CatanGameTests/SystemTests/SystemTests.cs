@@ -142,7 +142,7 @@ public class SystemTests
     }
 
     [Test]
-    public void BuildRoad_NotEnoughResource_ThrowsException()
+    public void BuildRoad_NotEnoughResources_ThrowsException()
     {
         Assert.Throws<Exception>(() => _system.BuildRoad(0, 0, ERoads.Horizontals, EPlayer.Player1));
     }
@@ -185,7 +185,7 @@ public class SystemTests
     }
     
     [Test]
-    public void BuyCard_NotEnoughResource_ThrowsException()
+    public void BuyCard_NotEnoughResources_ThrowsException()
     {
         Assert.Throws<Exception>(() => _system.BuyCard(EPlayer.Player1));
     }
@@ -225,6 +225,47 @@ public class SystemTests
         Assert.That(resources[EResource.Sheep], Is.EqualTo(1));
         Assert.That(resources[EResource.Iron], Is.EqualTo(1));
         Assert.That(resources[EResource.Wheat], Is.EqualTo(1));
+    }
+    
+    [Test]
+    public void Trade_NotEnoughResources_ThrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.Trade(EPlayer.Player1, EResource.Iron, EResource.Sheep, 1));
+    }
+    
+    [Test]
+    public void Trade_TradeIronForSheep_HasSheepNoIron()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        cards.TransferResources(EResource.Iron, 4);
+        
+        _system.Trade(EPlayer.Player1, EResource.Iron, EResource.Sheep, 1);
+        
+        var resources = cards.GetResources();
+        
+        Assert.That(resources[EResource.Iron], Is.EqualTo(0));
+        Assert.That(resources[EResource.Sheep], Is.EqualTo(1));
+    }
+    
+    [Test]
+    public void TradeUndo_NotEnoughResources_TrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.TradeUndo(EPlayer.Player1, EResource.Iron, EResource.Sheep, 1));
+    }
+    
+    [Test]
+    public void TradeUndo_Player1TradeAndUndo_BackToNormal()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        cards.TransferResources(EResource.Iron, 4);
+        
+        _system.Trade(EPlayer.Player1, EResource.Iron, EResource.Sheep, 1);
+        _system.TradeUndo(EPlayer.Player1, EResource.Iron, EResource.Sheep, 1);
+        
+        var resources = cards.GetResources();
+        
+        Assert.That(resources[EResource.Iron], Is.EqualTo(4));
+        Assert.That(resources[EResource.Sheep], Is.EqualTo(0));
     }
     
     private void TransferSettlementResources(EPlayer ePlayer)

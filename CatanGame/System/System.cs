@@ -10,12 +10,14 @@ public class System : ISystem
     private Dictionary<EPlayer, ICards> _allCards;
     private IUi _ui;
     private int _dice = 0;
+    private Dictionary<EPlayer, Stack<bool>> _pointCardsDrawsHistory;
 
     public System(IBoard board, Dictionary<EPlayer, ICards> allCards, IUi ui)
     {
         _board = board;
         _allCards = allCards;
         _ui = ui;
+        _pointCardsDrawsHistory = new Dictionary<EPlayer, Stack<bool>>();
     }
 
     public void RoleDice()
@@ -166,16 +168,63 @@ public class System : ISystem
 
     public void BuyCard(EPlayer ePlayer)
     {
-        throw new NotImplementedException();
+        _allCards[ePlayer].TransferResources(EResource.Iron, -1);
+        _allCards[ePlayer].TransferResources(EResource.Wheat, -1);
+        _allCards[ePlayer].TransferResources(EResource.Sheep, -1);
+
+        var isPoint = IsPointCard();
+
+        if (!_pointCardsDrawsHistory.ContainsKey(ePlayer))
+        {
+            _pointCardsDrawsHistory[ePlayer] = new Stack<bool>();
+        }
+
+        var drawHistory = _pointCardsDrawsHistory[ePlayer];
+        drawHistory.Push(isPoint);
+
+        if (isPoint)
+        {
+            _allCards[ePlayer].TransferTotalPoints(1);
+        }
     }
 
     public void BuyCardUndo(EPlayer ePlayer)
     {
+        _allCards[ePlayer].TransferResources(EResource.Iron, 1);
+        _allCards[ePlayer].TransferResources(EResource.Wheat, 1);
+        _allCards[ePlayer].TransferResources(EResource.Sheep, 1);
+
+        var isPoint = false;
+        try
+        {
+            var drawHistory = _pointCardsDrawsHistory[ePlayer];
+            isPoint = drawHistory.Pop();
+        }
+        catch (Exception e)
+        {
+            throw new Exception("The player didn't bought a card yet!");
+        }
+
+        if (isPoint)
+        {
+            _allCards[ePlayer].TransferTotalPoints(-1);
+        }
+    }
+
+    public void Trade(EPlayer player, EResource sell, EResource buy, int times)
+    {
         throw new NotImplementedException();
     }
 
-    public void TradeUndo(EResource sell, EResource buy, int times)
+    public void TradeUndo(EPlayer player, EResource sell, EResource buy, int times)
     {
         throw new NotImplementedException();
+    }
+
+    private bool IsPointCard()
+    {
+        var random = new Random();
+        int randomNumber = random.Next(2);
+        return randomNumber == 1;
     }
 }

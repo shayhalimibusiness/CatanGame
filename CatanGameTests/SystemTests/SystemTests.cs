@@ -184,6 +184,49 @@ public class SystemTests
         Assert.That(resources[EResource.Tin], Is.EqualTo(1));
     }
     
+    [Test]
+    public void BuyCard_NotEnoughResource_ThrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.BuyCard(EPlayer.Player1));
+    }
+    
+    [Test]
+    public void BuyCard_Player1Buy_SpendsResources()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        TransferPointCardResources(EPlayer.Player1);
+        
+        _system.BuyCard(EPlayer.Player1);
+        
+        var resources = cards.GetResources();
+        
+        Assert.That(resources[EResource.Sheep], Is.EqualTo(0));
+        Assert.That(resources[EResource.Iron], Is.EqualTo(0));
+        Assert.That(resources[EResource.Wheat], Is.EqualTo(0));
+    }
+    
+    [Test]
+    public void BuyCardUndo_NoCardsWhereBoughtBefore_TrowsException()
+    {
+        Assert.Throws<Exception>(() => _system.BuyCardUndo(EPlayer.Player1));
+    }
+    
+    [Test]
+    public void BuyCardUndo_Player1BuyAndUndo_BackToNormal()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        TransferPointCardResources(EPlayer.Player1);
+        
+        _system.BuyCard(EPlayer.Player1);
+        _system.BuyCardUndo(EPlayer.Player1);
+
+        var resources = cards.GetResources();
+        
+        Assert.That(resources[EResource.Sheep], Is.EqualTo(1));
+        Assert.That(resources[EResource.Iron], Is.EqualTo(1));
+        Assert.That(resources[EResource.Wheat], Is.EqualTo(1));
+    }
+    
     private void TransferSettlementResources(EPlayer ePlayer)
     {
         var cards = _system.GetCards(ePlayer);
@@ -205,5 +248,13 @@ public class SystemTests
         var cards = _system.GetCards(ePlayer);
         cards.TransferResources(EResource.Wood, 1);
         cards.TransferResources(EResource.Tin, 1);
+    }
+    
+    private void TransferPointCardResources(EPlayer ePlayer)
+    {
+        var cards = _system.GetCards(ePlayer);
+        cards.TransferResources(EResource.Sheep, 1);
+        cards.TransferResources(EResource.Wheat, 1);
+        cards.TransferResources(EResource.Iron, 1);
     }
 }

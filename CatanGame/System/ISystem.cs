@@ -18,5 +18,6 @@ public interface ISystem
      void BuildRoadUndo(int x, int y, ERoads eRoads, EPlayer ePlayer);
      void BuyCard(EPlayer ePlayer);
      void BuyCardUndo(EPlayer ePlayer);
-     void TradeUndo(EResource sell, EResource buy, int times);
+     void Trade(EPlayer player, EResource sell, EResource buy, int times);
+     void TradeUndo(EPlayer player, EResource sell, EResource buy, int times);
 }

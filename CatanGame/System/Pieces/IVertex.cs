@@ -6,5 +6,5 @@ public interface IVertex
 {
     EPlayer Owner { get; set; }
     EVertexStatus Status { get; set; }
-    bool IsPort { get; set; }
+    EResource GetPort { get; set; }
 }

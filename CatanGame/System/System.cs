@@ -1,4 +1,5 @@
 using CatanGame.Enums;
+using CatanGame.System.Board;
 using CatanGame.UI;
 
 namespace CatanGame.System;
@@ -210,6 +211,11 @@ public class System : ISystem
         var marketRate = 4;
         _allCards[ePlayer].TransferResources(sell, times * marketRate);
         _allCards[ePlayer].TransferResources(buy, -times);
+    }
+    
+    public bool HasPort(EPlayer ePlayer, EResource eResource)
+    {
+        return _board.PlayerOwnPort(ePlayer, eResource);
     }
 
     private bool IsPointCard()

@@ -1,6 +1,6 @@
 using CatanGame.Enums;
 
-namespace CatanGame.System;
+namespace CatanGame.System.Board;
 
 public static class BoardFactory
 {

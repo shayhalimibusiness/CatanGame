@@ -1,4 +1,5 @@
 using CatanGame.Enums;
+using CatanGame.System.Board;
 using CatanGame.Utils;
 
 namespace CatanGame.System;

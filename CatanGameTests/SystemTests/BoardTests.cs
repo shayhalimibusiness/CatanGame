@@ -1,5 +1,6 @@
 using CatanGame.Enums;
 using CatanGame.System;
+using CatanGame.System.Board;
 
 namespace CatanGameTests.SystemTests;
 

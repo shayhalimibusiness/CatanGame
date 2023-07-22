@@ -1,8 +1,6 @@
-using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
 using CatanGame.Enums;
 
-namespace CatanGame.System;
+namespace CatanGame.System.Board;
 
 public class Board : IBoard
 {
@@ -47,6 +45,11 @@ public class Board : IBoard
     public int GetTileNumber(int x, int y)
     {
         return _tiles[x, y].Number;
+    }
+
+    public EResource PlayerHasPortIn(EPlayer ePlayer, int x, int y)
+    {
+        return _vertices[x, y].GetPort;
     }
 
     public Dictionary<EPlayer, Dictionary<EResource, int>> GetResources(int diceRoll)

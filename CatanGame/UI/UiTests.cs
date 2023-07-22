@@ -2,6 +2,7 @@ using CatanGame.Action;
 using CatanGame.Enums;
 using CatanGame.Models;
 using CatanGame.System;
+using CatanGame.System.Board;
 using CatanGame.Utils;
 
 namespace CatanGame.UI;

@@ -8,9 +8,9 @@ public class Vertex : IVertex
     {
         Owner = ePlayer;
         Status = eVertexStatus;
-        IsPort = false;
+        GetPort = EResource.None;
     }
     public EPlayer Owner { get; set; }
     public EVertexStatus Status { get; set; }
-    public bool IsPort { get; set; }
+    public EResource GetPort { get; set; }
 }

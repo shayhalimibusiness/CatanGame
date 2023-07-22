@@ -1,5 +1,6 @@
 using CatanGame.Enums;
 using CatanGame.Models;
+using CatanGame.System.Board;
 
 namespace CatanGame.System;
 
@@ -19,4 +20,5 @@ public interface ISystem
      void BuyCardUndo(EPlayer ePlayer);
      void Trade(EPlayer ePlayer, EResource sell, EResource buy, int times);
      void TradeUndo(EPlayer ePlayer, EResource sell, EResource buy, int times);
+     bool HasPort(EPlayer ePlayer, EResource eResource);
 }

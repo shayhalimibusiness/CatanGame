@@ -4,7 +4,18 @@ namespace CatanGame.Utils;
 
 public static class GeneralFactory
 {
-    public static Dictionary<EPlayer, string> CreateNameDictionary()
+    public static Dictionary<ERoads, string> CreateRoadsNames()
+    {
+        var names = new Dictionary<ERoads, string>
+        {
+            { ERoads.Horizontals , "horizontal"},
+            { ERoads.Verticals , "vertical"}
+        };
+
+        return names;
+    }
+
+    public static Dictionary<EPlayer, string> CreatePlayersNames()
     {
         var nameDictionary = new Dictionary<EPlayer, string>
         {

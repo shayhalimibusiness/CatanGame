@@ -1,17 +1,20 @@
 using CatanGame.Action;
 using CatanGame.Enums;
 using CatanGame.System;
+using CatanGame.UI;
 
 namespace CatanGame.Judge;
 
 public class Judge : IJudge
 {
     private ISystem _system;
+    private IUi _ui;
     private EPlayer _ePlayer;
-    
-    Judge(ISystem system, EPlayer ePlayer)
+
+    Judge(ISystem system, IUi ui, EPlayer ePlayer)
     {
         _system = system;
+        _ui = ui;
         _ePlayer = ePlayer;
     }
     
@@ -30,7 +33,7 @@ public class Judge : IJudge
         
         if (iron > 1 && sheep > 1 && wheat > 1)
         {
-            actions.Add(new BuyCard(_system, _ePlayer));
+            actions.Add(new BuyCard(_system, _ui, _ePlayer));
         }
 
         return actions;

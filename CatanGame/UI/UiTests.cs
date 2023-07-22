@@ -132,4 +132,22 @@ public class UiTests
         action.Undo();
         action.Show();
     }
+    
+    public void Action_BuyCard_Show_10Times()
+    {
+        for (var i = 0; i < 10; i++)
+        {
+            var testUtils = new TestUtils(_system);
+            testUtils.TransferPointCardResources(EPlayer.Player1);
+            var action = new BuyCard(_system, _ui, EPlayer.Player1);
+            Console.WriteLine("Before action:");
+            action.Show();
+            action.Do();
+            Console.WriteLine("After action:");
+            action.Show();
+            Console.WriteLine("After Undo:");
+            action.Undo();
+            action.Show();
+        }
+    }
 }

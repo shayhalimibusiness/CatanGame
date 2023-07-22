@@ -22,4 +22,5 @@ var uiTest = new UiTests();
 // uiTest.ShowStatusApi_SystemGetGameSummery_Show();
 // uiTest.Action_BuildSettlement_Show();
 // uiTest.Action_BuildCity_Show();
-uiTest.Action_BuildRoad_Show();
+// uiTest.Action_BuildRoad_Show();
+uiTest.Action_BuyCard_Show_10Times();

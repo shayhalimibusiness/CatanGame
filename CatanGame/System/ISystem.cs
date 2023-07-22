@@ -15,7 +15,7 @@ public interface ISystem
      void BuildCityUndo(int x, int y, EPlayer ePlayer);
      void BuildRoad(int x, int y, ERoads eRoads, EPlayer ePlayer);
      void BuildRoadUndo(int x, int y, ERoads eRoads, EPlayer ePlayer);
-     void BuyCard(EPlayer ePlayer);
+     bool BuyCard(EPlayer ePlayer);
      void BuyCardUndo(EPlayer ePlayer);
      void Trade(EPlayer ePlayer, EResource sell, EResource buy, int times);
      void TradeUndo(EPlayer ePlayer, EResource sell, EResource buy, int times);

@@ -1,5 +1,4 @@
 using CatanGame.Enums;
-using CatanGame.Models;
 using CatanGame.UI;
 
 namespace CatanGame.System;
@@ -152,7 +151,7 @@ public class System : ISystem
         _board.SetRoadOwner(x, y, eRoads, EPlayer.None);
     }
 
-    public void BuyCard(EPlayer ePlayer)
+    public bool BuyCard(EPlayer ePlayer)
     {
         _allCards[ePlayer].TransferResources(EResource.Iron, -1);
         _allCards[ePlayer].TransferResources(EResource.Wheat, -1);
@@ -172,6 +171,8 @@ public class System : ISystem
         {
             _allCards[ePlayer].TransferTotalPoints(1);
         }
+
+        return isPoint;
     }
 
     public void BuyCardUndo(EPlayer ePlayer)

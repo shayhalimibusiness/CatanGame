@@ -20,5 +20,6 @@ var uiTest = new UiTests();
 // uiTest.ShowBoard_GetRandomBoard_Show();
 // uiTest.ShowDice_GetSystemRoll_Show();
 // uiTest.ShowStatusApi_SystemGetGameSummery_Show();
-uiTest.Action_BuildSettlement_Show();
-uiTest.Action_BuildCity_Show();
+// uiTest.Action_BuildSettlement_Show();
+// uiTest.Action_BuildCity_Show();
+uiTest.Action_BuildRoad_Show();

@@ -34,7 +34,7 @@ public class BuildCity : IAction
 
     public void Show()
     {
-        var playerName = GeneralFactory.CreateNameDictionary()[_ePlayer];
+        var playerName = GeneralFactory.CreatePlayersNames()[_ePlayer];
         var showActionApi = new ShowActionApi
         {
             Message = $"Player: {playerName} built a city at {_x}, {_y}!",

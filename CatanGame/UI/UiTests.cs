@@ -117,4 +117,19 @@ public class UiTests
         action.Undo();
         action.Show();
     }
+    
+    public void Action_BuildRoad_Show()
+    {
+        var testUtils = new TestUtils(_system);
+        testUtils.TransferRoadResources(EPlayer.Player1);
+        var action = new BuyRoad(_system,_ui, 0, 0, ERoads.Horizontals, EPlayer.Player1);
+        Console.WriteLine("Before action:");
+        action.Show();
+        action.Do();
+        Console.WriteLine("After action:");
+        action.Show();
+        Console.WriteLine("After Undo:");
+        action.Undo();
+        action.Show();
+    }
 }

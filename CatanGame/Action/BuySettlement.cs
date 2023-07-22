@@ -34,7 +34,7 @@ public class BuySettlement : IAction
 
     public void Show()
     {
-        var playerName = Utils.GeneralFactory.CreateNameDictionary()[_ePlayer];
+        var playerName = GeneralFactory.CreatePlayersNames()[_ePlayer];
         var showActionApi = new ShowActionApi
         {
             Message = $"Player: {playerName} built a settlement at {_x}, {_y}!",

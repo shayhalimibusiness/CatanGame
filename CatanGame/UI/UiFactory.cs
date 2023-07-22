@@ -6,7 +6,7 @@ public class UiFactory
 {
     public static IUi CreateUi()
     {
-        var names = GeneralFactory.CreateNameDictionary();
+        var names = GeneralFactory.CreatePlayersNames();
         var ui = new Ui(names);
         return ui;
     }

@@ -23,4 +23,9 @@ public class BuyCard : IAction
     {
         _system.BuyCardUndo(_ePlayer);
     }
+
+    public void Show()
+    {
+        throw new NotImplementedException();
+    }
 }

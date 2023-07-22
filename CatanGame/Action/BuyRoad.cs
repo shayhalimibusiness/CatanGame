@@ -28,4 +28,9 @@ public class BuyRoad : IAction
     {
         _system.BuildSettlementUndo(_x, _y, _ePlayer);
     }
+
+    public void Show()
+    {
+        throw new NotImplementedException();
+    }
 }

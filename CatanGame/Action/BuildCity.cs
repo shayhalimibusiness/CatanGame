@@ -26,4 +26,9 @@ public class BuildCity : IAction
     {
         _system.BuildCityUndo(_x, _y, _ePlayer);
     }
+
+    public void Show()
+    {
+        throw new NotImplementedException();
+    }
 }

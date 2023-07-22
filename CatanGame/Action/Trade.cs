@@ -29,4 +29,9 @@ public class Trade : IAction
     {
         _system.TradeUndo(_ePlayer, _sell, _buy, _amount);
     }
+
+    public void Show()
+    {
+        throw new NotImplementedException();
+    }
 }

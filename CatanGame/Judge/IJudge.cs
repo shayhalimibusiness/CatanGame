@@ -5,5 +5,5 @@ namespace CatanGame.Judge;
 
 public interface IJudge
 {
-    List<IAction> GetActions(EPlayer ePlayer);
+    List<IAction> GetActions();
 }

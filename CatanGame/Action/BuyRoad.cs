@@ -10,7 +10,7 @@ public class BuyRoad : IAction
     private ERoads _eRoads;
     private EPlayer _ePlayer;
     
-    BuyRoad(ISystem system, int x, int y, ERoads eRoads, EPlayer ePlayer)
+    public BuyRoad(ISystem system, int x, int y, ERoads eRoads, EPlayer ePlayer)
     {
         _system = system;
         _x = x;

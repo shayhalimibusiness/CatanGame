@@ -4,7 +4,7 @@ using CatanGame.System;
 
 namespace CatanGame.Utils;
 
-public class Mapper
+public static class Mapper
 {
     private const int VerticesBoardSize = 5;
     public static ShowBoardApi ShowBoardApiMapper(IBoard board)
@@ -44,6 +44,36 @@ public class Mapper
         return showBoardApi;
     }
 
+    public static ShowStatusApi ShowStatusApiMapper(ISystem system)
+    {
+        var allCards = system.GetAllCards();
+        var totalPoints = new Dictionary<EPlayer, int>();
+        foreach (var (ePlayer, cards) in allCards)
+        {
+            totalPoints[ePlayer] = cards.GetTotalPoints();
+        }
+        
+        var showStatusApi = new ShowStatusApi
+        {
+            TotalPoints = totalPoints
+        };
+
+        return showStatusApi;
+    }
+
+    public static ConsoleColor GetPlayerColor(EPlayer ePlayer)
+    {
+        return ePlayer switch
+        {
+            EPlayer.None => ConsoleColor.Gray,
+            EPlayer.Player1 => ConsoleColor.Blue,
+            EPlayer.Player2 => ConsoleColor.Red,
+            EPlayer.Player3 => ConsoleColor.Green,
+            EPlayer.Player4 => ConsoleColor.Yellow,
+            _ => throw new ArgumentOutOfRangeException(nameof(ePlayer), ePlayer, null)
+        };
+    }
+
     private static Pixel GetVertexRepresentation(EVertexStatus vertexStatus, EPlayer owner)
     {
         var pixel = new Pixel();
@@ -71,19 +101,6 @@ public class Mapper
             Color = GetPlayerColor(owner)
         };
         return pixel;
-    }
-
-    public static ConsoleColor GetPlayerColor(EPlayer ePlayer)
-    {
-        return ePlayer switch
-        {
-            EPlayer.None => ConsoleColor.Gray,
-            EPlayer.Player1 => ConsoleColor.Blue,
-            EPlayer.Player2 => ConsoleColor.Red,
-            EPlayer.Player3 => ConsoleColor.Green,
-            EPlayer.Player4 => ConsoleColor.Yellow,
-            _ => throw new ArgumentOutOfRangeException(nameof(ePlayer), ePlayer, null)
-        };
     }
 
     private static Pixel GetTileRepresentation(EResource eResource)

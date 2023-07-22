@@ -8,7 +8,7 @@ public class BuyCard : IAction
     private ISystem _system;
     private EPlayer _ePlayer;
     
-    BuyCard(ISystem system, EPlayer ePlayer)
+    public BuyCard(ISystem system, EPlayer ePlayer)
     {
         _system = system;
         _ePlayer = ePlayer;

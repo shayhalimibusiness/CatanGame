@@ -9,7 +9,7 @@ public class BuildCity : IAction
     private int _x, _y;
     private EPlayer _ePlayer;
     
-    BuildCity(ISystem system, int x, int y, EPlayer ePlayer)
+    public BuildCity(ISystem system, int x, int y, EPlayer ePlayer)
     {
         _system = system;
         _x = x;

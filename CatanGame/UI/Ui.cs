@@ -82,10 +82,10 @@ public class Ui : IUi
         var resourcesAmount = cards.GetResources();
         var totalPoints = cards.GetTotalPoints();
         Console.WriteLine($"{_names[player]} Cards and Total Points:");
-        foreach (var pair in resourceNames)
+        foreach (var pair in resourcesAmount)
         {
             var resource = pair.Key;
-            var name = pair.Value;
+            var name = resourceNames[resource];
             Console.WriteLine($"{name}: {resourcesAmount[resource]}");
         }
         Console.WriteLine($"Total Points: {totalPoints}");

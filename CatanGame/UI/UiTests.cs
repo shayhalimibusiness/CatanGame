@@ -1,3 +1,4 @@
+using CatanGame.Action;
 using CatanGame.Enums;
 using CatanGame.Models;
 using CatanGame.System;
@@ -82,5 +83,17 @@ public class UiTests
         player2Cards.TransferTotalPoints(3);
         var showStatusApi = Mapper.ShowStatusApiMapper(_system);
         _ui.ShowStatus(showStatusApi);
+    }
+
+    public void Action_BuildSettlement_Show()
+    {
+        var testUtils = new TestUtils(_system);
+        testUtils.TransferSettlementResources(EPlayer.Player1);
+        var action = new BuySettlement(_system,0, 0, EPlayer.Player1, _ui);
+        Console.WriteLine("Before action:");
+        action.Show();
+        action.Do();
+        Console.WriteLine("After action:");
+        action.Show();
     }
 }

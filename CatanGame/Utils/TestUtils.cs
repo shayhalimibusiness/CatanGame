@@ -7,12 +7,12 @@ public class TestUtils
 {
     private ISystem _system;
     
-    TestUtils(ISystem system)
+    public TestUtils(ISystem system)
     {
         _system = system;
     }
         
-    private void TransferSettlementResources(EPlayer ePlayer)
+    public void TransferSettlementResources(EPlayer ePlayer)
     {
         var cards = _system.GetCards(ePlayer);
         cards.TransferResources(EResource.Sheep, 1);
@@ -21,21 +21,21 @@ public class TestUtils
         cards.TransferResources(EResource.Tin, 1);
     }
     
-    private void TransferCityResources(EPlayer ePlayer)
+    public void TransferCityResources(EPlayer ePlayer)
     {
         var cards = _system.GetCards(ePlayer);
         cards.TransferResources(EResource.Wheat, 2);
         cards.TransferResources(EResource.Iron, 3);
     }
     
-    private void TransferRoadResources(EPlayer ePlayer)
+    public void TransferRoadResources(EPlayer ePlayer)
     {
         var cards = _system.GetCards(ePlayer);
         cards.TransferResources(EResource.Wood, 1);
         cards.TransferResources(EResource.Tin, 1);
     }
     
-    private void TransferPointCardResources(EPlayer ePlayer)
+    public void TransferPointCardResources(EPlayer ePlayer)
     {
         var cards = _system.GetCards(ePlayer);
         cards.TransferResources(EResource.Sheep, 1);

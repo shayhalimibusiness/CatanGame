@@ -17,6 +17,7 @@ Console.WriteLine("Hello, World!");
 
 var uiTest = new UiTests();
 // uiTest.ApiTests();
-uiTest.ShowBoard_GetRandomBoard_Show();
-uiTest.ShowDice_GetSystemRoll_Show();
-uiTest.ShowStatusApi_SystemGetGameSummery_Show();
+// uiTest.ShowBoard_GetRandomBoard_Show();
+// uiTest.ShowDice_GetSystemRoll_Show();
+// uiTest.ShowStatusApi_SystemGetGameSummery_Show();
+uiTest.Action_BuildSettlement_Show();

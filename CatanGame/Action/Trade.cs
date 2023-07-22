@@ -1,19 +1,24 @@
 using CatanGame.Enums;
+using CatanGame.Models;
 using CatanGame.System;
+using CatanGame.UI;
+using CatanGame.Utils;
 
 namespace CatanGame.Action;
 
 public class Trade : IAction
 {
-    private ISystem _system;
-    private EPlayer _ePlayer;
-    private EResource _sell;
-    private EResource _buy;
-    private int _amount;
-    
-    public Trade(ISystem system, EPlayer ePlayer, EResource sell, EResource buy, int amount)
+    private readonly ISystem _system;
+    private readonly IUi _ui;
+    private readonly EPlayer _ePlayer;
+    private readonly EResource _sell;
+    private readonly EResource _buy;
+    private readonly int _amount;
+
+    public Trade(ISystem system, IUi ui, EPlayer ePlayer, EResource sell, EResource buy, int amount)
     {
         _system = system;
+        _ui = ui;
         _ePlayer = ePlayer;
         _sell = sell;
         _buy = buy;

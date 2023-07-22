@@ -21,3 +21,4 @@ var uiTest = new UiTests();
 // uiTest.ShowDice_GetSystemRoll_Show();
 // uiTest.ShowStatusApi_SystemGetGameSummery_Show();
 uiTest.Action_BuildSettlement_Show();
+uiTest.Action_BuildCity_Show();

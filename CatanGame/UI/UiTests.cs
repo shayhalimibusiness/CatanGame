@@ -95,5 +95,26 @@ public class UiTests
         action.Do();
         Console.WriteLine("After action:");
         action.Show();
+        Console.WriteLine("After Undo:");
+        action.Undo();
+        action.Show();
+    }
+    
+    public void Action_BuildCity_Show()
+    {
+        var testUtils = new TestUtils(_system);
+        testUtils.TransferSettlementResources(EPlayer.Player1);
+        var auxAction = new BuySettlement(_system,0, 0, EPlayer.Player1, _ui);
+        auxAction.Do();
+        testUtils.TransferCityResources(EPlayer.Player1);
+        var action = new BuildCity(_system,_ui, 0, 0, EPlayer.Player1);
+        Console.WriteLine("Before action:");
+        action.Show();
+        action.Do();
+        Console.WriteLine("After action:");
+        action.Show();
+        Console.WriteLine("After Undo:");
+        action.Undo();
+        action.Show();
     }
 }

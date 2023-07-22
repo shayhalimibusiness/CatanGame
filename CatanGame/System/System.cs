@@ -44,20 +44,6 @@ public class System : ISystem
         return _allCards;
     }
 
-    public void GetGameSummery()
-    {
-        var showStatusApi = new ShowStatusApi
-        {
-            TotalPoints = new Dictionary<EPlayer, int>()
-        };
-        foreach (var (ePlayer, cards) in _allCards)
-        {
-            showStatusApi.TotalPoints[ePlayer] = cards.GetTotalPoints();
-        }
-
-        _ui.ShowStatus(showStatusApi);
-    }
-
     public void BuildSettlement(int x, int y, EPlayer ePlayer)
     {
         if (_board.GetVertexOwner(x, y) != EPlayer.None)

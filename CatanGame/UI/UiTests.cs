@@ -80,6 +80,7 @@ public class UiTests
         var player2Cards = _system.GetCards(EPlayer.Player2);
         player1Cards.TransferTotalPoints(2);
         player2Cards.TransferTotalPoints(3);
-        _system.GetGameSummery();
+        var showStatusApi = Mapper.ShowStatusApiMapper(_system);
+        _ui.ShowStatus(showStatusApi);
     }
 }

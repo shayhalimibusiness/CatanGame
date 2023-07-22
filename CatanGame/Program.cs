@@ -23,4 +23,5 @@ var uiTest = new UiTests();
 // uiTest.Action_BuildSettlement_Show();
 // uiTest.Action_BuildCity_Show();
 // uiTest.Action_BuildRoad_Show();
-uiTest.Action_BuyCard_Show_10Times();
+// uiTest.Action_BuyCard_Show_10Times();
+uiTest.Action_Trade_NoPort_Show();

@@ -37,6 +37,28 @@ public class Trade : IAction
 
     public void Show()
     {
-        throw new NotImplementedException();
+        var playerName = GeneralFactory.CreatePlayersNames()[_ePlayer];
+        var resourcesName = GeneralFactory.CreateResourcesNames();
+        var sellResourceName = resourcesName[_sell];
+        var buyResourceName = resourcesName[_buy];
+        var marketRate = 4;
+        if (_system.HasPort(_ePlayer, _sell))
+        {
+            marketRate = 2;
+        }
+        else if (_system.HasPort(_ePlayer, EResource.PointCard))
+        {
+            marketRate = 3;
+        }
+        var showActionApi = new ShowActionApi
+        {
+            Message = $"{playerName} has traded {marketRate*_amount} {sellResourceName} for {_amount} {buyResourceName}!",
+            Player = _ePlayer,
+            Cards = _system.GetCards(_ePlayer),
+            AllCards = null,
+            ShowBoardApi = null,
+            ShowStatusApi = null
+        };
+        _ui.ShowAction(showActionApi);
     }
 }

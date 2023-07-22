@@ -151,4 +151,19 @@ public class UiTests
             action.Show();
         }
     }
+    
+    public void Action_Trade_NoPort_Show()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        cards.TransferResources(EResource.Iron, 4);
+        var action = new Trade(_system, _ui, EPlayer.Player1, EResource.Iron, EResource.Sheep, 1);
+        Console.WriteLine("Before action:");
+        action.Show();
+        action.Do();
+        Console.WriteLine("After action:");
+        action.Show();
+        Console.WriteLine("After Undo:");
+        action.Undo();
+        action.Show();
+    }
 }

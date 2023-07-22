@@ -90,7 +90,7 @@ public class UiTests
     {
         var testUtils = new TestUtils(_system);
         testUtils.TransferSettlementResources(EPlayer.Player1);
-        var action = new BuySettlement(_system,0, 0, EPlayer.Player1, _ui);
+        var action = new BuildSettlement(_system,0, 0, EPlayer.Player1, _ui);
         Console.WriteLine("Before action:");
         action.Show();
         action.Do();
@@ -105,7 +105,7 @@ public class UiTests
     {
         var testUtils = new TestUtils(_system);
         testUtils.TransferSettlementResources(EPlayer.Player1);
-        var auxAction = new BuySettlement(_system,0, 0, EPlayer.Player1, _ui);
+        var auxAction = new BuildSettlement(_system,0, 0, EPlayer.Player1, _ui);
         auxAction.Do();
         testUtils.TransferCityResources(EPlayer.Player1);
         var action = new BuildCity(_system,_ui, 0, 0, EPlayer.Player1);
@@ -123,7 +123,7 @@ public class UiTests
     {
         var testUtils = new TestUtils(_system);
         testUtils.TransferRoadResources(EPlayer.Player1);
-        var action = new BuyRoad(_system,_ui, 0, 0, ERoads.Horizontals, EPlayer.Player1);
+        var action = new BuildRoad(_system,_ui, 0, 0, ERoads.Horizontals, EPlayer.Player1);
         Console.WriteLine("Before action:");
         action.Show();
         action.Do();

@@ -12,4 +12,6 @@ var uiTest = new UiTests();
 // uiTest.Action_BuildCity_Show();
 // uiTest.Action_BuildRoad_Show();
 // uiTest.Action_BuyCard_Show_10Times();
-uiTest.Action_Trade_NoPort_Show();
+// uiTest.Action_Trade_NoPort_Show();
+// UiTestsPrivates.Judge_GetNeighborRoads_ShowVerticalNeighbors();
+// UiTestsPrivates.Judge_GetNeighborRoads_ShowHorizontalNeighbors();

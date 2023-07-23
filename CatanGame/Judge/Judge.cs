@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CatanGame.Action;
 using CatanGame.Enums;
 using CatanGame.System;
@@ -7,11 +8,16 @@ namespace CatanGame.Judge;
 
 public class Judge : IJudge
 {
+    private const int HorizontalsRoadsXSize = 5;
+    private const int HorizontalsRoadsYSize = 4;
+    private const int VerticalsRoadsXSize = 4;
+    private const int VerticalsRoadsYSize = 5;
+    
     private ISystem _system;
     private IUi _ui;
     private EPlayer _ePlayer;
 
-    Judge(ISystem system, IUi ui, EPlayer ePlayer)
+    public Judge(ISystem system, IUi ui, EPlayer ePlayer)
     {
         _system = system;
         _ui = ui;
@@ -26,12 +32,8 @@ public class Judge : IJudge
     private List<IAction> GetBuyCardAction()
     {
         var actions = new List<IAction>();
-        var resources = _system.GetCards(_ePlayer).GetResources();
-        var iron = resources[EResource.Iron];
-        var sheep = resources[EResource.Sheep];
-        var wheat = resources[EResource.Wheat];
-        
-        if (iron > 1 && sheep > 1 && wheat > 1)
+
+        if (CanBuyCard())
         {
             actions.Add(new BuyCard(_system, _ui, _ePlayer));
         }
@@ -54,6 +56,15 @@ public class Judge : IJudge
     //     return actions;
     // }
 
+    private bool CanBuyCard()
+    {
+        var resources = _system.GetCards(_ePlayer).GetResources();
+        var iron = resources[EResource.Iron];
+        var sheep = resources[EResource.Sheep];
+        var wheat = resources[EResource.Wheat];
+
+        return iron > 1 && sheep > 1 && wheat > 1;
+    }
     
     private bool CanBuildSettlement()
     {
@@ -133,4 +144,49 @@ public class Judge : IJudge
     //     };
     // }
 
+    public List<(int, int, ERoads)> GetNeighborRoads(int x, int y, ERoads eRoads)
+    {
+        return eRoads switch
+        {
+            ERoads.Horizontals => new List<(int, int, ERoads)>
+            {
+                (x, y-1, ERoads.Horizontals),
+                (x, y+1, ERoads.Horizontals),
+                (x-1, y, ERoads.Verticals),
+                (x-1, y+1, ERoads.Verticals),
+                (x, y, ERoads.Verticals),
+                (x, y+1, ERoads.Verticals),
+            },
+            ERoads.Verticals => new List<(int, int, ERoads)>
+            {
+                (x-1, y, ERoads.Verticals),
+                (x+1, y, ERoads.Verticals),
+                (x, y-1, ERoads.Horizontals),
+                (x, y, ERoads.Horizontals),
+                (x+1, y-1, ERoads.Horizontals),
+                (x+1, y, ERoads.Horizontals),
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(eRoads), eRoads, null)
+        };
+    }
+
+    private int GetRoadsSize(int dimension, ERoads eRoad)
+    {
+        return dimension switch
+        {
+            0 => eRoad switch
+            {
+                ERoads.Horizontals => HorizontalsRoadsXSize,
+                ERoads.Verticals => VerticalsRoadsXSize,
+                _ => throw new ArgumentOutOfRangeException()
+            },
+            1 => eRoad switch
+            {
+                ERoads.Horizontals => HorizontalsRoadsYSize,
+                ERoads.Verticals => VerticalsRoadsYSize,
+                _ => throw new ArgumentOutOfRangeException()
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, null)
+        };
+    }
 }

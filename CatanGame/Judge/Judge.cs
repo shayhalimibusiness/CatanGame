@@ -69,31 +69,30 @@ public class Judge : IJudge
     private bool CanBuildSettlement()
     {
         var resources = _system.GetCards(_ePlayer).GetResources();
-        var iron = resources[EResource.Iron];
+        var tin = resources[EResource.Tin];
+        var wood = resources[EResource.Wood];
         var sheep = resources[EResource.Sheep];
         var wheat = resources[EResource.Wheat];
 
-        return iron > 1 && sheep > 1 && wheat > 1;
+        return tin > 1 && sheep > 1 && wheat > 1 && wood > 1;
     }
     
     private bool CanBuildCity()
     {
         var resources = _system.GetCards(_ePlayer).GetResources();
         var iron = resources[EResource.Iron];
-        var sheep = resources[EResource.Sheep];
         var wheat = resources[EResource.Wheat];
 
-        return iron > 1 && sheep > 1 && wheat > 1;
+        return iron > 3 && wheat > 2;
     }
     
     private bool CanBuildRoad()
     {
         var resources = _system.GetCards(_ePlayer).GetResources();
-        var iron = resources[EResource.Iron];
-        var sheep = resources[EResource.Sheep];
-        var wheat = resources[EResource.Wheat];
+        var tin = resources[EResource.Tin];
+        var wood = resources[EResource.Wood];
 
-        return iron > 1 && sheep > 1 && wheat > 1;
+        return tin > 1 && wood > 1;
     }
     
     private bool CanSellResource(EResource eResource)

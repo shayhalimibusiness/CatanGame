@@ -26,7 +26,12 @@ public class Judge : IJudge
     
     public List<IAction> GetActions()
     {
-        throw new NotImplementedException();
+        var actions = new List<IAction>();
+        
+        actions.AddRange(GetBuyCardAction());
+        actions.AddRange(GetBuildRoadActions());
+        
+        return actions;
     }
 
     private List<IAction> GetBuyCardAction()
@@ -41,20 +46,26 @@ public class Judge : IJudge
         return actions;
     }
 
-    // private List<IAction> GetBuildRoadActions()
-    // {
-    //     var actions = new List<IAction>();
-    //
-    //     if (CanBuildRoad())
-    //     {
-    //         foreach (var VARIABLE in COLLECTION)
-    //         {
-    //             actions.Add(new BuyCard(_system, _ui, _ePlayer));
-    //         }
-    //     }
-    //
-    //     return actions;
-    // }
+    private List<IAction> GetBuildRoadActions()
+    {
+        var actions = new List<IAction>();
+
+        if (!CanBuildRoad())
+        {
+            return actions;
+        }
+
+        var eligibleRoads = GetEligibleRoads();
+
+        actions.AddRange(
+            from road in eligibleRoads 
+            let x = road.Item1 
+            let y = road.Item2 
+            let eRoad = road.Item3 
+            select new BuildRoad(_system, _ui, x, y, eRoad, _ePlayer));
+
+        return actions;
+    }
 
     private bool CanBuyCard()
     {
@@ -63,7 +74,7 @@ public class Judge : IJudge
         var sheep = resources[EResource.Sheep];
         var wheat = resources[EResource.Wheat];
 
-        return iron > 1 && sheep > 1 && wheat > 1;
+        return iron >= 1 && sheep >= 1 && wheat >= 1;
     }
     
     private bool CanBuildSettlement()
@@ -74,7 +85,7 @@ public class Judge : IJudge
         var sheep = resources[EResource.Sheep];
         var wheat = resources[EResource.Wheat];
 
-        return tin > 1 && sheep > 1 && wheat > 1 && wood > 1;
+        return tin >= 1 && sheep >= 1 && wheat >= 1 && wood >= 1;
     }
     
     private bool CanBuildCity()
@@ -83,7 +94,7 @@ public class Judge : IJudge
         var iron = resources[EResource.Iron];
         var wheat = resources[EResource.Wheat];
 
-        return iron > 3 && wheat > 2;
+        return iron >= 3 && wheat >= 2;
     }
     
     private bool CanBuildRoad()
@@ -92,56 +103,64 @@ public class Judge : IJudge
         var tin = resources[EResource.Tin];
         var wood = resources[EResource.Wood];
 
-        return tin > 1 && wood > 1;
+        return tin >= 1 && wood >= 1;
     }
     
+    // Todo
     private bool CanSellResource(EResource eResource)
     {
-        var resources = _system.GetCards(_ePlayer).GetResources();
-        var iron = resources[EResource.Iron];
-        var sheep = resources[EResource.Sheep];
-        var wheat = resources[EResource.Wheat];
-
-        return iron > 1 && sheep > 1 && wheat > 1;
+        throw new NotImplementedException();
     }
 
-    // private List<(int, int, ERoads)> GetEligibleRoads()
-    // {
-    //     var eligibleRoads = new List<(int, int, ERoads)>();
-    //     foreach (ERoads eRoad in Enum.GetValues(typeof(ERoads)))
-    //     {
-    //         var roadsXSize = GetRoadsSize(0, eRoad);
-    //         var roadsYSize = GetRoadsSize(1, eRoad);
-    //         for (var i = 0; i < roadsXSize; i++)
-    //         {
-    //             for (var j = 0; j < roadsYSize; j++)
-    //             {
-    //                 if (_system.GetBoard().GetRoadOwner())
-    //                 {
-    //                     
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    private List<(int, int, ERoads)> GetEligibleRoads()
+    {
+        var eligibleRoads = new List<(int, int, ERoads)>();
+        foreach (ERoads eRoad in Enum.GetValues(typeof(ERoads)))
+        {
+            var roadsXSize = GetRoadsSize(0, eRoad);
+            var roadsYSize = GetRoadsSize(1, eRoad);
+            for (var i = 0; i < roadsXSize; i++)
+            {
+                for (var j = 0; j < roadsYSize; j++)
+                {
+                    if (IsValidRoad(i, j, eRoad))
+                    {
+                        eligibleRoads.Add((i, j, eRoad));
+                    }
+                }
+            }
+        }
 
-    // private bool IsValidRoad(int x, int y, ERoads eRoad)
-    // {
-    //     var roadsXSize = GetRoadsSize(0, eRoad);
-    //     var roadsYSize = GetRoadsSize(1, eRoad);
-    //     if (x < 0 || x >= roadsXSize || y < 0 || y >= roadsYSize)
-    //     {
-    //         return false;
-    //     }
-    //
-    //     var neighbors = eRoad switch
-    //     {
-    //         ERoads.Horizontals => new List<(int, int)>
-    //         {
-    //             (x, y-1), (x, y+1), (x, y), (x-1, y+1), (x, y), (x, y+1)
-    //         }
-    //     };
-    // }
+        return eligibleRoads;
+    }
+
+    private bool IsValidRoad(int x, int y, ERoads eRoad)
+    {
+        if (!IsRoadInRange(x, y, eRoad))
+        {
+            return false;
+        }
+
+        var neighbors = GetNeighborRoads(x, y, eRoad);
+
+        return (
+            from neighbor in neighbors 
+            let nX = neighbor.Item1 
+            let nY = neighbor.Item2 
+            let nERoad = neighbor.Item3
+            let board = _system.GetBoard()
+            where IsRoadInRange(nX, nY, nERoad) 
+            where board.GetRoadOwner(nX, nY, nERoad) == _ePlayer 
+            select nX
+            ).Any();
+    }
+
+    private bool IsRoadInRange(int x, int y, ERoads eRoad)
+    {
+        var roadsXSize = GetRoadsSize(0, eRoad);
+        var roadsYSize = GetRoadsSize(1, eRoad);
+        return x >= 0 && x < roadsXSize && y >= 0 && y < roadsYSize;
+    }
 
     public List<(int, int, ERoads)> GetNeighborRoads(int x, int y, ERoads eRoads)
     {

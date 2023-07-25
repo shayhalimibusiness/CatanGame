@@ -16,7 +16,7 @@
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests.GetRoadOwner_IsNone_GetNone&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4807fbc7_002Da581_002D42a2_002Dbdaf_002D9c3cd085f6fe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BuyCardUndo_Player1BuyAndUndo_BackToNormal" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4807fbc7_002Da581_002D42a2_002Dbdaf_002D9c3cd085f6fe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BuyCardUndo_Player1BuyAndUndo_BackToNormal" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCardUndo_Player1BuyAndUndo_BackToNormal&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCard_Player1Buy_SpendsResources&lt;/TestId&gt;&#xD;
@@ -25,6 +25,7 @@
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.Trade_TradeIronForSheep_HasSheepNoIron&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.TradeUndo_NotEnoughResources_TrowsException&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.TradeUndo_Player1TradeAndUndo_BackToNormal&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuyCardAction_CanBuy_GetAction&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=93da489d_002D6b6e_002D410f_002Da341_002D51b1c655556b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BuildRoad_NotEnoughResource_ThrowsException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -61,9 +62,14 @@
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCard_NotEnoughResource_ThrowsException&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ecde4658_002D7677_002D4f4f_002Dbea9_002D1cd7447afa00/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BuyCardUndo_NoCardsWhereBoughtBefore_TrowsException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ecde4658_002D7677_002D4f4f_002Dbea9_002D1cd7447afa00/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BuyCardUndo_NoCardsWhereBoughtBefore_TrowsException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCardUndo_NoCardsWhereBoughtBefore_TrowsException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuyCardAction_CanBuy_GetAction&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuyCardAction_CantBuy_GetNoActions&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildRoadActions_CanBuy_GetActions&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildRoadAction_CantBuy_GetNoActions&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildRoadAction_NoEligibleRoads_GetNoActions&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Catan/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

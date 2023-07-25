@@ -9,7 +9,14 @@ public class Cards : ICards
 
     public Cards()
     {
-        _resources = new Dictionary<EResource, int>();
+        _resources = new Dictionary<EResource, int>
+        {
+            { EResource.Iron , 0},
+            { EResource.Sheep , 0},
+            { EResource.Wood , 0},
+            { EResource.Wheat , 0},
+            { EResource.Tin , 0},
+        };
         _totalPoints = 0;
     }
 
@@ -40,5 +47,31 @@ public class Cards : ICards
             throw new Exception("Can't be with a negative amount of points!");
         }
         _totalPoints += amount;
+    }
+
+    public int Iron
+    {
+        get => _resources[EResource.Iron];
+        set => _resources[EResource.Iron] = value;
+    }
+    public int Sheep
+    {
+        get => _resources[EResource.Sheep];
+        set => _resources[EResource.Sheep] = value;
+    }
+    public int Wheat
+    {
+        get => _resources[EResource.Wheat];
+        set => _resources[EResource.Wheat] = value;
+    }
+    public int Wood
+    {
+        get => _resources[EResource.Wood];
+        set => _resources[EResource.Wood] = value;
+    }
+    public int Tin
+    {
+        get => _resources[EResource.Tin];
+        set => _resources[EResource.Tin] = value;
     }
 }

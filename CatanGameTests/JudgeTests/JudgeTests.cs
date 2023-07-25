@@ -76,4 +76,44 @@ public class JudgeTests
         
         Assert.That(actions, Is.Empty);
     }
+    
+    [Test]
+    public void GetBuildSettlementActions_CanBuy_GetActions()
+    {
+        _testUtils.TransferSettlementResources(EPlayer.Player1);
+        _system.BuildSettlement(2,2, EPlayer.Player1);
+        for (var i = 0; i < 4; i++)
+        {
+            _testUtils.TransferRoadResources(EPlayer.Player1);
+            _system.BuildRoad(2, i, ERoads.Horizontals, EPlayer.Player1);
+
+        }
+        
+        _testUtils.TransferSettlementResources(EPlayer.Player1);
+        
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(BuildSettlement));
+        
+        Assert.That(actions.Count(), Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void GetBuildSettlementActions_CantBuy_GetNoActions()
+    {
+        _testUtils.TransferCityResources(EPlayer.Player1);
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(BuildSettlement));
+        Assert.That(actions, Is.Empty);
+    }
+    
+    [Test]
+    public void GetBuildSettlementActions_NoEligibleVertices_GetNoActions()
+    {
+        _testUtils.TransferSettlementResources(EPlayer.Player1);
+
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(BuildSettlement));
+        
+        Assert.That(actions, Is.Empty);
+    }
 }

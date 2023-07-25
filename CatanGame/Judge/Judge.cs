@@ -12,6 +12,7 @@ public class Judge : IJudge
     private const int HorizontalsRoadsYSize = 4;
     private const int VerticalsRoadsXSize = 4;
     private const int VerticalsRoadsYSize = 5;
+    private const int VerticesSize = 5;
     
     private ISystem _system;
     private IUi _ui;
@@ -30,6 +31,7 @@ public class Judge : IJudge
         
         actions.AddRange(GetBuyCardAction());
         actions.AddRange(GetBuildRoadActions());
+        actions.AddRange(GetBuildSettlementActions());
         
         return actions;
     }
@@ -63,6 +65,26 @@ public class Judge : IJudge
             let y = road.Item2 
             let eRoad = road.Item3 
             select new BuildRoad(_system, _ui, x, y, eRoad, _ePlayer));
+
+        return actions;
+    }
+
+    private List<IAction> GetBuildSettlementActions()
+    {
+        var actions = new List<IAction>();
+
+        if (!CanBuildSettlement())
+        {
+            return actions;
+        }
+
+        var eligibleSettlements = GetEligibleVertices();
+
+        actions.AddRange(
+            from road in eligibleSettlements 
+            let x = road.Item1 
+            let y = road.Item2 
+            select new BuildSettlement(_system, x, y, _ePlayer, _ui));
 
         return actions;
     }
@@ -141,7 +163,7 @@ public class Judge : IJudge
             return false;
         }
 
-        var neighbors = GetNeighborRoads(x, y, eRoad);
+        var neighbors = GetNeighborRoadsToRoad(x, y, eRoad);
 
         return (
             from neighbor in neighbors 
@@ -162,7 +184,7 @@ public class Judge : IJudge
         return x >= 0 && x < roadsXSize && y >= 0 && y < roadsYSize;
     }
 
-    public List<(int, int, ERoads)> GetNeighborRoads(int x, int y, ERoads eRoads)
+    private List<(int, int, ERoads)> GetNeighborRoadsToRoad(int x, int y, ERoads eRoads)
     {
         return eRoads switch
         {
@@ -205,6 +227,84 @@ public class Judge : IJudge
                 _ => throw new ArgumentOutOfRangeException()
             },
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, null)
+        };
+    }
+    
+    private List<(int, int)> GetEligibleVertices()
+    {
+        var eligibleVertices = new List<(int, int)>();
+        for (var i = 0; i < VerticesSize; i++)
+        {
+            for (var j = 0; j < VerticesSize; j++)
+            {
+                if (IsValidVertex(i, j))
+                {
+                    eligibleVertices.Add((i, j));
+                }
+            }
+        }
+
+        return eligibleVertices;
+    }
+    
+    private bool IsValidVertex(int x, int y)
+    {
+        if (!IsVertexInRange(x, y) || _system.GetBoard().GetVertexOwner(x, y) != EPlayer.None)
+        {
+            return false;
+        }
+
+        var neighborRoads = GetNeighborRoadsToVertex(x, y);
+        var neighborVertices = GetNeighborVerticesToVertex(x, y);
+
+        var isTouchingOwnedRoad = (
+            from neighbor in neighborRoads 
+            let nX = neighbor.Item1 
+            let nY = neighbor.Item2 
+            let nERoad = neighbor.Item3
+            let board = _system.GetBoard()
+            where IsRoadInRange(nX, nY, nERoad) 
+            where board.GetRoadOwner(nX, nY, nERoad) == _ePlayer 
+            select nX
+            ).Any();
+
+        var isFarFromSettlements = !(
+            from neighbor in neighborVertices
+            let nX = neighbor.Item1
+            let nY = neighbor.Item2
+            let board = _system.GetBoard()
+            where IsVertexInRange(nX, nY) 
+            where board.GetVertexOwner(nX, nY) != EPlayer.None 
+            select nX
+            ).Any();
+
+        return isTouchingOwnedRoad && isFarFromSettlements;
+    }
+    
+    private bool IsVertexInRange(int x, int y)
+    {
+        return x is >= 0 and < VerticesSize && y is >= 0 and < VerticesSize;
+    }
+    
+    private List<(int, int, ERoads)> GetNeighborRoadsToVertex(int x, int y)
+    {
+        return new List<(int, int, ERoads)>
+        {
+            (x, y-1, ERoads.Horizontals),
+            (x, y, ERoads.Horizontals),
+            (x-1, y, ERoads.Verticals),
+            (x, y, ERoads.Verticals),
+        };
+    }
+    
+    private List<(int, int)> GetNeighborVerticesToVertex(int x, int y)
+    {
+        return new List<(int, int)>
+        {
+            (x, y-1),
+            (x, y+1),
+            (x-1, y),
+            (x+1, y),
         };
     }
 }

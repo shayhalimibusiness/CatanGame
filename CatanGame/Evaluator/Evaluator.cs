@@ -42,7 +42,7 @@ public class Evaluator : IEvaluator
     {
         return GlobalResources.Resources
             .Aggregate<EResource, decimal>(0, (current, eResource) => 
-                current + _cards.GetResources()[eResource] / 8);
+                current + (decimal)_cards.GetResources()[eResource] / 8);
     }
 
     private decimal EvaluateSettlements()

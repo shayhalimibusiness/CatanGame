@@ -9,6 +9,7 @@ public static class GlobalResources
     public const int VerticalsRoadsXSize = 4;
     public const int VerticalsRoadsYSize = 5;
     public const int VerticesSize = 5;
+    public const int TilesSize = 4;
 
     public static List<EResource> Resources = new List<EResource>
     {

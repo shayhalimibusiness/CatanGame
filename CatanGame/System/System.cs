@@ -2,6 +2,7 @@ using CatanGame.Enums;
 using CatanGame.System.Board;
 using CatanGame.System.Cards;
 using CatanGame.UI;
+using CatanGame.Utils;
 
 namespace CatanGame.System;
 
@@ -238,5 +239,35 @@ public class System : ISystem
         var random = new Random();
         var randomNumber = random.Next(2);
         return randomNumber == 1;
+    }
+
+    private void DistributeResources()
+    {
+        var neighborVerticesOffset = new[] { (0, 0), (0, 1), (1, 0), (1, 1) }; 
+        for (var i = 0; i < GlobalResources.TilesSize; i++)
+        {
+            for (var j = 0; j < GlobalResources.TilesSize; j++)
+            {
+                if (_board.GetTileNumber(i, j) != _dice)
+                {
+                    continue;
+                }
+                
+                foreach (var offset in neighborVerticesOffset)
+                {
+                    var (x, y) = offset;
+                    if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.Settlement)
+                    {
+                        GetCards(_board.GetVertexOwner(i + x, j + y))
+                            .TransferResources(_board.GetTileResource(i + x, j + y), 1);
+                    }
+                    if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.City)
+                    {
+                        GetCards(_board.GetVertexOwner(i + x, j + y))
+                            .TransferResources(_board.GetTileResource(i + x, j + y), 2);
+                    }
+                }
+            }
+        }
     }
 }

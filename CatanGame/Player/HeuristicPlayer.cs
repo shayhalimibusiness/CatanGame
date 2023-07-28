@@ -41,7 +41,8 @@ public class HeuristicPlayer : IPlayer
             action.Undo();
             return (evaluation, action);
         });
-        
-        return evaluatedActions.OrderByDescending(x => x.Item1).ToArray();
+
+        var sortedActions = evaluatedActions.OrderByDescending(x => x.Item1).ToArray();
+        return sortedActions;
     }
 }

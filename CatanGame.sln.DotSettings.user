@@ -1,4 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\shay.halimi\AppData\Local\JetBrains\Rider2023.1\resharper-host\temp\Rider\vAny\CoverageData\_CatanGame.-56838405\Snapshot\snapshot.utdcvr</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=125bc3fe_002D0a08_002D4ae9_002Dad8b_002D075b322d3bdb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BuildSettlement_NotEnoughResource_ThrowsException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuildSettlement_NotEnoughResource_ThrowsException&lt;/TestId&gt;&#xD;
@@ -74,6 +75,9 @@
       &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildSettlementActions_CanBuy_GetActions&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildSettlementActions_CantBuy_GetNoActions&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildSettlementActions_NoEligibleVertices_GetNoActions&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildCityActions_CanBuy_GetActions&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildCityActions_CantBuy_GetNoActions&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildCityActions_NoSettlements_GetNoActions&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
     &lt;ProjectFile&gt;D3CA7E21-402D-4365-8F35-0CC33FC530AA/d:SystemTests/f:SystemTests.cs&lt;/ProjectFile&gt;&#xD;
     &lt;ProjectFile&gt;D3CA7E21-402D-4365-8F35-0CC33FC530AA/d:SystemTests/f:BoardTests.cs&lt;/ProjectFile&gt;&#xD;

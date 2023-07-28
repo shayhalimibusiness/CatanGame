@@ -116,4 +116,38 @@ public class JudgeTests
         
         Assert.That(actions, Is.Empty);
     }
+    
+    [Test]
+    public void GetBuildCityActions_CanBuy_GetActions()
+    {
+        _testUtils.TransferSettlementResources(EPlayer.Player1);
+        _system.BuildSettlement(2,2, EPlayer.Player1);
+
+        _testUtils.TransferCityResources(EPlayer.Player1);
+        
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(BuildCity));
+        
+        Assert.That(actions.Count(), Is.EqualTo(1));
+    }
+    
+    [Test]
+    public void GetBuildCityActions_CantBuy_GetNoActions()
+    {
+        _testUtils.TransferRoadResources(EPlayer.Player1);
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(BuildCity));
+        Assert.That(actions, Is.Empty);
+    }
+    
+    [Test]
+    public void GetBuildCityActions_NoSettlements_GetNoActions()
+    {
+        _testUtils.TransferCityResources(EPlayer.Player1);
+
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(BuildCity));
+        
+        Assert.That(actions, Is.Empty);
+    }
 }

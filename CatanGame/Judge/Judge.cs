@@ -32,6 +32,7 @@ public class Judge : IJudge
         actions.AddRange(GetBuyCardAction());
         actions.AddRange(GetBuildRoadActions());
         actions.AddRange(GetBuildSettlementActions());
+        actions.AddRange(GetBuildCityActions());
         
         return actions;
     }
@@ -78,13 +79,32 @@ public class Judge : IJudge
             return actions;
         }
 
-        var eligibleSettlements = GetEligibleVertices();
+        var eligibleVertices = GetEligibleVertices();
 
         actions.AddRange(
-            from road in eligibleSettlements 
-            let x = road.Item1 
-            let y = road.Item2 
+            from vertex in eligibleVertices 
+            let x = vertex.Item1 
+            let y = vertex.Item2 
             select new BuildSettlement(_system, x, y, _ePlayer, _ui));
+
+        return actions;
+    }
+    
+    private List<IAction> GetBuildCityActions()
+    {
+        var actions = new List<IAction>();
+
+        if (!CanBuildCity())
+        {
+            return actions;
+        }
+
+        var settlements = GetSettlements();
+        actions.AddRange(
+            from settlement in settlements
+            let x = settlement.Item1 
+            let y = settlement.Item2 
+            select new BuildCity(_system, _ui, x, y, _ePlayer));
 
         return actions;
     }
@@ -306,5 +326,24 @@ public class Judge : IJudge
             (x-1, y),
             (x+1, y),
         };
+    }
+
+    private List<(int, int)> GetSettlements()
+    {
+        var settlements = new List<(int, int)>();
+        var board = _system.GetBoard();
+        for (var i = 0; i < VerticesSize; i++)
+        {
+            for (var j = 0; j < VerticesSize; j++)
+            {
+                if (board.GetVertexOwner(i, j) == _ePlayer && 
+                    board.GetVertexStatus(i, j) == EVertexStatus.Settlement)
+                {
+                    settlements.Add((i, j));
+                }
+            }
+        }
+
+        return settlements;
     }
 }

@@ -6,6 +6,7 @@ public class Cards : ICards
 {
     private readonly Dictionary<EResource, int> _resources;
     private int _totalPoints;
+    private readonly Dictionary<EResource, int> _ports;
 
     public Cards()
     {
@@ -18,6 +19,14 @@ public class Cards : ICards
             { EResource.Tin , 0},
         };
         _totalPoints = 0;
+        _ports = new Dictionary<EResource, int>
+        {
+            { EResource.Iron , 0},
+            { EResource.Sheep , 0},
+            { EResource.Wood , 0},
+            { EResource.Wheat , 0},
+            { EResource.Tin , 0},
+        };
     }
 
     public void TransferResources(EResource eResource, int amount)
@@ -38,6 +47,21 @@ public class Cards : ICards
     public int GetTotalPoints()
     {
         return _totalPoints;
+    }
+    
+    public bool HasPort(EResource eResource)
+    {
+        return _ports[eResource] > 0;
+    }
+
+    public void AddPort(EResource eResource)
+    {
+        _ports[eResource]++;
+    }
+
+    public void RemovePort(EResource eResource)
+    {
+        _ports[eResource]--;
     }
 
     public void TransferTotalPoints(int amount)

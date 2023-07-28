@@ -15,7 +15,7 @@ public class Trade : IAction
     private readonly EResource _buy;
     private readonly int _amount;
 
-    public Trade(ISystem system, IUi ui, EPlayer ePlayer, EResource sell, EResource buy, int amount)
+    public Trade(ISystem system, IUi ui, EPlayer ePlayer, EResource sell, EResource buy, int amount) 
     {
         _system = system;
         _ui = ui;

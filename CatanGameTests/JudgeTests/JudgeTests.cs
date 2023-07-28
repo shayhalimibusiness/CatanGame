@@ -151,4 +151,64 @@ public class JudgeTests
         
         Assert.That(actions, Is.Empty);
     }
+    
+    [Test]
+    public void Trade_4Iron_CanTrade()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        cards.TransferResources(EResource.Iron, 4);
+
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(Trade));
+        
+        Assert.That(actions.Count(), Is.EqualTo(4));
+    }
+    
+    [Test]
+    public void Trade_3Iron_CantTrade()
+    {
+        var cards = _system.GetCards(EPlayer.Player1);
+        cards.TransferResources(EResource.Iron, 3);
+
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(Trade));
+        
+        Assert.That(actions, Is.Empty);
+    }
+    
+    [Test]
+    public void Trade_3IronAndGeneralPort_CanTrade()
+    {
+        _player1Cards.TransferResources(EResource.Iron, 3);
+        _player1Cards.AddPort(EResource.PointCard);
+        
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(Trade));
+        
+        Assert.That(actions.Count(), Is.EqualTo(4));
+    }
+    
+    [Test]
+    public void Trade_2IronAndGeneralPort_CantTrade()
+    {
+        _player1Cards.TransferResources(EResource.Iron, 2);
+        _player1Cards.AddPort(EResource.PointCard);
+        
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(Trade));
+        
+        Assert.That(actions, Is.Empty);
+    }
+    
+    [Test]
+    public void Trade_2IronAndIronPort_CanTrade()
+    {
+        _player1Cards.TransferResources(EResource.Iron, 2);
+        _player1Cards.AddPort(EResource.Iron);
+        
+        var actions = _judge.GetActions()
+            .Where(action => action.GetType() == typeof(Trade));
+        
+        Assert.That(actions.Count(), Is.EqualTo(4));
+    }
 }

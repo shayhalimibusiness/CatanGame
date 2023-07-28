@@ -3,6 +3,7 @@ using CatanGame.Action;
 using CatanGame.Enums;
 using CatanGame.System;
 using CatanGame.UI;
+using CatanGame.Utils;
 
 namespace CatanGame.Judge;
 
@@ -33,6 +34,7 @@ public class Judge : IJudge
         actions.AddRange(GetBuildRoadActions());
         actions.AddRange(GetBuildSettlementActions());
         actions.AddRange(GetBuildCityActions());
+        actions.AddRange(GetTradeActions());
         
         return actions;
     }
@@ -109,6 +111,18 @@ public class Judge : IJudge
         return actions;
     }
 
+    private List<IAction> GetTradeActions()
+    {
+        return (
+            from resourceToSell in GlobalResources.Resources 
+            where CanSellResource(resourceToSell) 
+            from resourceToBuy in GlobalResources.Resources 
+            where resourceToBuy != resourceToSell 
+            select new Trade(_system, _ui, _ePlayer, resourceToSell, resourceToBuy, 1))
+            .Cast<IAction>()
+            .ToList();
+    }
+
     private bool CanBuyCard()
     {
         var resources = _system.GetCards(_ePlayer).GetResources();
@@ -148,10 +162,19 @@ public class Judge : IJudge
         return tin >= 1 && wood >= 1;
     }
     
-    // Todo
     private bool CanSellResource(EResource eResource)
     {
-        throw new NotImplementedException();
+        return _system.GetCards(_ePlayer).GetResources()[eResource] >= GetMarketRate(eResource);
+    }
+
+    private int GetMarketRate(EResource eResource)
+    {
+        var cards = _system.GetCards(_ePlayer);
+        if (cards.HasPort(eResource))
+        {
+            return 2;
+        } 
+        return cards.HasPort(EResource.PointCard) ? 3 : 4;
     }
 
     private List<(int, int, ERoads)> GetEligibleRoads()

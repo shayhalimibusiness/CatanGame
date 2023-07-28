@@ -73,6 +73,11 @@
       &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildCityActions_CanBuy_GetActions&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildCityActions_CantBuy_GetNoActions&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.GetBuildCityActions_NoSettlements_GetNoActions&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.Trade_4Iron_CanTrade&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.Trade_3Iron_CantTrade&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.Trade_3IronAndGeneralPort_CanTrade&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.Trade_2IronAndGeneralPort_CantTrade&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.JudgeTests.JudgeTests.Trade_2IronAndIronPort_CanTrade&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
     &lt;ProjectFile&gt;D3CA7E21-402D-4365-8F35-0CC33FC530AA/d:SystemTests/f:SystemTests.cs&lt;/ProjectFile&gt;&#xD;
     &lt;ProjectFile&gt;D3CA7E21-402D-4365-8F35-0CC33FC530AA/d:SystemTests/f:BoardTests.cs&lt;/ProjectFile&gt;&#xD;

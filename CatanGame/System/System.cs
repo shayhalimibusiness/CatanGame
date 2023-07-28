@@ -56,15 +56,22 @@ public class System : ISystem
         {
             throw new Exception("Can build a settlement only on unsettled vertex!");
         }
-        
-        _allCards[ePlayer].TransferResources(EResource.Sheep, -1);
-        _allCards[ePlayer].TransferResources(EResource.Wood, -1);
-        _allCards[ePlayer].TransferResources(EResource.Wheat, -1);
-        _allCards[ePlayer].TransferResources(EResource.Tin, -1);
+
+        var cards = _allCards[ePlayer];
+        cards.TransferResources(EResource.Sheep, -1);
+        cards.TransferResources(EResource.Wood, -1);
+        cards.TransferResources(EResource.Wheat, -1);
+        cards.TransferResources(EResource.Tin, -1);
         
         _board.SetVertexOwner(x, y, ePlayer);
         _board.SetVertexStatus(x, y, EVertexStatus.Settlement);
         GetCards(ePlayer).TransferTotalPoints(1);
+        
+        var port = _board.PlayerHasPortIn(ePlayer, x, y);
+        if (port != EResource.None)
+        {
+            cards.AddPort(port);
+        }
     }
 
     public void BuildSettlementUndo(int x, int y, EPlayer ePlayer)
@@ -79,14 +86,21 @@ public class System : ISystem
             throw new Exception("Can't revert build settlement! There is no settlement in this place");
         }
         
-        _allCards[ePlayer].TransferResources(EResource.Sheep, 1);
-        _allCards[ePlayer].TransferResources(EResource.Wood, 1);
-        _allCards[ePlayer].TransferResources(EResource.Wheat, 1);
-        _allCards[ePlayer].TransferResources(EResource.Tin, 1);
+        var cards = _allCards[ePlayer];
+        cards.TransferResources(EResource.Sheep, 1);
+        cards.TransferResources(EResource.Wood, 1);
+        cards.TransferResources(EResource.Wheat, 1);
+        cards.TransferResources(EResource.Tin, 1);
         
         _board.SetVertexOwner(x, y, EPlayer.None);
         _board.SetVertexStatus(x, y, EVertexStatus.Unsettled);
         GetCards(ePlayer).TransferTotalPoints(-1);
+        
+        var port = _board.PlayerHasPortIn(ePlayer, x, y);
+        if (port != EResource.None)
+        {
+            cards.RemovePort(port);
+        }
     }
 
     public void BuildCity(int x, int y, EPlayer ePlayer)

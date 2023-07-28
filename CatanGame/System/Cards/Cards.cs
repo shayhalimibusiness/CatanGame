@@ -26,6 +26,7 @@ public class Cards : ICards
             { EResource.Wood , 0},
             { EResource.Wheat , 0},
             { EResource.Tin , 0},
+            { EResource.PointCard , 0},
         };
     }
 
@@ -61,6 +62,10 @@ public class Cards : ICards
 
     public void RemovePort(EResource eResource)
     {
+        if (_ports[eResource] == 0)
+        {
+            throw new Exception("Can't be with negative amount of ports!");
+        }
         _ports[eResource]--;
     }
 

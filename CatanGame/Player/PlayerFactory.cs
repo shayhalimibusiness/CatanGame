@@ -12,7 +12,7 @@ public static class PlayerFactory
     {
         var board = BoardFactory.CreateRandomBoard();
         var ui = UiFactory.CreateUi();
-        var allCards = CardsFactory.CreateBlankAllCards();
+        var allCards = CardsFactory.Create2PlayersBlankAllCards();
         var system = new System.System(board, allCards, ui);
         var evaluator = new Evaluator.Evaluator(system, ePlayer);
         var judge = new Judge.Judge(system, ui, ePlayer);

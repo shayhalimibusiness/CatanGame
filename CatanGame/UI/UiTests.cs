@@ -16,7 +16,7 @@ public class UiTests
     public UiTests()
     {
         _ui = UiFactory.CreateUi();
-        _system = SystemFactory.CreateSystem();
+        _system = SystemFactory.Create2PlayersSystem();
     }
 
     public void ApiTests()

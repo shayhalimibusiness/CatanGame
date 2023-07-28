@@ -1,9 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
+
+using CatanGame.Game;
 using CatanGame.UI;
 
 Console.WriteLine("Hello, World!");
 
-var uiTest = new UiTests();
+// var uiTest = new UiTests();
 // uiTest.ApiTests();
 // uiTest.ShowBoard_GetRandomBoard_Show();
 // uiTest.ShowDice_GetSystemRoll_Show();
@@ -15,3 +17,6 @@ var uiTest = new UiTests();
 // uiTest.Action_Trade_NoPort_Show();
 // UiTestsPrivates.Judge_GetNeighborRoads_ShowVerticalNeighbors();
 // UiTestsPrivates.Judge_GetNeighborRoads_ShowHorizontalNeighbors();
+
+var game = GameFactory.Create1PlayerGame();
+game.Run();

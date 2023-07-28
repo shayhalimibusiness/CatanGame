@@ -10,7 +10,7 @@ public class SystemTests
     [SetUp]
     public void Setup()
     {
-        _system = SystemFactory.CreateSystem();
+        _system = SystemFactory.Create2PlayersSystem();
     }
 
     [Test]

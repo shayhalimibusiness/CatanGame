@@ -6,43 +6,46 @@ using CatanGame.Utils;
 
 namespace CatanGame.Action;
 
-public class SetSettlement
+public class SetRoad
 {
     private readonly ISystem _system;
-    private readonly int _x, _y;
-    private readonly EPlayer _ePlayer;
     private readonly IUi _ui;
+    private readonly int _x, _y;
+    private readonly ERoads _eRoads;
+    private readonly EPlayer _ePlayer;
     
-    public SetSettlement(ISystem system, int x, int y, EPlayer ePlayer, IUi ui)
+    public SetRoad(ISystem system, IUi ui, int x, int y, ERoads eRoads, EPlayer ePlayer)
     {
         _system = system;
+        _ui = ui;
         _x = x;
         _y = y;
+        _eRoads = eRoads;
         _ePlayer = ePlayer;
-        _ui = ui;
     }
     
     public void Do()
     {
-        _system.SetSettlement(_x, _y, _ePlayer);
+        _system.SetRoad(_x, _y, _eRoads, _ePlayer);
     }
 
     public void Undo()
     {
-        _system.SetSettlementUndo(_x, _y, _ePlayer);
+        _system.SetRoadUndo(_x, _y, _eRoads, _ePlayer);
     }
 
     public void Show()
     {
         var playerName = GeneralFactory.CreatePlayersNames()[_ePlayer];
+        var roadName = GeneralFactory.CreateRoadsNames()[_eRoads];
         var showActionApi = new ShowActionApi
         {
-            Message = $"Player: {playerName} built a settlement at {_x}, {_y}!",
+            Message = $"Player: {playerName} built a {roadName} road at {_x}, {_y}!",
             Player = _ePlayer,
             Cards = _system.GetCards(_ePlayer),
             AllCards = null,
             ShowBoardApi = Mapper.ShowBoardApiMapper(_system.GetBoard()),
-            ShowStatusApi = Mapper.ShowStatusApiMapper(_system)
+            ShowStatusApi = null
         };
         _ui.ShowAction(showActionApi);
     }

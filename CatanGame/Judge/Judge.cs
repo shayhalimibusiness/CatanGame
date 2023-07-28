@@ -32,6 +32,37 @@ public class Judge : IJudge
         return actions;
     }
 
+    public List<IAction> GetFirstSettlementsActions()
+    {
+        var actions = new List<IAction>();
+
+        var eligibleVertices = GetEligibleFirstVertices();
+
+        actions.AddRange(
+            from vertex in eligibleVertices 
+            let x = vertex.Item1 
+            let y = vertex.Item2 
+            select new BuildSettlement(_system, x, y, _ePlayer, _ui));
+
+        return actions;
+    }
+
+    public List<IAction> GetFirstRoadsActions()
+    {
+        var actions = new List<IAction>();
+
+        var eligibleRoads = GetEligibleRoads();
+
+        actions.AddRange(
+            from road in eligibleRoads 
+            let x = road.Item1 
+            let y = road.Item2 
+            let eRoad = road.Item3 
+            select new BuildRoad(_system, _ui, x, y, eRoad, _ePlayer));
+
+        return actions;
+    }
+
     private List<IAction> GetBuyCardAction()
     {
         var actions = new List<IAction>();
@@ -191,10 +222,32 @@ public class Judge : IJudge
 
         return eligibleRoads;
     }
+    
+    private List<(int, int, ERoads)> GetEligibleFirstRoads()
+    {
+        var eligibleRoads = new List<(int, int, ERoads)>();
+        foreach (ERoads eRoad in Enum.GetValues(typeof(ERoads)))
+        {
+            var roadsXSize = GetRoadsSize(0, eRoad);
+            var roadsYSize = GetRoadsSize(1, eRoad);
+            for (var i = 0; i < roadsXSize; i++)
+            {
+                for (var j = 0; j < roadsYSize; j++)
+                {
+                    if (IsValidFirstRoad(i, j, eRoad))
+                    {
+                        eligibleRoads.Add((i, j, eRoad));
+                    }
+                }
+            }
+        }
+
+        return eligibleRoads;
+    }
 
     private bool IsValidRoad(int x, int y, ERoads eRoad)
     {
-        if (!IsRoadInRange(x, y, eRoad))
+        if (!IsRoadInRange(x, y, eRoad) || _system.GetBoard().GetRoadOwner(x, y, eRoad) != EPlayer.None)
         {
             return false;
         }
@@ -211,6 +264,16 @@ public class Judge : IJudge
             where board.GetRoadOwner(nX, nY, nERoad) == _ePlayer 
             select nX
             ).Any();
+    }
+
+    private bool IsValidFirstRoad(int x, int y, ERoads eRoad)
+    {
+        if (!IsRoadInRange(x, y, eRoad) || _system.GetBoard().GetRoadOwner(x, y, eRoad) != EPlayer.None)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private bool IsRoadInRange(int x, int y, ERoads eRoad)
@@ -291,8 +354,6 @@ public class Judge : IJudge
         }
 
         var neighborRoads = GetNeighborRoadsToVertex(x, y);
-        var neighborVertices = GetNeighborVerticesToVertex(x, y);
-
         var isTouchingOwnedRoad = (
             from neighbor in neighborRoads 
             let nX = neighbor.Item1 
@@ -303,7 +364,8 @@ public class Judge : IJudge
             where board.GetRoadOwner(nX, nY, nERoad) == _ePlayer 
             select nX
             ).Any();
-
+        
+        var neighborVertices = GetNeighborVerticesToVertex(x, y);
         var isFarFromSettlements = !(
             from neighbor in neighborVertices
             let nX = neighbor.Item1
@@ -315,6 +377,44 @@ public class Judge : IJudge
             ).Any();
 
         return isTouchingOwnedRoad && isFarFromSettlements;
+    }
+    
+    private List<(int, int)> GetEligibleFirstVertices()
+    {
+        var eligibleVertices = new List<(int, int)>();
+        for (var i = 0; i < GlobalResources.VerticesSize; i++)
+        {
+            for (var j = 0; j < GlobalResources.VerticesSize; j++)
+            {
+                if (IsValidFirstVertices(i, j))
+                {
+                    eligibleVertices.Add((i, j));
+                }
+            }
+        }
+
+        return eligibleVertices;
+    }
+    
+    private bool IsValidFirstVertices(int x, int y)
+    {
+        if (_system.GetBoard().GetVertexOwner(x, y) != EPlayer.None)
+        {
+            return false;
+        }
+
+        var neighborVertices = GetNeighborVerticesToVertex(x, y);
+        var isFarFromSettlements = !(
+            from neighbor in neighborVertices
+            let nX = neighbor.Item1
+            let nY = neighbor.Item2
+            let board = _system.GetBoard()
+            where IsVertexInRange(nX, nY) 
+            where board.GetVertexOwner(nX, nY) != EPlayer.None 
+            select nX
+        ).Any();
+
+        return isFarFromSettlements;
     }
     
     private bool IsVertexInRange(int x, int y)

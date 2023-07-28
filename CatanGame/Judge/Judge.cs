@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using CatanGame.Action;
 using CatanGame.Enums;
 using CatanGame.System;
@@ -9,15 +8,9 @@ namespace CatanGame.Judge;
 
 public class Judge : IJudge
 {
-    private const int HorizontalsRoadsXSize = 5;
-    private const int HorizontalsRoadsYSize = 4;
-    private const int VerticalsRoadsXSize = 4;
-    private const int VerticalsRoadsYSize = 5;
-    private const int VerticesSize = 5;
-    
-    private ISystem _system;
-    private IUi _ui;
-    private EPlayer _ePlayer;
+    private readonly ISystem _system;
+    private readonly IUi _ui;
+    private readonly EPlayer _ePlayer;
 
     public Judge(ISystem system, IUi ui, EPlayer ePlayer)
     {
@@ -259,14 +252,14 @@ public class Judge : IJudge
         {
             0 => eRoad switch
             {
-                ERoads.Horizontals => HorizontalsRoadsXSize,
-                ERoads.Verticals => VerticalsRoadsXSize,
+                ERoads.Horizontals => GlobalResources.HorizontalsRoadsXSize,
+                ERoads.Verticals => GlobalResources.VerticalsRoadsXSize,
                 _ => throw new ArgumentOutOfRangeException()
             },
             1 => eRoad switch
             {
-                ERoads.Horizontals => HorizontalsRoadsYSize,
-                ERoads.Verticals => VerticalsRoadsYSize,
+                ERoads.Horizontals => GlobalResources.HorizontalsRoadsYSize,
+                ERoads.Verticals => GlobalResources.VerticalsRoadsYSize,
                 _ => throw new ArgumentOutOfRangeException()
             },
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, null)
@@ -276,9 +269,9 @@ public class Judge : IJudge
     private List<(int, int)> GetEligibleVertices()
     {
         var eligibleVertices = new List<(int, int)>();
-        for (var i = 0; i < VerticesSize; i++)
+        for (var i = 0; i < GlobalResources.VerticesSize; i++)
         {
-            for (var j = 0; j < VerticesSize; j++)
+            for (var j = 0; j < GlobalResources.VerticesSize; j++)
             {
                 if (IsValidVertex(i, j))
                 {
@@ -326,7 +319,7 @@ public class Judge : IJudge
     
     private bool IsVertexInRange(int x, int y)
     {
-        return x is >= 0 and < VerticesSize && y is >= 0 and < VerticesSize;
+        return x is >= 0 and < GlobalResources.VerticesSize && y is >= 0 and < GlobalResources.VerticesSize;
     }
     
     private List<(int, int, ERoads)> GetNeighborRoadsToVertex(int x, int y)
@@ -355,9 +348,9 @@ public class Judge : IJudge
     {
         var settlements = new List<(int, int)>();
         var board = _system.GetBoard();
-        for (var i = 0; i < VerticesSize; i++)
+        for (var i = 0; i < GlobalResources.VerticesSize; i++)
         {
-            for (var j = 0; j < VerticesSize; j++)
+            for (var j = 0; j < GlobalResources.VerticesSize; j++)
             {
                 if (board.GetVertexOwner(i, j) == _ePlayer && 
                     board.GetVertexStatus(i, j) == EVertexStatus.Settlement)

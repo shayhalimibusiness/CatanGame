@@ -21,6 +21,14 @@ public class Game : IGame
     
     public void Run()
     {
+        for (var i = 0; i < _players.Count(); i++)
+        {
+            var testUtils = new TestUtils(_system);
+            testUtils.TransferRoadResources((EPlayer)i);
+            testUtils.TransferRoadResources((EPlayer)i);
+            testUtils.TransferSettlementResources((EPlayer)i);
+            testUtils.TransferSettlementResources((EPlayer)i);
+        }
         var names = GeneralFactory.CreatePlayersNames();
         for (var i = 0; i < 100; i++)
         {

@@ -46,7 +46,7 @@ public class System : ISystem
         return _allCards;
     }
 
-    public void BuildSettlement(int x, int y, EPlayer ePlayer)
+    public void SetSettlement(int x, int y, EPlayer ePlayer)
     {
         if (_board.GetVertexOwner(x, y) != EPlayer.None)
         {
@@ -59,11 +59,7 @@ public class System : ISystem
         }
 
         var cards = _allCards[ePlayer];
-        cards.TransferResources(EResource.Sheep, -1);
-        cards.TransferResources(EResource.Wood, -1);
-        cards.TransferResources(EResource.Wheat, -1);
-        cards.TransferResources(EResource.Tin, -1);
-        
+
         _board.SetVertexOwner(x, y, ePlayer);
         _board.SetVertexStatus(x, y, EVertexStatus.Settlement);
         GetCards(ePlayer).TransferTotalPoints(1);
@@ -75,7 +71,7 @@ public class System : ISystem
         }
     }
 
-    public void BuildSettlementUndo(int x, int y, EPlayer ePlayer)
+    public void SetSettlementUndo(int x, int y, EPlayer ePlayer)
     {
         if (_board.GetVertexOwner(x, y) != ePlayer)
         {
@@ -88,10 +84,6 @@ public class System : ISystem
         }
         
         var cards = _allCards[ePlayer];
-        cards.TransferResources(EResource.Sheep, 1);
-        cards.TransferResources(EResource.Wood, 1);
-        cards.TransferResources(EResource.Wheat, 1);
-        cards.TransferResources(EResource.Tin, 1);
         
         _board.SetVertexOwner(x, y, EPlayer.None);
         _board.SetVertexStatus(x, y, EVertexStatus.Unsettled);
@@ -102,6 +94,28 @@ public class System : ISystem
         {
             cards.RemovePort(port);
         }
+    }
+
+    public void BuildSettlement(int x, int y, EPlayer ePlayer)
+    {
+        SetSettlement(x, y, ePlayer);
+
+        var cards = _allCards[ePlayer];
+        cards.TransferResources(EResource.Sheep, -1);
+        cards.TransferResources(EResource.Wood, -1);
+        cards.TransferResources(EResource.Wheat, -1);
+        cards.TransferResources(EResource.Tin, -1);
+    }
+
+    public void BuildSettlementUndo(int x, int y, EPlayer ePlayer)
+    {
+        SetSettlementUndo(x, y, ePlayer);
+        
+        var cards = _allCards[ePlayer];
+        cards.TransferResources(EResource.Sheep, 1);
+        cards.TransferResources(EResource.Wood, 1);
+        cards.TransferResources(EResource.Wheat, 1);
+        cards.TransferResources(EResource.Tin, 1);
     }
 
     public void BuildCity(int x, int y, EPlayer ePlayer)
@@ -142,30 +156,40 @@ public class System : ISystem
         GetCards(ePlayer).TransferTotalPoints(-1);
     }
 
-    public void BuildRoad(int x, int y, ERoads eRoads, EPlayer ePlayer)
+    public void SetRoad(int x, int y, ERoads eRoads, EPlayer ePlayer)
     {
         if (_board.GetRoadOwner(x, y, eRoads) != EPlayer.None)
         {
             throw new Exception("Can't build a road here! it is already owned by someone else.");
         }
 
-        _allCards[ePlayer].TransferResources(EResource.Wood, -1);
-        _allCards[ePlayer].TransferResources(EResource.Tin, -1);
-        
         _board.SetRoadOwner(x, y, eRoads, ePlayer);
     }
 
-    public void BuildRoadUndo(int x, int y, ERoads eRoads, EPlayer ePlayer)
+    public void SetRoadUndo(int x, int y, ERoads eRoads, EPlayer ePlayer)
     {
         if (_board.GetRoadOwner(x, y, eRoads) != ePlayer)
         {
             throw new Exception("Can't revert build road! The road is not belonged to the player.");
         }
 
+        _board.SetRoadOwner(x, y, eRoads, EPlayer.None);
+    }
+
+    public void BuildRoad(int x, int y, ERoads eRoads, EPlayer ePlayer)
+    {
+        SetRoad(x, y, eRoads, ePlayer);
+        
+        _allCards[ePlayer].TransferResources(EResource.Wood, -1);
+        _allCards[ePlayer].TransferResources(EResource.Tin, -1);
+    }
+
+    public void BuildRoadUndo(int x, int y, ERoads eRoads, EPlayer ePlayer)
+    {
+        SetRoadUndo(x, y, eRoads, ePlayer);
+        
         _allCards[ePlayer].TransferResources(EResource.Wood, 1);
         _allCards[ePlayer].TransferResources(EResource.Tin, 1);
-        
-        _board.SetRoadOwner(x, y, eRoads, EPlayer.None);
     }
 
     public bool BuyCard(EPlayer ePlayer)

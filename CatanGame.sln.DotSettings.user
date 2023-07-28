@@ -39,12 +39,7 @@
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuildRoad_Player1Build_RoadOwnedByPlayer1&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ad94254b_002D3e2a_002D4de1_002D9b17_002Dfedfd0e101fd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetTileResource_IsNone_GetNone" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.BoardTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d6192f42_002D076d_002D4beb_002Da44d_002D0528785041bb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BuyCard_Player1Buy_SpendsResources" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3CA7E21-402D-4365-8F35-0CC33FC530AA::net7.0::CatanGameTests.SystemTests.SystemTests.BuyCard_Player1Buy_SpendsResources&lt;/TestId&gt;&#xD;

@@ -3,6 +3,7 @@ using CatanGame.Enums;
 using CatanGame.Models;
 using CatanGame.System;
 using CatanGame.System.Board;
+using CatanGame.System.Cards;
 using CatanGame.Utils;
 
 namespace CatanGame.UI;

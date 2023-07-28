@@ -1,6 +1,6 @@
 using CatanGame.Enums;
 
-namespace CatanGame.System;
+namespace CatanGame.System.Cards;
 
 public class Cards : ICards
 {

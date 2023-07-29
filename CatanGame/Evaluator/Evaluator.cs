@@ -45,14 +45,17 @@ public class Evaluator : IEvaluator
 
     private decimal EvaluateResources()
     {
-        var evaluation = GlobalResources.Resources
-            .Aggregate<EResource, decimal>(0, (current, eResource) => 
-                current + (decimal)_cards.GetResources()[eResource] / 30);
+        // var evaluation = GlobalResources.Resources
+        //     .Aggregate<EResource, decimal>(0, (current, eResource) => 
+        //         current + (decimal)_cards.GetResources()[eResource] / 30);
 
-        evaluation += EvaluateResourcesForAUse(GlobalResources.RoadResources);
-        evaluation += EvaluateResourcesForAUse(GlobalResources.SettlementResources);
-        evaluation += EvaluateResourcesForAUse(GlobalResources.CityResources);
-        evaluation += EvaluateResourcesForAUse(GlobalResources.CardResources);
+        var evaluation = 
+            Math.Max(EvaluateResourcesForAUse(GlobalResources.RoadResources), 
+            Math.Max(EvaluateResourcesForAUse(GlobalResources.SettlementResources), 
+            Math.Max(EvaluateResourcesForAUse(GlobalResources.CityResources), 
+                     EvaluateResourcesForAUse(GlobalResources.CardResources))));
+
+        evaluation = evaluation / 26;
 
         return evaluation;
     }
@@ -149,7 +152,7 @@ public class Evaluator : IEvaluator
     {
         decimal evaluation = 0;
 
-        evaluation += 0.23m * _system.GetCardsBoughtByPlayer(_ePlayer);
+        evaluation += 0.35m * _system.GetCardsBoughtByPlayer(_ePlayer);
 
         return evaluation;
     }

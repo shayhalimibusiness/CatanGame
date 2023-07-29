@@ -26,4 +26,5 @@ public interface ISystem
      void Trade(EPlayer ePlayer, EResource sell, EResource buy, int times);
      void TradeUndo(EPlayer ePlayer, EResource sell, EResource buy, int times);
      bool HasPort(EPlayer ePlayer, EResource eResource);
+     int GetCardsBoughtByPlayer(EPlayer ePlayer);
 }

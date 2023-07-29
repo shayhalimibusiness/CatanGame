@@ -46,4 +46,24 @@ public static class GlobalResources
         {EResource.Wheat, 1},
         {EResource.Sheep, 1},
     };
+    
+    public static int GetRoadsSize(int dimension, ERoads eRoad)
+    {
+        return dimension switch
+        {
+            0 => eRoad switch
+            {
+                ERoads.Horizontals => GlobalResources.HorizontalsRoadsXSize,
+                ERoads.Verticals => GlobalResources.VerticalsRoadsXSize,
+                _ => throw new ArgumentOutOfRangeException()
+            },
+            1 => eRoad switch
+            {
+                ERoads.Horizontals => GlobalResources.HorizontalsRoadsYSize,
+                ERoads.Verticals => GlobalResources.VerticalsRoadsYSize,
+                _ => throw new ArgumentOutOfRangeException()
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, null)
+        };
+    }
 }

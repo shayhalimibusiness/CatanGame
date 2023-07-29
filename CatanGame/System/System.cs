@@ -8,11 +8,11 @@ namespace CatanGame.System;
 
 public class System : ISystem
 {
-    private IBoard _board;
-    private Dictionary<EPlayer, ICards> _allCards;
-    private IUi _ui;
+    private readonly IBoard _board;
+    private readonly Dictionary<EPlayer, ICards> _allCards;
+    private readonly IUi _ui;
     private int _dice = 0;
-    private Dictionary<EPlayer, Stack<bool>> _pointCardsDrawsHistory;
+    private readonly Dictionary<EPlayer, Stack<bool>> _pointCardsDrawsHistory;
 
     public System(IBoard board, Dictionary<EPlayer, ICards> allCards, IUi ui)
     {
@@ -20,6 +20,10 @@ public class System : ISystem
         _allCards = allCards;
         _ui = ui;
         _pointCardsDrawsHistory = new Dictionary<EPlayer, Stack<bool>>();
+        foreach (var ePlayer in allCards.Keys)
+        {
+            _pointCardsDrawsHistory[ePlayer] = new Stack<bool>();
+        }
     }
 
     public void RoleDice()
@@ -257,6 +261,11 @@ public class System : ISystem
     public bool HasPort(EPlayer ePlayer, EResource eResource)
     {
         return _board.PlayerOwnPort(ePlayer, eResource);
+    }
+
+    public int GetCardsBoughtByPlayer(EPlayer ePlayer)
+    {
+        return _pointCardsDrawsHistory[ePlayer].Count;
     }
 
     private bool IsPointCard()

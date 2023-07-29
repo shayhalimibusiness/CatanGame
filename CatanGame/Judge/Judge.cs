@@ -206,8 +206,8 @@ public class Judge : IJudge
         var eligibleRoads = new List<(int, int, ERoads)>();
         foreach (ERoads eRoad in Enum.GetValues(typeof(ERoads)))
         {
-            var roadsXSize = GetRoadsSize(0, eRoad);
-            var roadsYSize = GetRoadsSize(1, eRoad);
+            var roadsXSize = GlobalResources.GetRoadsSize(0, eRoad);
+            var roadsYSize = GlobalResources.GetRoadsSize(1, eRoad);
             for (var i = 0; i < roadsXSize; i++)
             {
                 for (var j = 0; j < roadsYSize; j++)
@@ -228,8 +228,8 @@ public class Judge : IJudge
         var eligibleRoads = new List<(int, int, ERoads)>();
         foreach (ERoads eRoad in Enum.GetValues(typeof(ERoads)))
         {
-            var roadsXSize = GetRoadsSize(0, eRoad);
-            var roadsYSize = GetRoadsSize(1, eRoad);
+            var roadsXSize = GlobalResources.GetRoadsSize(0, eRoad);
+            var roadsYSize = GlobalResources.GetRoadsSize(1, eRoad);
             for (var i = 0; i < roadsXSize; i++)
             {
                 for (var j = 0; j < roadsYSize; j++)
@@ -278,8 +278,8 @@ public class Judge : IJudge
 
     private bool IsRoadInRange(int x, int y, ERoads eRoad)
     {
-        var roadsXSize = GetRoadsSize(0, eRoad);
-        var roadsYSize = GetRoadsSize(1, eRoad);
+        var roadsXSize = GlobalResources.GetRoadsSize(0, eRoad);
+        var roadsYSize = GlobalResources.GetRoadsSize(1, eRoad);
         return x >= 0 && x < roadsXSize && y >= 0 && y < roadsYSize;
     }
 
@@ -309,26 +309,6 @@ public class Judge : IJudge
         };
     }
 
-    private int GetRoadsSize(int dimension, ERoads eRoad)
-    {
-        return dimension switch
-        {
-            0 => eRoad switch
-            {
-                ERoads.Horizontals => GlobalResources.HorizontalsRoadsXSize,
-                ERoads.Verticals => GlobalResources.VerticalsRoadsXSize,
-                _ => throw new ArgumentOutOfRangeException()
-            },
-            1 => eRoad switch
-            {
-                ERoads.Horizontals => GlobalResources.HorizontalsRoadsYSize,
-                ERoads.Verticals => GlobalResources.VerticalsRoadsYSize,
-                _ => throw new ArgumentOutOfRangeException()
-            },
-            _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, null)
-        };
-    }
-    
     private List<(int, int)> GetEligibleVertices()
     {
         var eligibleVertices = new List<(int, int)>();

@@ -1,4 +1,5 @@
 using CatanGame.Enums;
+using CatanGame.Game;
 using CatanGame.System;
 using CatanGame.System.Board;
 using CatanGame.System.Cards;
@@ -8,15 +9,17 @@ namespace CatanGame.Evaluator;
 
 public class Evaluator : IEvaluator
 {
-    private EPlayer _ePlayer;
+    private readonly EPlayer _ePlayer;
 
+    private readonly ISystem _system;
     private readonly ICards _cards;
     private readonly IBoard _board;
     
     public Evaluator(ISystem system, EPlayer ePlayer)
     {
         _ePlayer = ePlayer;
-
+        
+        _system = system;
         _cards = system.GetCards(ePlayer);
         _board = system.GetBoard();
     }
@@ -27,8 +30,10 @@ public class Evaluator : IEvaluator
 
         evaluation += EvaluateTotalPoints();
         evaluation += EvaluateResources();
+        evaluation += EvaluateRoads();
         evaluation += EvaluateSettlements();
         evaluation += EvaluateCities();
+        evaluation += EvaluateCards();
 
         return evaluation;
     }
@@ -42,7 +47,7 @@ public class Evaluator : IEvaluator
     {
         var evaluation = GlobalResources.Resources
             .Aggregate<EResource, decimal>(0, (current, eResource) => 
-                current + (decimal)_cards.GetResources()[eResource] / 12);
+                current + (decimal)_cards.GetResources()[eResource] / 30);
 
         evaluation += EvaluateResourcesForAUse(GlobalResources.RoadResources);
         evaluation += EvaluateResourcesForAUse(GlobalResources.SettlementResources);
@@ -62,8 +67,31 @@ public class Evaluator : IEvaluator
             have += Math.Min(amount, _cards.GetResources()[eResource]);
         }
 
-        evaluation += (decimal)Math.Pow(have, 2) / 8;
+        evaluation += (decimal)Math.Pow(have, 2) / 30;
         
+        return evaluation;
+    }
+
+    private decimal EvaluateRoads()
+    {
+        decimal evaluation = 0;
+        
+        foreach (ERoads eRoad in Enum.GetValues(typeof(ERoads)))
+        {
+            var roadsXSize = GlobalResources.GetRoadsSize(0, eRoad);
+            var roadsYSize = GlobalResources.GetRoadsSize(1, eRoad);
+            for (var i = 0; i < roadsXSize; i++)
+            {
+                for (var j = 0; j < roadsYSize; j++)
+                {
+                    if (_board.GetRoadOwner(i, j, eRoad) == _ePlayer)
+                    {
+                        evaluation += 0.2m;
+                    }
+                }
+            }
+        }
+
         return evaluation;
     }
 
@@ -81,7 +109,7 @@ public class Evaluator : IEvaluator
                     continue;
                 }
                 
-                evaluation += 0.5m;
+                evaluation += EvaluateVertexWealth(i, j);
                 if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
                 {
                     evaluation += 0.25m;
@@ -106,7 +134,7 @@ public class Evaluator : IEvaluator
                     continue;
                 }
                 
-                evaluation += 1m;
+                evaluation += 2 * EvaluateVertexWealth(i, j);
                 if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
                 {
                     evaluation += 0.25m;
@@ -115,5 +143,41 @@ public class Evaluator : IEvaluator
         }
 
         return evaluation;
+    }
+
+    private decimal EvaluateCards()
+    {
+        decimal evaluation = 0;
+
+        evaluation += 0.23m * _system.GetCardsBoughtByPlayer(_ePlayer);
+
+        return evaluation;
+    }
+
+    private decimal EvaluateVertexWealth(int x, int y)
+    {
+        var neighborTilesOffset = new[] { (0, 0), (0, -1), (-1, 0), (-1, -1) };
+        var vertexProduction = 0m;
+        foreach (var offset in neighborTilesOffset)
+        {
+            var (i, j) = offset;
+            i += x;
+            j += y;
+            if (!IsTileInRange(i, j))
+            {
+                continue;
+            }
+            if (_board.GetTileResource(i, j) != EResource.None)
+            {
+                vertexProduction += _board.GetTileNumber(i, j);
+            }
+        }
+
+        return vertexProduction / 36;
+    }
+    
+    private bool IsTileInRange(int x, int y)
+    {
+        return x >= 0 && x < GlobalResources.TilesSize && y >= 0 && y < GlobalResources.TilesSize;
     }
 }

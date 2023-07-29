@@ -6,7 +6,7 @@ using CatanGame.Utils;
 
 namespace CatanGame.Action;
 
-public class SetSettlement
+public class SetSettlement : IAction
 {
     private readonly ISystem _system;
     private readonly int _x, _y;
@@ -37,7 +37,7 @@ public class SetSettlement
         var playerName = GeneralFactory.CreatePlayersNames()[_ePlayer];
         var showActionApi = new ShowActionApi
         {
-            Message = $"Player: {playerName} built a settlement at {_x}, {_y}!",
+            Message = $"Player: {playerName} set a settlement at {_x}, {_y}!",
             Player = _ePlayer,
             Cards = _system.GetCards(_ePlayer),
             AllCards = null,

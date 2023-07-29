@@ -32,6 +32,27 @@ public class HeuristicPlayer : IPlayer
         }
     }
 
+    public void PlayStartTurn()
+    {
+        var settlementActions = _judge.GetFirstSettlementsActions();
+        var (evaluation, bestAction) = GetSortedActions(settlementActions).FirstOrDefault();
+        if (bestAction == null || evaluation < _evaluator.Evaluate())
+        {
+            return;
+        }
+        bestAction.Do();
+        bestAction.Show();
+        
+        var roadsActions = _judge.GetFirstRoadsActions();
+        (evaluation, bestAction) = GetSortedActions(roadsActions).FirstOrDefault();
+        if (bestAction == null || evaluation < _evaluator.Evaluate())
+        {
+            return;
+        }
+        bestAction.Do();
+        bestAction.Show();
+    }
+
     private IEnumerable<(decimal, IAction)> GetSortedActions(IEnumerable<IAction> actions)
     {
         var evaluatedActions = actions.Select(action =>

@@ -42,7 +42,7 @@ public class Judge : IJudge
             from vertex in eligibleVertices 
             let x = vertex.Item1 
             let y = vertex.Item2 
-            select new BuildSettlement(_system, x, y, _ePlayer, _ui));
+            select new SetSettlement(_system, x, y, _ePlayer, _ui));
 
         return actions;
     }
@@ -51,14 +51,14 @@ public class Judge : IJudge
     {
         var actions = new List<IAction>();
 
-        var eligibleRoads = GetEligibleRoads();
+        var eligibleRoads = GetEligibleFirstRoads();
 
         actions.AddRange(
             from road in eligibleRoads 
             let x = road.Item1 
             let y = road.Item2 
             let eRoad = road.Item3 
-            select new BuildRoad(_system, _ui, x, y, eRoad, _ePlayer));
+            select new SetRoad(_system, _ui, x, y, eRoad, _ePlayer));
 
         return actions;
     }

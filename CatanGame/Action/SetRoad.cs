@@ -6,7 +6,7 @@ using CatanGame.Utils;
 
 namespace CatanGame.Action;
 
-public class SetRoad
+public class SetRoad : IAction
 {
     private readonly ISystem _system;
     private readonly IUi _ui;
@@ -40,7 +40,7 @@ public class SetRoad
         var roadName = GeneralFactory.CreateRoadsNames()[_eRoads];
         var showActionApi = new ShowActionApi
         {
-            Message = $"Player: {playerName} built a {roadName} road at {_x}, {_y}!",
+            Message = $"Player: {playerName} set a {roadName} road at {_x}, {_y}!",
             Player = _ePlayer,
             Cards = _system.GetCards(_ePlayer),
             AllCards = null,

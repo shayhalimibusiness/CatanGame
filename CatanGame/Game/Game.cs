@@ -21,14 +21,6 @@ public class Game : IGame
     
     public void Run()
     {
-        for (var i = 0; i < _players.Count(); i++)
-        {
-            var testUtils = new TestUtils(_system);
-            testUtils.TransferRoadResources((EPlayer)i);
-            testUtils.TransferRoadResources((EPlayer)i);
-            testUtils.TransferSettlementResources((EPlayer)i);
-            testUtils.TransferSettlementResources((EPlayer)i);
-        }
         var names = GeneralFactory.CreatePlayersNames();
         for (var i = 0; i < 100; i++)
         {
@@ -40,8 +32,15 @@ public class Game : IGame
             {
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.Write($"This is {names[(EPlayer)playerIndex]} turn.");
-                _system.RoleDice();
-                player.Play();
+                if (i is 0 or 1)
+                {
+                    player.PlayStartTurn();
+                }
+                else
+                {
+                    _system.RoleDice();
+                    player.Play();
+                }
                 playerIndex++;
             }
             _ui.ShowStatus(Mapper.ShowStatusApiMapper(_system));

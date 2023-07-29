@@ -19,4 +19,31 @@ public static class GlobalResources
         EResource.Tin,
         EResource.Wood
     };
+    
+    public static Dictionary<EResource, int> RoadResources = new Dictionary<EResource, int>()
+    {
+        {EResource.Tin, 1},
+        {EResource.Wood, 1},
+    };
+    
+    public static Dictionary<EResource, int> SettlementResources = new Dictionary<EResource, int>()
+    {
+        {EResource.Sheep, 1},
+        {EResource.Wheat, 1},
+        {EResource.Wood, 1},
+        {EResource.Tin, 1},
+    };
+    
+    public static Dictionary<EResource, int> CityResources = new Dictionary<EResource, int>()
+    {
+        {EResource.Iron, 3},
+        {EResource.Wheat, 2},
+    };
+    
+    public static Dictionary<EResource, int> CardResources = new Dictionary<EResource, int>()
+    {
+        {EResource.Iron, 1},
+        {EResource.Wheat, 1},
+        {EResource.Sheep, 1},
+    };
 }

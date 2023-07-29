@@ -40,9 +40,31 @@ public class Evaluator : IEvaluator
 
     private decimal EvaluateResources()
     {
-        return GlobalResources.Resources
+        var evaluation = GlobalResources.Resources
             .Aggregate<EResource, decimal>(0, (current, eResource) => 
-                current + (decimal)_cards.GetResources()[eResource] / 8);
+                current + (decimal)_cards.GetResources()[eResource] / 12);
+
+        evaluation += EvaluateResourcesForAUse(GlobalResources.RoadResources);
+        evaluation += EvaluateResourcesForAUse(GlobalResources.SettlementResources);
+        evaluation += EvaluateResourcesForAUse(GlobalResources.CityResources);
+        evaluation += EvaluateResourcesForAUse(GlobalResources.CardResources);
+
+        return evaluation;
+    }
+
+    private decimal EvaluateResourcesForAUse(Dictionary<EResource, int> need)
+    {
+        decimal evaluation = 0;
+        
+        var have = 0;
+        foreach (var (eResource, amount) in need)
+        {
+            have += Math.Min(amount, _cards.GetResources()[eResource]);
+        }
+
+        evaluation += (decimal)Math.Pow(have, 2) / 8;
+        
+        return evaluation;
     }
 
     private decimal EvaluateSettlements()

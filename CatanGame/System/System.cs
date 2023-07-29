@@ -28,6 +28,7 @@ public class System : ISystem
         var cube1 = random.Next(1, 6);
         var cube2 = random.Next(1, 6);
         _dice = cube1 + cube2;
+        DistributeResources();
         _ui.ShowDice(cube1, cube2);
     }
 
@@ -272,7 +273,7 @@ public class System : ISystem
         {
             for (var j = 0; j < GlobalResources.TilesSize; j++)
             {
-                if (_board.GetTileNumber(i, j) != _dice)
+                if (_board.GetTileNumber(i, j) != _dice || _board.GetTileResource(i, j) == EResource.None)
                 {
                     continue;
                 }

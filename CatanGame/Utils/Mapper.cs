@@ -12,7 +12,7 @@ public static class Mapper
     {
         var showBoardApi = new ShowBoardApi
         {
-            Pixels = new Pixel[9, 9]
+            Pixels = new Pixel[27, 9]
         };
         for (var i = 0; i < VerticesBoardSize; i++)
         {
@@ -20,24 +20,66 @@ public static class Mapper
             {
                 var eVertexStatus = board.GetVertexStatus(i, j);
                 var eOwner = board.GetVertexOwner(i, j);
-                showBoardApi.Pixels[i * 2, j * 2] = GetVertexRepresentation(eVertexStatus, eOwner);
+                var pixels = GetVertexRepresentation(eVertexStatus, eOwner);
+                for (var k = 0; k < 3; k++)
+                {
+                    if (pixels.Sign == null)
+                    {
+                        throw new Exception();
+                    }
+                    var pixel = new Pixel
+                    {
+                        Color = pixels.Color,
+                        Sign = pixels.Sign?[k]
+                    };
+                    showBoardApi.Pixels[i*2*3 + k, j * 2] = pixel;
+                }
+                
                 
                 if (i + 1 < VerticesBoardSize)
                 {
                     var verticalRoadOwner = board.GetRoadOwner(i, j, ERoads.Verticals);
-                    showBoardApi.Pixels[i*2+1, j*2] = GetRoadRepresentation(ERoads.Verticals, verticalRoadOwner);
+                    pixels = GetRoadRepresentation(ERoads.Verticals, verticalRoadOwner);
+                    for (var k = 0; k < 3; k++)
+                    {
+                        var pixel = new Pixel
+                        {
+                            Color = pixels.Color,
+                            Sign = pixels.Sign?[k]
+                        };
+                        showBoardApi.Pixels[i*2*3 + 3 + k, j * 2] = pixel;
+                    }
                 }
 
                 if (j + 1 < VerticesBoardSize)
                 {
-                    var horizontalRoadOwner = board.GetRoadOwner(i, j, ERoads.Horizontals);
-                    showBoardApi.Pixels[i*2, j*2+1] = GetRoadRepresentation(ERoads.Horizontals, horizontalRoadOwner);
+                    var verticalRoadOwner = board.GetRoadOwner(i, j, ERoads.Horizontals);
+                    pixels = GetRoadRepresentation(ERoads.Horizontals, verticalRoadOwner);
+                    for (var k = 0; k < 3; k++)
+                    {
+                        var pixel = new Pixel
+                        {
+                            Color = pixels.Color,
+                            Sign = pixels.Sign?[k]
+                        };
+                        showBoardApi.Pixels[i*2*3 + k, j * 2 + 1] = pixel;
+                    }
                 }
 
                 if (i + 1 < VerticesBoardSize && j + 1 < VerticesBoardSize)
                 {
                     var resource = board.GetTileResource(i, j);
-                    showBoardApi.Pixels[i*2+1, j*2+1] = GetTileRepresentation(resource);
+                    var number = board.GetTileNumber(i, j);
+                    pixels = GetTileRepresentation(resource, number);
+                    for (var k = 0; k < 3; k++)
+                    {
+                        var pixel = new Pixel
+                        {
+                            Color = pixels.Color,
+                            Sign = pixels.Sign?[k]
+                        };
+                        showBoardApi.Pixels[i*2*3 + 3 + k, j * 2 + 1] = pixel;
+                    }
                 }
             }
         }
@@ -75,28 +117,53 @@ public static class Mapper
         };
     }
 
-    private static Pixel GetVertexRepresentation(EVertexStatus vertexStatus, EPlayer owner)
+    private static Pixels GetVertexRepresentation(EVertexStatus vertexStatus, EPlayer owner)
     {
-        var pixel = new Pixel();
+        var pixel = new Pixels();
         pixel.Sign = vertexStatus switch
         {
-            EVertexStatus.Unsettled => "U-",
-            EVertexStatus.Settlement => "S-",
-            EVertexStatus.City => "C-",
+            EVertexStatus.Unsettled => new []
+            {
+                "----------",
+                "|  Empty |",
+                "----------"
+            },
+            EVertexStatus.Settlement => new []
+            {
+                "-------- ",
+                "|Village|",
+                "-------- "
+            },
+            EVertexStatus.City => new []
+            {
+                "-------- ",
+                "| City  |",
+                "-------- "
+            },
             _ => pixel.Sign
         };
         pixel.Color = GetPlayerColor(owner);
         return pixel;
     }
 
-    private static Pixel GetRoadRepresentation(ERoads eRoads, EPlayer owner)
+    private static Pixels GetRoadRepresentation(ERoads eRoads, EPlayer owner)
     {
-        var pixel = new Pixel
+        var pixel = new Pixels
         {
             Sign = eRoads switch
             {
-                ERoads.Horizontals => "--",
-                ERoads.Verticals => "| ",
+                ERoads.Horizontals => new []
+                {
+                    "|     |",
+                    "=======",
+                    "|     |"
+                },
+                ERoads.Verticals => new []
+                {
+                    "   |||   ",
+                    "   |||   ",
+                    "   |||   "
+                },
                 _ => throw new ArgumentOutOfRangeException(nameof(eRoads), eRoads, null)
             },
             Color = GetPlayerColor(owner)
@@ -104,18 +171,48 @@ public static class Mapper
         return pixel;
     }
 
-    private static Pixel GetTileRepresentation(EResource eResource)
+    private static Pixels GetTileRepresentation(EResource eResource, int number)
     {
-        var pixel = new Pixel
+        var pixel = new Pixels
         {
             Sign = eResource switch
             {
-                EResource.Iron => "I ",
-                EResource.Wheat => "H ",
-                EResource.Sheep => "S ",
-                EResource.Tin => "T ",
-                EResource.Wood => "W ",
-                EResource.None => "D ",
+                EResource.Iron => new []
+                {
+                    "-------- ", 
+                    $"|Iron({number:D2})",
+                    "-------- "
+                },
+                EResource.Wheat =>new []
+                {
+                    "-------- ", 
+                    $"Wheat({number:D2})",
+                    "-------- "
+                },
+                EResource.Sheep => new []
+                {
+                    "-------- ", 
+                    $"Sheep({number:D2})",
+                    "-------- "
+                },
+                EResource.Tin => new []
+                {
+                    "-------- ", 
+                    $"|Tin({number:D2})|",
+                    "-------- "
+                },
+                EResource.Wood => new []
+                {
+                    "-------- ", 
+                    $"|Wood({number:D2})",
+                    "-------- "
+                },
+                EResource.None => new []
+                {
+                    "--------", 
+                    "|Desert|",
+                    "--------"
+                },
                 _ => throw new ArgumentOutOfRangeException(nameof(eResource), eResource, null)
             },
             Color = eResource switch

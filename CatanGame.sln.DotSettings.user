@@ -84,4 +84,5 @@
     &lt;ProjectFile&gt;D3CA7E21-402D-4365-8F35-0CC33FC530AA/d:SystemTests/f:BoardTests.cs&lt;/ProjectFile&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UserDictionary/Words/=Catan/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Catan/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Expectimax/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -19,7 +19,7 @@ public class Ui : IUi
     {
         const int boardSize = 9;
         Console.WriteLine();
-        for (var i = 0; i < boardSize; i++)
+        for (var i = 0; i < boardSize * ShowBoardApi.LinesPerRepresentation; i++)
         {
             for (var j = 0; j < boardSize; j++)
             {

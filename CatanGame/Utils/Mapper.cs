@@ -20,7 +20,8 @@ public static class Mapper
             {
                 var eVertexStatus = board.GetVertexStatus(i, j);
                 var eOwner = board.GetVertexOwner(i, j);
-                var pixels = GetVertexRepresentation(eVertexStatus, eOwner);
+                var port = board.GetVertexPort(i, j);
+                var pixels = GetVertexRepresentation(eVertexStatus, eOwner, port);
                 for (var k = 0; k < 3; k++)
                 {
                     if (pixels.Sign == null)
@@ -117,26 +118,36 @@ public static class Mapper
         };
     }
 
-    private static Pixels GetVertexRepresentation(EVertexStatus vertexStatus, EPlayer owner)
+    private static Pixels GetVertexRepresentation(EVertexStatus vertexStatus, EPlayer owner, EResource port)
     {
         var pixel = new Pixels();
+        var portRepresentation = port switch
+        {
+            EResource.Iron => "--[Iron]--",
+            EResource.Wood => "--[Wood]--",
+            EResource.Wheat => "--[Wheat]-",
+            EResource.Sheep => "--[Sheep]-",
+            EResource.Tin => "--[Tin]---",
+            EResource.PointCard => "--[All]---",
+            EResource.None => "----------",
+        };
         pixel.Sign = vertexStatus switch
         {
             EVertexStatus.Unsettled => new []
             {
-                "----------",
+                portRepresentation,
                 "|  Empty |",
                 "----------"
             },
             EVertexStatus.Settlement => new []
             {
-                "-------- ",
+                portRepresentation,
                 "|Village|",
                 "-------- "
             },
             EVertexStatus.City => new []
             {
-                "-------- ",
+                portRepresentation,
                 "| City  |",
                 "-------- "
             },

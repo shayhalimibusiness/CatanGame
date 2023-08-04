@@ -11,6 +11,7 @@ public interface IBoard
     int GetTileNumber(int x, int y);
 
     EResource PlayerHasPortIn(EPlayer ePlayer, int x, int y);
+    EResource GetVertexPort(int x, int y);
     Dictionary<EPlayer, Dictionary<EResource, int>> GetResources(int diceRoll);
 
     void SetVertexOwner(int x, int y, EPlayer ePlayer);

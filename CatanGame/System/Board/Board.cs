@@ -49,6 +49,13 @@ public class Board : IBoard
 
     public EResource PlayerHasPortIn(EPlayer ePlayer, int x, int y)
     {
+        return _vertices[x, y].Owner != ePlayer ? 
+            EResource.None : 
+            _vertices[x, y].GetPort;
+    }
+
+    public EResource GetVertexPort(int x, int y)
+    {
         return _vertices[x, y].GetPort;
     }
 

@@ -172,7 +172,7 @@ public class Evaluator : IEvaluator
             }
             if (_board.GetTileResource(i, j) != EResource.None)
             {
-                vertexProduction += _board.GetTileNumber(i, j);
+                vertexProduction += Math.Abs(_board.GetTileNumber(i, j) - 7);
             }
         }
 

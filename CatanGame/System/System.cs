@@ -246,14 +246,14 @@ public class System : ISystem
 
     public void Trade(EPlayer ePlayer, EResource sell, EResource buy, int times)
     {
-        var marketRate = 4;
+        var marketRate = GetMarketRate(ePlayer, sell);
         _allCards[ePlayer].TransferResources(sell, -times * marketRate);
         _allCards[ePlayer].TransferResources(buy, times);
     }
 
     public void TradeUndo(EPlayer ePlayer, EResource sell, EResource buy, int times)
     {
-        var marketRate = 4;
+        var marketRate = GetMarketRate(ePlayer, sell);
         _allCards[ePlayer].TransferResources(sell, times * marketRate);
         _allCards[ePlayer].TransferResources(buy, -times);
     }
@@ -266,6 +266,16 @@ public class System : ISystem
     public int GetCardsBoughtByPlayer(EPlayer ePlayer)
     {
         return _pointCardsDrawsHistory[ePlayer].Count;
+    }
+
+    public int GetMarketRate(EPlayer ePlayer, EResource eResource)
+    {
+        var cards = GetCards(ePlayer);
+        if (cards.HasPort(eResource))
+        {
+            return 2;
+        } 
+        return cards.HasPort(EResource.PointCard) ? 3 : 4;
     }
 
     private bool IsPointCard()

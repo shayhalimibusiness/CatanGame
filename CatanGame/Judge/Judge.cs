@@ -193,12 +193,7 @@ public class Judge : IJudge
 
     private int GetMarketRate(EResource eResource)
     {
-        var cards = _system.GetCards(_ePlayer);
-        if (cards.HasPort(eResource))
-        {
-            return 2;
-        } 
-        return cards.HasPort(EResource.PointCard) ? 3 : 4;
+        return _system.GetMarketRate(_ePlayer, eResource);
     }
 
     private List<(int, int, ERoads)> GetEligibleRoads()

@@ -6,7 +6,7 @@ public static class BoardFactory
 {
     public static IBoard CreateRandomBoard()
     {
-        var vertices = CreateBlankVertices();
+        var vertices = CreateBlankVerticesWithPort();
         var horizontalRoads = CreateBlankHorizontalRoads();
         var verticalRoads = CreateBlankVerticalRoads();
 
@@ -118,6 +118,26 @@ public static class BoardFactory
             for (var j = 0; j < map.GetLength(1); j++)
             {
                 map[i, j] = new Vertex(EPlayer.None, EVertexStatus.Unsettled);
+            }
+        }
+
+        return map;
+    }
+    
+    private static IVertex[,] CreateBlankVerticesWithPort()
+    {
+        var map = new IVertex[5, 5];
+        for (var i = 0; i < map.GetLength(0); i++)
+        {
+            for (var j = 0; j < map.GetLength(1); j++)
+            {
+                var random = new Random();
+                var port = random.Next(0, 4) == 0 ? (EResource)random.Next(0, 6) : EResource.None; 
+                map[i, j] = new Vertex(
+                    EPlayer.None, 
+                    EVertexStatus.Unsettled,
+                    port
+                    );
             }
         }
 

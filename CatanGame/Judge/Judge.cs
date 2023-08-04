@@ -268,8 +268,27 @@ public class Judge : IJudge
             return false;
         }
 
-        return true;
+        var neighbors = GetNeighborVerticesToRoad(x, y, eRoad);
+        
+        return (
+            from neighbor in neighbors 
+            let nX = neighbor.Item1 
+            let nY = neighbor.Item2 
+            let board = _system.GetBoard()
+            where board.GetVertexOwner(nX, nY) == _ePlayer 
+            select nX
+        ).Any();
     }
+
+    private List<(int, int)> GetNeighborVerticesToRoad(int x, int y, ERoads eRoads)
+    {
+        return eRoads switch
+        {
+            ERoads.Horizontals => new List<(int, int)> { (x, y), (x, y + 1) },
+            ERoads.Verticals => new List<(int, int)> { (x, y), (x + 1, y) },
+            _ => throw new ArgumentOutOfRangeException(nameof(eRoads), eRoads, null)
+        };
+    } 
 
     private bool IsRoadInRange(int x, int y, ERoads eRoad)
     {

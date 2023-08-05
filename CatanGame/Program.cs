@@ -18,5 +18,5 @@ Console.WriteLine("Hello, World!");
 // UiTestsPrivates.Judge_GetNeighborRoads_ShowVerticalNeighbors();
 // UiTestsPrivates.Judge_GetNeighborRoads_ShowHorizontalNeighbors();
 
-var game = GameFactory.Create1PlayerGame();
+var game = GameFactory.Create1HeuristicPlayerGame();
 game.Run();

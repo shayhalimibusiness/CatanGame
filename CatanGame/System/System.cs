@@ -36,6 +36,18 @@ public class System : ISystem
         _ui.ShowDice(cube1, cube2);
     }
 
+    public void SetDiceRoll(int dice)
+    {
+        _dice = dice;
+        DistributeResources();
+    }
+
+    public void SetDiceRollUndo(int dice)
+    {
+        _dice = dice;
+        DistributeResourcesUndo();
+    }
+
     public IBoard GetBoard()
     {
         return _board;
@@ -287,6 +299,11 @@ public class System : ISystem
 
     private void DistributeResources()
     {
+        if (_dice == 7)
+        {
+            return;
+        }
+        
         var neighborVerticesOffset = new[] { (0, 0), (0, 1), (1, 0), (1, 1) }; 
         for (var i = 0; i < GlobalResources.TilesSize; i++)
         {
@@ -309,6 +326,41 @@ public class System : ISystem
                     {
                         GetCards(_board.GetVertexOwner(i + x, j + y))
                             .TransferResources(_board.GetTileResource(i + x, j + y), 2);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void DistributeResourcesUndo()
+    {
+        if (_dice == 7)
+        {
+            return;
+        }
+        
+        var neighborVerticesOffset = new[] { (0, 0), (0, 1), (1, 0), (1, 1) }; 
+        for (var i = 0; i < GlobalResources.TilesSize; i++)
+        {
+            for (var j = 0; j < GlobalResources.TilesSize; j++)
+            {
+                if (_board.GetTileNumber(i, j) != _dice || _board.GetTileResource(i, j) == EResource.None)
+                {
+                    continue;
+                }
+                
+                foreach (var offset in neighborVerticesOffset)
+                {
+                    var (x, y) = offset;
+                    if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.Settlement)
+                    {
+                        GetCards(_board.GetVertexOwner(i + x, j + y))
+                            .TransferResources(_board.GetTileResource(i + x, j + y), -1);
+                    }
+                    if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.City)
+                    {
+                        GetCards(_board.GetVertexOwner(i + x, j + y))
+                            .TransferResources(_board.GetTileResource(i + x, j + y), -2);
                     }
                 }
             }

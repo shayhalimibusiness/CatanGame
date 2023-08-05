@@ -8,6 +8,8 @@ namespace CatanGame.System;
 public interface ISystem
 {
      void RoleDice();
+     void SetDiceRoll(int dice);
+     void SetDiceRollUndo(int dice);
      IBoard GetBoard();
      ICards GetCards(EPlayer ePlayer);
      Dictionary<EPlayer, ICards> GetAllCards();

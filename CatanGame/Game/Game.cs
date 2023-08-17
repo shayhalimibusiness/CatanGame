@@ -1,4 +1,5 @@
 using CatanGame.Enums;
+using CatanGame.History;
 using CatanGame.Player;
 using CatanGame.System;
 using CatanGame.UI;
@@ -10,12 +11,14 @@ public class Game : IGame
 {
     private readonly ISystem _system;
     private readonly IUi _ui;
+    private readonly IHistory _history;
     private readonly IEnumerable<IPlayer> _players;
 
-    public Game(ISystem system, IUi ui, IEnumerable<IPlayer> players)
+    public Game(ISystem system, IUi ui, IEnumerable<IPlayer> players, IHistory history)
     {
         _system = system;
         _ui = ui;
+        _history = history;
         _players = players;
     }
     

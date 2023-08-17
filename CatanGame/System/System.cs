@@ -320,12 +320,12 @@ public class System : ISystem
                     if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.Settlement)
                     {
                         GetCards(_board.GetVertexOwner(i + x, j + y))
-                            .TransferResources(_board.GetTileResource(i + x, j + y), 1);
+                            .TransferResources(_board.GetTileResource(i, j), 1);
                     }
                     if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.City)
                     {
                         GetCards(_board.GetVertexOwner(i + x, j + y))
-                            .TransferResources(_board.GetTileResource(i + x, j + y), 2);
+                            .TransferResources(_board.GetTileResource(i, j), 2);
                     }
                 }
             }
@@ -355,12 +355,12 @@ public class System : ISystem
                     if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.Settlement)
                     {
                         GetCards(_board.GetVertexOwner(i + x, j + y))
-                            .TransferResources(_board.GetTileResource(i + x, j + y), -1);
+                            .TransferResources(_board.GetTileResource(i, j), -1);
                     }
                     if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.City)
                     {
                         GetCards(_board.GetVertexOwner(i + x, j + y))
-                            .TransferResources(_board.GetTileResource(i + x, j + y), -2);
+                            .TransferResources(_board.GetTileResource(i, j), -2);
                     }
                 }
             }

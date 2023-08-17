@@ -26,6 +26,7 @@ public static class BuilderFactory
         builder.System = new System.System(builder.Board, builder.AllCards, builder.Ui);
         builder.Evaluator = new Evaluator.Evaluator(builder.System, EPlayer.Player1);
         builder.Judge = new Judge.Judge(builder.System, builder.Ui, EPlayer.Player1);
+        builder.History = HistoryFactory.CreateHistory(builder);
         
         return builder;
     }

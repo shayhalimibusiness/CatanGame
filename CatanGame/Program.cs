@@ -1,22 +1,27 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using CatanGame.Builder;
+using CatanGame.DataBaseProxy;
+using CatanGame.DataBaseProxy.Models;
+using CatanGame.Enums;
 using CatanGame.Game;
+using CatanGame.History;
+using CatanGame.Json;
 using CatanGame.UI;
 
 Console.WriteLine("Hello, World!");
 
-// var uiTest = new UiTests();
-// uiTest.ApiTests();
-// uiTest.ShowBoard_GetRandomBoard_Show();
-// uiTest.ShowDice_GetSystemRoll_Show();
-// uiTest.ShowStatusApi_SystemGetGameSummery_Show();
-// uiTest.Action_BuildSettlement_Show();
-// uiTest.Action_BuildCity_Show();
-// uiTest.Action_BuildRoad_Show();
-// uiTest.Action_BuyCard_Show_10Times();
-// uiTest.Action_Trade_NoPort_Show();
-// UiTestsPrivates.Judge_GetNeighborRoads_ShowVerticalNeighbors();
-// UiTestsPrivates.Judge_GetNeighborRoads_ShowHorizontalNeighbors();
-
-var game = GameFactory.Create1HeuristicPlayerGame();
+var game = GameFactory.Create1PlayerGame(BuilderFactory.Create1ExpectimaxPlayerFullBuilder());
 game.Run();
+
+// var jsonFileManager = new JsonFileManager<FinalScore>(@"C:\Users\shay.halimi\Desktop\ddd.txt");
+// jsonFileManager.Save(new FinalScore
+// {
+//     EStrategy = EStrategy.Expectimax,
+//     Score = 4
+// });
+// Console.WriteLine(jsonFileManager.Load().EStrategy);
+//
+// var history = HistoryFactory.CreateHistory(BuilderFactory.Create1HeuristicPlayerFullBuilder());
+// history.LogScore(EStrategy.Expectimax, EPlayer.Player1);
+// history.Save();

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CatanGame.Enums;
 using CatanGame.History;
 using CatanGame.Player;
@@ -13,6 +14,7 @@ public class Game : IGame
     private readonly IUi _ui;
     private readonly IHistory _history;
     private readonly IEnumerable<IPlayer> _players;
+    private readonly Stopwatch _stopwatch;
 
     public Game(ISystem system, IUi ui, IEnumerable<IPlayer> players, IHistory history)
     {
@@ -20,6 +22,7 @@ public class Game : IGame
         _ui = ui;
         _history = history;
         _players = players;
+        _stopwatch = new Stopwatch();
     }
     
     public void Run()
@@ -35,6 +38,7 @@ public class Game : IGame
             {
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.Write($"This is {names[(EPlayer)playerIndex]} turn.");
+                _stopwatch.Start();
                 if (i is 0 or 1)
                 {
                     player.PlayStartTurn();
@@ -44,10 +48,13 @@ public class Game : IGame
                     _system.RoleDice();
                     player.Play();
                 }
+                _stopwatch.Stop();
+                _history.LogTime(EStrategy.Expectimax, i, _stopwatch.Elapsed);
                 playerIndex++;
             }
             _ui.ShowStatus(Mapper.ShowStatusApiMapper(_system));
             _ui.ShowAllCards(_system.GetAllCards());
         }
+        _history.Save();
     }
 }

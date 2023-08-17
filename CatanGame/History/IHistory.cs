@@ -1,12 +1,11 @@
+using CatanGame.Enums;
 using CatanGame.Models;
 
 namespace CatanGame.History;
 
 public interface IHistory
 {
-    string ShowLog(int index);
-    void LogBoard(LogBoardApi logBoardApi);
-    void LogCards(LogCardsApi logCardsApi);
-    void LogAllCards(LogAllCardsApi logAllCardsApi);
-    void LogStatus(LogStatusApi logStatusApi);
+    void LogScore(EStrategy eStrategy, EPlayer ePlayer);
+    void LogTime(EStrategy eStrategy, int round, TimeSpan timeSpan);
+    void Save();
 }

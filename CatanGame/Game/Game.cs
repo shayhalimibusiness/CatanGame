@@ -50,6 +50,7 @@ public class Game : IGame
                 }
                 _stopwatch.Stop();
                 _history.LogTime(EStrategy.Expectimax, i, _stopwatch.Elapsed);
+                _stopwatch.Restart();
                 playerIndex++;
             }
             _ui.ShowStatus(Mapper.ShowStatusApiMapper(_system));

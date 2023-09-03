@@ -11,7 +11,7 @@ namespace CatanGame.Builder;
 
 public static class BuilderFactory
 {
-    private const string HistoryDirPath = @"C:\Users\shay.halimi\Documents\Catan\Catan\History";
+    private const string HistoryDirPath = @"C:\Users\shay.halimi\Documents\Catan";
 
     public static Builder Create1PlayerEmptyGameFullBuilder()
     {
@@ -23,7 +23,7 @@ public static class BuilderFactory
             AllCards = CardsFactory.Create1PlayerBlankAllCards(),
             Ui = UiFactory.CreateUi(),
         };
-        builder.System = new System.System(builder.Board, builder.AllCards, builder.Ui);
+        builder.System = new System.System(builder.Board, builder.AllCards, builder.Ui); 
         builder.Evaluator = new Evaluator.Evaluator(builder.System, EPlayer.Player1);
         builder.Judge = new Judge.Judge(builder.System, builder.Ui, EPlayer.Player1);
         builder.History = HistoryFactory.CreateHistory(builder);

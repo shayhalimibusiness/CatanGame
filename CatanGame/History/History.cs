@@ -41,7 +41,7 @@ public class History : IHistory
         {
             EStrategy = eStrategy,
             Round = round,
-            Time = timeSpan
+            Time = timeSpan == TimeSpan.Zero ? TimeSpan.MinValue : timeSpan
         });
     }
 

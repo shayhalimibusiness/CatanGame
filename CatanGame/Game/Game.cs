@@ -49,7 +49,7 @@ public class Game : IGame
                     player.Play();
                 }
                 _stopwatch.Stop();
-                _history.LogTime(EStrategy.Expectimax, i, _stopwatch.Elapsed);
+                _history.LogTime(EStrategy.Heuristic, i, _stopwatch.Elapsed);
                 _stopwatch.Restart();
                 playerIndex++;
             }

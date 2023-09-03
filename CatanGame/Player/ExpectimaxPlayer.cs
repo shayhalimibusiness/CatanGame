@@ -54,6 +54,8 @@ public class ExpectimaxPlayer : IPlayer
     {
         bestValue = -1000m;
         IAction? bestAction = null;
+        var lockObject = new object();
+
         if (depth == 0)
         {
             bestValue = _evaluator.Evaluate();
@@ -66,29 +68,47 @@ public class ExpectimaxPlayer : IPlayer
             return bestAction;
         }
 
-        foreach (var action in possibleActions)
-        {
-            decimal expectation = 0;
-            action.Do();
+        Parallel.ForEach(possibleActions,
+            // Thread-local initializer
+            () => (bestAction: (IAction?)null, bestValue: -1000m),
 
-            for (var diceRoll = 2; diceRoll <= 12; diceRoll++)
+            // Body
+            (action, loopState, localBest) =>
             {
-                _system.SetDiceRoll(diceRoll);
-                Expectimax(depth - 1, getActions, out var childValue);
-                _system.SetDiceRollUndo(diceRoll);
-                expectation += childValue * Utils.Utils.Probability(diceRoll);
-            }
+                decimal expectation = 0;
 
-            action.Undo();
+                action.Do();
+                for (var diceRoll = 2; diceRoll <= 12; diceRoll++)
+                {
+                    _system.SetDiceRoll(diceRoll);
+                    Expectimax(depth - 1, getActions, out var childValue);
+                    _system.SetDiceRollUndo(diceRoll);
+                    expectation += childValue * Utils.Utils.Probability(diceRoll);
+                }
+                action.Undo();
 
-            if (expectation <= bestValue)
+                if (expectation > localBest.bestValue)
+                {
+                    localBest.bestValue = expectation;
+                    localBest.bestAction = action;
+                }
+
+                return localBest;
+            },
+
+            // Finalizer
+            localBest =>
             {
-                continue;
+                lock (lockObject)
+                {
+                    if (localBest.bestValue > bestValue)
+                    {
+                        bestValue = localBest.bestValue;
+                        bestAction = localBest.bestAction;
+                    }
+                }
             }
-            
-            bestValue = expectation;
-            bestAction = action;
-        }
+        );
 
         return bestAction;
     }

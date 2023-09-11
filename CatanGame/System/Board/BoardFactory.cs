@@ -4,6 +4,11 @@ namespace CatanGame.System.Board;
 
 public static class BoardFactory
 {
+    public static IBoard? CreateBoardCopy(IBoard other)
+    {
+        return other is not Board board ? null : new Board(board);
+    }
+    
     public static IBoard CreateRandomBoard()
     {
         var vertices = CreateBlankVerticesWithPort();

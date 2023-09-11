@@ -25,6 +25,33 @@ public class System : ISystem
             _pointCardsDrawsHistory[ePlayer] = new Stack<bool>();
         }
     }
+    
+    // Copy constructor
+    public System(System other)
+    {
+        // Deep copy of _board
+        _board = BoardFactory.CreateBoardCopy(other._board)!;
+
+        // Deep copy of _allCards
+        _allCards = new Dictionary<EPlayer, ICards>();
+        foreach (var pair in other._allCards)
+        {
+            _allCards[pair.Key] = CardsFactory.CreateCardsCopy(pair.Value)!;
+        }
+
+        // Shallow copy of _ui (assuming UI doesn't need to be deep copied)
+        _ui = other._ui;
+
+        // Deep copy of _pointCardsDrawsHistory
+        _pointCardsDrawsHistory = new Dictionary<EPlayer, Stack<bool>>();
+        foreach (var pair in other._pointCardsDrawsHistory)
+        {
+            _pointCardsDrawsHistory[pair.Key] = new Stack<bool>(pair.Value);
+        }
+
+        // Copy _dice
+        _dice = other._dice;
+    }
 
     public void RoleDice()
     {

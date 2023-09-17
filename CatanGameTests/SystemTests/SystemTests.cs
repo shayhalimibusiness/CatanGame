@@ -22,7 +22,7 @@ public class SystemTests
         var originalTotalPoints = cards.GetTotalPoints();
         
         // Act
-        var copy = SystemFactory.CreateSystemCopy(_system);
+        var copy = SystemFactory.CopySystem(_system);
         
         // Assert
         var totalPointsCopy = copy!.GetCards(EPlayer.Player1).GetTotalPoints();
@@ -36,7 +36,7 @@ public class SystemTests
         _system.GetBoard().SetVertexOwner(0,0, EPlayer.Player2);
         
         // Act
-        var copy = SystemFactory.CreateSystemCopy(_system);
+        var copy = SystemFactory.CopySystem(_system);
         
         // Assert
         var owner = _system.GetBoard().GetVertexOwner(0, 0);
@@ -51,7 +51,7 @@ public class SystemTests
         _system.GetBoard().SetVertexOwner(0,0, EPlayer.Player2);
         
         // Act
-        var copy = SystemFactory.CreateSystemCopy(_system);
+        var copy = SystemFactory.CopySystem(_system);
         
         // Assert
         Assert.That(copy, Is.Not.Null);

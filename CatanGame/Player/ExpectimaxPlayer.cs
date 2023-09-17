@@ -9,9 +9,9 @@ public class ExpectimaxPlayer : IPlayer
 {
     private const int MaxDepth = 3;
     
-    private IJudge _judge;
-    private IEvaluator _evaluator;
-    private ISystem _system;
+    private readonly IJudge _judge;
+    private readonly IEvaluator _evaluator;
+    private readonly ISystem _system;
 
     public ExpectimaxPlayer(IJudge judge, IEvaluator evaluator, ISystem system)
     {

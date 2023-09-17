@@ -8,7 +8,7 @@ namespace CatanGame.System;
 
 public static class SystemFactory
 {
-    public static ISystem? CreateSystemCopy(ISystem other)
+    public static ISystem? CopySystem(ISystem other)
     {
         return other is not System system ? null : new System(system);
     }

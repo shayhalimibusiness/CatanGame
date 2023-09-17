@@ -14,6 +14,54 @@ public class SystemTests
     }
 
     [Test]
+    public void CopyConstructor_SameTotalScore()
+    {
+        // Arrange 
+        var cards = _system.GetCards(EPlayer.Player1);
+        cards.TransferTotalPoints(147);
+        var originalTotalPoints = cards.GetTotalPoints();
+        
+        // Act
+        var copy = SystemFactory.CreateSystemCopy(_system);
+        
+        // Assert
+        var totalPointsCopy = copy!.GetCards(EPlayer.Player1).GetTotalPoints();
+        Assert.That(totalPointsCopy, Is.EqualTo(originalTotalPoints));
+    }
+    
+    [Test]
+    public void CopyConstructor_SameVertexStatus()
+    {
+        // Arrange
+        _system.GetBoard().SetVertexOwner(0,0, EPlayer.Player2);
+        
+        // Act
+        var copy = SystemFactory.CreateSystemCopy(_system);
+        
+        // Assert
+        var owner = _system.GetBoard().GetVertexOwner(0, 0);
+        Assert.That(copy, Is.Not.Null);
+        Assert.That(owner, Is.EqualTo(EPlayer.Player2));
+    }
+    
+    [Test]
+    public void CopyConstructor_ChangeVertexAfter_CopyRemainsUnchanged()
+    {
+        // Arrange
+        _system.GetBoard().SetVertexOwner(0,0, EPlayer.Player2);
+        
+        // Act
+        var copy = SystemFactory.CreateSystemCopy(_system);
+        
+        // Assert
+        Assert.That(copy, Is.Not.Null);
+        _system.GetBoard().SetVertexOwner(0,0, EPlayer.Player1);
+        var owner = _system.GetBoard().GetVertexOwner(0, 0);
+        var copyOwner = copy!.GetBoard().GetVertexOwner(0, 0);
+        Assert.That(owner, Is.EqualTo(EPlayer.Player1));
+    }
+    
+    [Test]
     public void GetBoard_BlankBoard_FirstVertexIsUnsettled()
     {
         var board = _system.GetBoard();

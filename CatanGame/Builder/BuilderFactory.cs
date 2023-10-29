@@ -1,6 +1,7 @@
 using CatanGame.Enums;
 using CatanGame.Game;
 using CatanGame.History;
+using CatanGame.Judge;
 using CatanGame.Player;
 using CatanGame.System;
 using CatanGame.System.Board;
@@ -42,10 +43,26 @@ public static class BuilderFactory
     
     public static Builder Create1ExpectimaxPlayerFullBuilder()
     {
-        var builder = BuilderFactory.Create1PlayerEmptyGameFullBuilder();
+        var builder = Create1PlayerEmptyGameFullBuilder();
         builder.Players = new List<IPlayer>
         {
             new ExpectimaxPlayer(
+                builder.Judge!, 
+                builder.Evaluator!,
+                builder.System!)
+        };
+        builder.Game = GameFactory.Create1PlayerGame(builder);
+        
+        return builder;
+    }
+    
+    public static Builder Create1ParallelExpectimaxPlayerFullBuilder()
+    {
+        var builder = Create1PlayerEmptyGameFullBuilder();
+        builder.Judge = JudgeFactory.CreateParallelJudge();
+        builder.Players = new List<IPlayer>
+        {
+            new ParallelExpectimaxPlayer(
                 builder.Judge!, 
                 builder.Evaluator!,
                 builder.System!)

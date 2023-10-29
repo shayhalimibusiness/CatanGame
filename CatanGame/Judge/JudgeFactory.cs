@@ -38,6 +38,17 @@ public static class JudgeFactory
         return judge;
     }
     
+    public static IJudge CreateParallelJudge()
+    {
+        const EPlayer ePlayer = EPlayer.Player1;
+        var ui = UiFactory.CreateUi();
+        var system = SystemFactory.CreateSystemAndLinqUi(ui);
+        
+        var judge = new ParallelJudge(system, ui, ePlayer);
+
+        return judge;
+    }
+    
     public static IJudge CreateJudge()
     {
         const EPlayer ePlayer = EPlayer.Player1;

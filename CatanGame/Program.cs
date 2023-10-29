@@ -11,7 +11,7 @@ using CatanGame.UI;
 
 Console.WriteLine("Hello, World!");
 
-var game = GameFactory.Create1PlayerGame(BuilderFactory.Create1HeuristicPlayerFullBuilder());
+var game = GameFactory.Create1PlayerGame(BuilderFactory.Create1ParallelExpectimaxPlayerFullBuilder());
 game.Run();
 
 // var jsonFileManager = new JsonFileManager<FinalScore>(@"C:\Users\shay.halimi\Desktop\ddd.txt");

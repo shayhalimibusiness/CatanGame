@@ -74,10 +74,11 @@ public class ParallelExpectimaxPlayer: IPlayer
             for (var diceRoll = 2; diceRoll <= 12; diceRoll++)
             {
                 var systemCopy = SystemFactory.CopySystem(system)!;
+                var judgeCopy = JudgeFactory.CopyJudgeChangeSystem(_judge, systemCopy)!.GetActions;
                 systemCopy.SetDiceRoll(diceRoll);
                 Expectimax(
                     depth - 1, 
-                    JudgeFactory.CopyJudgeChangeSystem(_judge, systemCopy)!.GetActions, 
+                    judgeCopy, 
                     out var childValue,
                     systemCopy);
                 expectation += childValue * Utils.Utils.Probability(diceRoll);

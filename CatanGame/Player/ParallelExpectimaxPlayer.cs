@@ -63,16 +63,21 @@ public class ParallelExpectimaxPlayer: IPlayer
         var possibleActions = getActions();
         if (possibleActions.Count == 0)
         {
+            bestValue = _evaluator.Evaluate();
             return bestAction;
         }
 
-        foreach (var action in possibleActions)
-        {
-            decimal expectation = 0;
-            action.Do();
+        // Use a list to store the results of parallel tasks
+        var actionsExpectations = new List<(IAction Action, decimal Expectation)>();
 
-            for (var diceRoll = 2; diceRoll <= 12; diceRoll++)
+        Parallel.ForEach(possibleActions, action =>
+        {
+            action.Do();
+            
+            var diceRollsExpectations = new List<(int diceRoll, decimal Expectation)>();
+            Parallel.For(2, 13, diceRoll =>
             {
+                decimal expectation = 0;
                 var systemCopy = SystemFactory.CopySystem(system)!;
                 var judgeCopy = JudgeFactory.CopyJudgeChangeSystem(_judge, systemCopy)!.GetActions;
                 systemCopy.SetDiceRoll(diceRoll);
@@ -81,17 +86,25 @@ public class ParallelExpectimaxPlayer: IPlayer
                     judgeCopy, 
                     out var childValue,
                     systemCopy);
-                expectation += childValue * Utils.Utils.Probability(diceRoll);
-            }
 
-            if (expectation <= bestValue)
-            {
-                continue;
-            }
-            
-            bestValue = expectation;
-            bestAction = action;
+                expectation += childValue * Utils.Utils.Probability(diceRoll);
+                diceRollsExpectations.Add((diceRoll, expectation));
+            });
+
+            actionsExpectations.Add((action, diceRollsExpectations
+                .Sum(pair => pair.Expectation)));
+        });
+
+        // Find the best result outside the parallel loop
+        var bestResult = actionsExpectations
+            .OrderByDescending(r => r.Expectation)
+            .FirstOrDefault();
+        if (bestResult == default)
+        {
+            return bestAction;
         }
+        bestAction = bestResult.Action;
+        bestValue = bestResult.Expectation;
 
         return bestAction;
     }

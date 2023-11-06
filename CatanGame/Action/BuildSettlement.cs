@@ -22,9 +22,10 @@ public class BuildSettlement : IAction
         _ui = ui;
     }
     
-    public void Do()
+    public ISystem Do()
     {
         _system.BuildSettlement(_x, _y, _ePlayer);
+        return _system;
     }
 
     public void Undo()

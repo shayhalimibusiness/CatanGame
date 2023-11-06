@@ -1,8 +1,10 @@
+using CatanGame.System;
+
 namespace CatanGame.Action;
 
 public interface IAction
 {
-    void Do();
+    ISystem Do();
     void Undo();
     void Show();
 }

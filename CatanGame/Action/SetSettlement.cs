@@ -22,9 +22,10 @@ public class SetSettlement : IAction
         _ui = ui;
     }
     
-    public void Do()
+    public ISystem Do()
     {
         _system.SetSettlement(_x, _y, _ePlayer);
+        return _system;
     }
 
     public void Undo()

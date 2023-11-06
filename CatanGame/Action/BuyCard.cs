@@ -20,9 +20,10 @@ public class BuyCard : IAction
         _ePlayer = ePlayer;
     }
     
-    public void Do()
+    public ISystem Do()
     {
         _isPoint = _system.BuyCard(_ePlayer);
+        return _system;
     }
 
     public void Undo()

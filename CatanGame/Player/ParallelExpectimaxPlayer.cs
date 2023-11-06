@@ -22,7 +22,7 @@ public class ParallelExpectimaxPlayer: IPlayer
 
     public void Play()
     {
-        var action = Expectimax(MaxDepth, _judge.GetActions, out _, _system);
+        var action = Expectimax(MaxDepth, _judge.GetActions, out _);
         if (action == null)
         {
             return;
@@ -33,7 +33,7 @@ public class ParallelExpectimaxPlayer: IPlayer
 
     public void PlayStartTurn()
     {
-        var action = Expectimax(MaxDepth, _judge.GetFirstSettlementsActions, out _, _system);
+        var action = Expectimax(MaxDepth, _judge.GetFirstSettlementsActions, out _);
         if (action == null)
         {
             throw new Exception("There should be plenty of options for the first turns!");
@@ -41,7 +41,7 @@ public class ParallelExpectimaxPlayer: IPlayer
         action.Do();
         action.Show();
         
-        action = Expectimax(MaxDepth, _judge.GetFirstRoadsActions, out _, _system);
+        action = Expectimax(MaxDepth, _judge.GetFirstRoadsActions, out _);
         if (action == null)
         {
             throw new Exception("There should be plenty of options for the first turns!");
@@ -50,7 +50,7 @@ public class ParallelExpectimaxPlayer: IPlayer
         action.Show();
     }
 
-    private IAction? Expectimax(int depth, Func<List<IAction>> getActions, out decimal bestValue, ISystem system)
+    private IAction? Expectimax(int depth, Func<List<IAction>> getActions, out decimal bestValue)
     {
         bestValue = -1000m;
         IAction? bestAction = null;
@@ -72,24 +72,25 @@ public class ParallelExpectimaxPlayer: IPlayer
 
         Parallel.ForEach(possibleActions, action =>
         {
-            action.Do();
+            var changedSystem = action.Do();
             
             var diceRollsExpectations = new List<(int diceRoll, decimal Expectation)>();
             Parallel.For(2, 13, diceRoll =>
             {
                 decimal expectation = 0;
-                var systemCopy = SystemFactory.CopySystem(system)!;
-                var judgeCopy = JudgeFactory.CopyJudgeChangeSystem(_judge, systemCopy)!.GetActions;
+                var systemCopy = SystemFactory.CopySystem(changedSystem)!;
+                var judgeCopyGetActions = JudgeFactory.CopyParallelJudgeChangeSystem(_judge, systemCopy)!.GetActions;
                 systemCopy.SetDiceRoll(diceRoll);
                 Expectimax(
                     depth - 1, 
-                    judgeCopy, 
-                    out var childValue,
-                    systemCopy);
+                    judgeCopyGetActions, 
+                    out var childValue);
 
                 expectation += childValue * Utils.Utils.Probability(diceRoll);
                 diceRollsExpectations.Add((diceRoll, expectation));
             });
+            
+            action.Undo();
 
             actionsExpectations.Add((action, diceRollsExpectations
                 .Sum(pair => pair.Expectation)));

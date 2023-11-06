@@ -7,7 +7,7 @@ namespace CatanGame.Judge;
 
 public static class JudgeFactory
 {
-    public static IJudge? CopyJudgeChangeSystem(IJudge other, ISystem system)
+    public static IJudge? CopyParallelJudgeChangeSystem(IJudge other, ISystem system)
     {
         if (other is not ParallelJudge otherJudge)
         {
@@ -17,7 +17,7 @@ public static class JudgeFactory
         var ePlayer = otherJudge._ePlayer;
         var ui = UiFactory.CreateUi();
         
-        var judge = new Judge(system, ui, ePlayer);
+        var judge = new ParallelJudge(system, ui, ePlayer);
 
         return judge;
     }

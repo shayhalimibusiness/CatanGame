@@ -25,9 +25,10 @@ public class Trade : IAction
         _amount = amount;
     }
     
-    public void Do()
+    public ISystem Do()
     {
         _system.Trade(_ePlayer, _sell, _buy, _amount);
+        return _system;
     }
 
     public void Undo()

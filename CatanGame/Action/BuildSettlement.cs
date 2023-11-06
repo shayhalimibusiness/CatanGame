@@ -27,6 +27,12 @@ public class BuildSettlement : IAction
         _system.BuildSettlement(_x, _y, _ePlayer);
         return _system;
     }
+    
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
+    }
 
     public void Undo()
     {

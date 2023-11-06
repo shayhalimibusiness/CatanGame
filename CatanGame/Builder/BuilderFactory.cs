@@ -59,7 +59,10 @@ public static class BuilderFactory
     public static Builder Create1ParallelExpectimaxPlayerFullBuilder()
     {
         var builder = Create1PlayerEmptyGameFullBuilder();
-        builder.Judge = JudgeFactory.CreateParallelJudge();
+        builder.Judge = new ParallelJudge(
+            builder.System!, 
+            builder.Ui!, 
+            EPlayer.Player1);
         builder.Players = new List<IPlayer>
         {
             new ParallelExpectimaxPlayer(

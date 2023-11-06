@@ -8,7 +8,7 @@ namespace CatanGame.Action;
 
 public class BuyCard : IAction
 {
-    private readonly ISystem _system;
+    private ISystem _system;
     private readonly EPlayer _ePlayer;
     private bool _isPoint = false;
     private readonly IUi _ui;
@@ -24,6 +24,12 @@ public class BuyCard : IAction
     {
         _isPoint = _system.BuyCard(_ePlayer);
         return _system;
+    }
+    
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
     }
 
     public void Undo()

@@ -27,7 +27,7 @@ public class ParallelExpectimaxPlayer: IPlayer
         {
             return;
         }
-        action.Do();
+        action.Do(_system);
         action.Show();
     }
 
@@ -38,7 +38,7 @@ public class ParallelExpectimaxPlayer: IPlayer
         {
             throw new Exception("There should be plenty of options for the first turns!");
         }
-        action.Do();
+        action.Do(_system);
         action.Show();
         
         action = Expectimax(MaxDepth, _judge.GetFirstRoadsActions, out _);
@@ -46,7 +46,7 @@ public class ParallelExpectimaxPlayer: IPlayer
         {
             throw new Exception("There should be plenty of options for the first turns!");
         }
-        action.Do();
+        action.Do(_system);
         action.Show();
     }
 

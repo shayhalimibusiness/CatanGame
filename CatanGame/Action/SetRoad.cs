@@ -8,7 +8,7 @@ namespace CatanGame.Action;
 
 public class SetRoad : IAction
 {
-    private readonly ISystem _system;
+    private ISystem _system;
     private readonly IUi _ui;
     private readonly int _x, _y;
     private readonly ERoads _eRoads;
@@ -28,6 +28,12 @@ public class SetRoad : IAction
     {
         _system.SetRoad(_x, _y, _eRoads, _ePlayer);
         return _system;
+    }
+    
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
     }
 
     public void Undo()

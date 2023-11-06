@@ -28,6 +28,12 @@ public class BuildCity : IAction
         return _system;
     }
 
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
+    }
+
     public void Undo()
     {
         _system.BuildCityUndo(_x, _y, _ePlayer);

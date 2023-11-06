@@ -8,7 +8,7 @@ namespace CatanGame.Action;
 
 public class SetSettlement : IAction
 {
-    private readonly ISystem _system;
+    private ISystem _system;
     private readonly int _x, _y;
     private readonly EPlayer _ePlayer;
     private readonly IUi _ui;
@@ -28,6 +28,12 @@ public class SetSettlement : IAction
         return _system;
     }
 
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
+    }
+    
     public void Undo()
     {
         _system.SetSettlementUndo(_x, _y, _ePlayer);

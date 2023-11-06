@@ -29,6 +29,12 @@ public class BuildRoad : IAction
         _system.BuildRoad(_x, _y, _eRoads, _ePlayer);
         return _system;
     }
+    
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
+    }
 
     public void Undo()
     {

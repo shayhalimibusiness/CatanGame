@@ -38,11 +38,46 @@ public class Board : IBoard
         _verticalRoads = new IRoad[verticalRows, verticalCols];
         _tiles = new Tile[tilesRows, tilesCols];
 
-        // Shallow copy each array
-        Array.Copy(other._vertices, _vertices, other._vertices.Length);
-        Array.Copy(other._horizontalRoads, _horizontalRoads, other._horizontalRoads.Length);
-        Array.Copy(other._verticalRoads, _verticalRoads, other._verticalRoads.Length);
-        Array.Copy(other._tiles, _tiles, other._tiles.Length);
+        // Deep copy for _vertices, which is a 2D array of Vertex objects
+        _vertices = new IVertex[other._vertices.GetLength(0), other._vertices.GetLength(1)];
+        for (var i = 0; i < other._vertices.GetLength(0); i++)
+        {
+            for (var j = 0; j < other._vertices.GetLength(1); j++)
+            {
+                _vertices[i, j] = new Vertex(other._vertices[i, j]); // Assuming Vertex has a copy constructor
+            }
+        }
+
+        // Deep copy for _horizontalRoads, which is a 2D array of Road objects
+        _horizontalRoads = new IRoad[other._horizontalRoads.GetLength(0), other._horizontalRoads.GetLength(1)];
+        for (var i = 0; i < other._horizontalRoads.GetLength(0); i++)
+        {
+            for (var j = 0; j < other._horizontalRoads.GetLength(1); j++)
+            {
+                _horizontalRoads[i, j] = new Road(other._horizontalRoads[i, j]); // Assuming Road has a copy constructor
+            }
+        }
+
+        // Deep copy for _verticalRoads, which is a 2D array of Road objects
+        _verticalRoads = new IRoad[other._verticalRoads.GetLength(0), other._verticalRoads.GetLength(1)];
+        for (var i = 0; i < other._verticalRoads.GetLength(0); i++)
+        {
+            for (var j = 0; j < other._verticalRoads.GetLength(1); j++)
+            {
+                _verticalRoads[i, j] = new Road(other._verticalRoads[i, j]); // Assuming Road has a copy constructor
+            }
+        }
+
+        // Deep copy for _tiles, which is a 2D array of Tile objects
+        _tiles = new Tile[other._tiles.GetLength(0), other._tiles.GetLength(1)];
+        for (var i = 0; i < other._tiles.GetLength(0); i++)
+        {
+            for (var j = 0; j < other._tiles.GetLength(1); j++)
+            {
+                _tiles[i, j] = new Tile(other._tiles[i, j]); // Assuming Tile has a copy constructor
+            }
+        }
+
     }
 
     public EPlayer GetVertexOwner(int x, int y)

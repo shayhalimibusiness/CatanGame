@@ -79,8 +79,8 @@ public class ParallelExpectimaxPlayer: IPlayer
             {
                 decimal expectation = 0;
                 var systemCopy = SystemFactory.CopySystem(changedSystem)!;
-                var judgeCopyGetActions = JudgeFactory.CopyParallelJudgeChangeSystem(_judge, systemCopy)!.GetActions;
                 systemCopy.SetDiceRoll(diceRoll);
+                var judgeCopyGetActions = JudgeFactory.CopyParallelJudgeChangeSystem(_judge, systemCopy)!.GetActions;
                 Expectimax(
                     depth - 1, 
                     judgeCopyGetActions, 

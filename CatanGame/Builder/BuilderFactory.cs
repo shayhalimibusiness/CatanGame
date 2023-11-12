@@ -32,6 +32,24 @@ public static class BuilderFactory
         return builder;
     }
     
+    public static Builder CreateParallelWithSimpleHistoryBuilder()
+    {
+        var builder = new Builder()
+        {
+            FinalScorePath = Path.Combine(HistoryDirPath, "FinalScores.txt"),
+            TurnTimesPath = Path.Combine(HistoryDirPath, "TurnTimes.txt"),
+            Board = BoardFactory.CreateRandomBoard(),
+            AllCards = CardsFactory.Create1PlayerBlankAllCards(),
+            Ui = UiFactory.CreateUi(),
+        };
+        builder.System = new System.System(builder.Board, builder.AllCards, builder.Ui); 
+        builder.Evaluator = new Evaluator.Evaluator(builder.System, EPlayer.Player1);
+        builder.Judge = new Judge.Judge(builder.System, builder.Ui, EPlayer.Player1);
+        builder.History = HistoryFactory.CreateSimpleHistory(builder);
+        
+        return builder;
+    }
+    
     public static Builder Create1HeuristicPlayerFullBuilder()
     {
         var builder = Create1PlayerEmptyGameFullBuilder();
@@ -58,7 +76,7 @@ public static class BuilderFactory
     
     public static Builder Create1ParallelExpectimaxPlayerFullBuilder()
     {
-        var builder = Create1PlayerEmptyGameFullBuilder();
+        var builder = CreateParallelWithSimpleHistoryBuilder();
         builder.Judge = new ParallelJudge(
             builder.System!, 
             builder.Ui!, 

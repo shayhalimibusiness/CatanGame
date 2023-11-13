@@ -2,5 +2,5 @@ namespace CatanGame.Game;
 
 public interface IGame
 {
-    void Run();
+    int Run();
 }

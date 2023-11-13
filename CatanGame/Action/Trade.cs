@@ -8,7 +8,7 @@ namespace CatanGame.Action;
 
 public class Trade : IAction
 {
-    private readonly ISystem _system;
+    private ISystem _system;
     private readonly IUi _ui;
     private readonly EPlayer _ePlayer;
     private readonly EResource _sell;
@@ -25,9 +25,16 @@ public class Trade : IAction
         _amount = amount;
     }
     
-    public void Do()
+    public ISystem Do()
     {
         _system.Trade(_ePlayer, _sell, _buy, _amount);
+        return _system;
+    }
+    
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
     }
 
     public void Undo()

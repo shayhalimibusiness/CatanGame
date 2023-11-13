@@ -25,7 +25,7 @@ public class Game : IGame
         _stopwatch = new Stopwatch();
     }
     
-    public void Run()
+    public int Run()
     {
         var names = GeneralFactory.CreatePlayersNames();
         for (var i = 0; i < 100; i++)
@@ -57,5 +57,6 @@ public class Game : IGame
             _ui.ShowAllCards(_system.GetAllCards());
         }
         _history.Save();
+        return _system.GetAllCards()[EPlayer.Player1].GetTotalPoints();
     }
 }

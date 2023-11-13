@@ -8,6 +8,10 @@ namespace CatanGame.System;
 
 public static class SystemFactory
 {
+    public static ISystem? CopySystem(ISystem other)
+    {
+        return other is not System system ? null : new System(system);
+    }
     public static ISystem Create2PlayersSystem()
     {
         var board = BoardFactory.CreateRandomBoard();

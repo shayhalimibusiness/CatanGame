@@ -4,11 +4,16 @@ namespace CatanGame.System.Cards;
 
 public static class CardsFactory
 {
+    public static ICards? CreateCardsCopy(ICards other)
+    {
+        return other is not Cards cards ? null : new Cards(cards);
+    }
+    
     public static Dictionary<EPlayer, ICards> Create1PlayerBlankAllCards()
     {
         var allCards = new Dictionary<EPlayer, ICards>
         {
-            { EPlayer.Player1, new CatanGame.System.Cards.Cards() },
+            { EPlayer.Player1, new Cards() },
         };
 
         return allCards;
@@ -18,8 +23,8 @@ public static class CardsFactory
     {
         var allCards = new Dictionary<EPlayer, ICards>
         {
-            { EPlayer.Player1, new CatanGame.System.Cards.Cards() },
-            { EPlayer.Player2, new CatanGame.System.Cards.Cards() }
+            { EPlayer.Player1, new Cards() },
+            { EPlayer.Player2, new Cards() }
         };
 
         return allCards;
@@ -27,7 +32,7 @@ public static class CardsFactory
     
     public static ICards CreateCardsExample1()
     {
-        var cards = new CatanGame.System.Cards.Cards();
+        var cards = new Cards();
         cards.TransferResources(EResource.Iron,2);
         cards.TransferResources(EResource.Sheep,0);
         cards.TransferResources(EResource.Wheat,3);
@@ -40,7 +45,7 @@ public static class CardsFactory
     
     public static ICards CreateCardsExample2()
     {
-        var cards = new CatanGame.System.Cards.Cards();
+        var cards = new Cards();
         cards.TransferResources(EResource.Iron,3);
         cards.TransferResources(EResource.Sheep,2);
         cards.TransferResources(EResource.Wheat,0);

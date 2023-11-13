@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices.ComTypes;
+using CatanGame.Builder;
 
 namespace CatanGame.History;
 
@@ -10,5 +11,10 @@ public static class HistoryFactory
             builder.FinalScorePath!,
             builder.TurnTimesPath!,
             builder.System!);
+    }
+    
+    public static IHistory CreateSimpleHistory(Builder.Builder builder)
+    {
+        return new SimpleHistory(builder.TurnTimesPath);
     }
 }

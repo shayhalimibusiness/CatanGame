@@ -30,6 +30,13 @@ public class Cards : ICards
         };
     }
 
+    public Cards(Cards other)
+    {
+        _resources = new Dictionary<EResource, int>(other._resources);
+        _totalPoints = other._totalPoints;
+        _ports = new Dictionary<EResource, int>(other._ports);
+    }
+
     public void TransferResources(EResource eResource, int amount)
     {
         _resources.TryAdd(eResource, 0);

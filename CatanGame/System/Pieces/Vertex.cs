@@ -10,6 +10,12 @@ public class Vertex : IVertex
         Status = eVertexStatus;
         GetPort = port;
     }
+    public Vertex(IVertex other)
+    {
+        Owner = other.Owner;
+        Status = other.Status;
+        GetPort = other.GetPort;
+    }
     public EPlayer Owner { get; set; }
     public EVertexStatus Status { get; set; }
     public EResource GetPort { get; set; }

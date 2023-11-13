@@ -22,9 +22,16 @@ public class BuildCity : IAction
         _ePlayer = ePlayer;
     }
     
-    public void Do()
+    public ISystem Do()
     {
         _system.BuildCity(_x, _y, _ePlayer);
+        return _system;
+    }
+
+    public ISystem Do(ISystem system)
+    {
+        _system = system;
+        return Do();
     }
 
     public void Undo()

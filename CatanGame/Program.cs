@@ -12,15 +12,33 @@ using CatanGame.Utils;
 
 Console.WriteLine("Hello, World!");
 
-var builder = BuilderFactory.Create1HeuristicPlayerFullBuilder();
-var history = HistoryFactory.CreateSimpleHistory(builder);
+void activate_heuristic_player()
+{
+    var builder = BuilderFactory.Create1HeuristicPlayerFullBuilder();
+    var history = HistoryFactory.CreateSimpleHistory(builder);
+    var logger = new JsonFileManager<List<Scores>>(builder.FinalScorePath!);
+    var scores = new List<Scores>();
+    for (var i = 0; i < 17; i++)
+    {
+        builder = BuilderFactory.Create1HeuristicPlayerFullBuilder();
+        builder.History = history;
+        var game = GameFactory.Create1PlayerGame(builder);
+        scores.Add(new Scores
+        {
+            Game = i + 1,
+            Score = game.Run(),
+        });
+        Console.WriteLine($"Game number: {i}");
+    }
+    logger.Save(scores);
+}
+
+var builder = BuilderFactory.Create1ParallelExpectimaxPlayerFullBuilder();
 var logger = new JsonFileManager<List<Scores>>(builder.FinalScorePath!);
 var scores = new List<Scores>();
 for (var i = 0; i < 17; i++)
 {
-    builder = BuilderFactory.Create1HeuristicPlayerFullBuilder();
-    builder.History = history;
-    var game = GameFactory.Create1PlayerGame(builder);
+    var game = GameFactory.Create1PlayerGame(BuilderFactory.Create1ParallelExpectimaxPlayerFullBuilder());
     scores.Add(new Scores
     {
         Game = i + 1,
@@ -29,6 +47,7 @@ for (var i = 0; i < 17; i++)
     Console.WriteLine($"Game number: {i}");
 }
 logger.Save(scores);
+
 
 class Scores
 {

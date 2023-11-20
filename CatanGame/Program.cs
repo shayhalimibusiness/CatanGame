@@ -36,7 +36,7 @@ void activate_heuristic_player()
 var builder = BuilderFactory.Create1ParallelExpectimaxPlayerFullBuilder();
 var logger = new JsonFileManager<List<Scores>>(builder.FinalScorePath!);
 var scores = new List<Scores>();
-for (var i = 0; i < 17; i++)
+for (var i = 0; i < 1; i++)
 {
     var game = GameFactory.Create1PlayerGame(BuilderFactory.Create1ParallelExpectimaxPlayerFullBuilder());
     scores.Add(new Scores

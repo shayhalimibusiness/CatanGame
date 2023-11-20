@@ -11,7 +11,7 @@ public class Evaluator : IEvaluator
 {
     private readonly EPlayer _ePlayer;
 
-    private readonly ISystem _system;
+    private ISystem _system;
     private readonly ICards _cards;
     private readonly IBoard _board;
     
@@ -22,6 +22,15 @@ public class Evaluator : IEvaluator
         _system = system;
         _cards = system.GetCards(ePlayer);
         _board = system.GetBoard();
+    }
+    
+    public decimal EvaluateSystem(ISystem system)
+    {
+        var originalSystem = _system;
+        _system = system;
+        var result = Evaluate();
+        _system = originalSystem;
+        return result;
     }
 
     public decimal Evaluate()
@@ -111,7 +120,8 @@ public class Evaluator : IEvaluator
                 {
                     continue;
                 }
-                
+
+                evaluation += 1;
                 evaluation += EvaluateVertexWealth(i, j);
                 if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
                 {
@@ -136,7 +146,8 @@ public class Evaluator : IEvaluator
                 {
                     continue;
                 }
-                
+
+                evaluation += 2;
                 evaluation += 2 * EvaluateVertexWealth(i, j);
                 if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
                 {

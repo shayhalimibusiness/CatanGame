@@ -12,8 +12,8 @@ public class Evaluator : IEvaluator
     private readonly EPlayer _ePlayer;
 
     private ISystem _system;
-    private readonly ICards _cards;
-    private readonly IBoard _board;
+    private ICards _cards;
+    private IBoard _board;
     
     public Evaluator(ISystem system, EPlayer ePlayer)
     {
@@ -28,8 +28,12 @@ public class Evaluator : IEvaluator
     {
         var originalSystem = _system;
         _system = system;
+        _board = _system.GetBoard();
+        _cards = _system.GetCards(_ePlayer);
         var result = Evaluate();
         _system = originalSystem;
+        _board = _system.GetBoard();
+        _cards = _system.GetCards(_ePlayer);
         return result;
     }
 

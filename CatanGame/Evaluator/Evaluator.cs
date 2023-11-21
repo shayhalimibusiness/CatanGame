@@ -1,5 +1,4 @@
 using CatanGame.Enums;
-using CatanGame.Game;
 using CatanGame.System;
 using CatanGame.System.Board;
 using CatanGame.System.Cards;
@@ -122,9 +121,9 @@ public class Evaluator : IEvaluator
                 }
 
                 evaluation += EvaluateVertexWealth(i, j);
-                if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
+                if (IsUsefulPort(i, j))
                 {
-                    evaluation += 0.25m;
+                    evaluation += 0.08m;
                 }
             }
         }
@@ -147,9 +146,9 @@ public class Evaluator : IEvaluator
                 }
 
                 evaluation += 2 * EvaluateVertexWealth(i, j);
-                if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
+                if (IsUsefulPort(i, j))
                 {
-                    evaluation += 0.25m;
+                    evaluation += 0.08m;
                 }
             }
         }
@@ -191,5 +190,11 @@ public class Evaluator : IEvaluator
     private bool IsTileInRange(int x, int y)
     {
         return x >= 0 && x < GlobalResources.TilesSize && y >= 0 && y < GlobalResources.TilesSize;
+    }
+
+    private bool IsUsefulPort(int i, int j)
+    {
+        var port = _board.PlayerHasPortIn(_ePlayer, i, j);
+        return (port != EResource.None) && (!_cards.HasPort(port));
     }
 }

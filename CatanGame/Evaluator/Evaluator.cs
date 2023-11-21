@@ -58,10 +58,6 @@ public class Evaluator : IEvaluator
 
     private decimal EvaluateResources()
     {
-        // var evaluation = GlobalResources.Resources
-        //     .Aggregate<EResource, decimal>(0, (current, eResource) => 
-        //         current + (decimal)_cards.GetResources()[eResource] / 30);
-
         var evaluation = 
             Math.Max(EvaluateResourcesForAUse(GlobalResources.RoadResources), 
             Math.Max(EvaluateResourcesForAUse(GlobalResources.SettlementResources), 
@@ -125,7 +121,6 @@ public class Evaluator : IEvaluator
                     continue;
                 }
 
-                evaluation += 1;
                 evaluation += EvaluateVertexWealth(i, j);
                 if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
                 {
@@ -151,7 +146,6 @@ public class Evaluator : IEvaluator
                     continue;
                 }
 
-                evaluation += 2;
                 evaluation += 2 * EvaluateVertexWealth(i, j);
                 if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
                 {
@@ -187,7 +181,7 @@ public class Evaluator : IEvaluator
             }
             if (_board.GetTileResource(i, j) != EResource.None)
             {
-                vertexProduction += Math.Abs(_board.GetTileNumber(i, j) - 7);
+                vertexProduction += 6 - Math.Abs(_board.GetTileNumber(i, j) - 7);
             }
         }
 

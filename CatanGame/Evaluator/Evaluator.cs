@@ -98,6 +98,13 @@ public class Evaluator : IEvaluator
                     if (_board.GetRoadOwner(i, j, eRoad) == _ePlayer)
                     {
                         evaluation += 0.2m;
+                        var buildLocation = _board.CanBuildWithRoad(eRoad, i, j);
+                        if (buildLocation.Item1 != -1)
+                        {
+                            evaluation += 0.2m;
+                            evaluation += EvaluateVertexWealth(i, j) / 2;
+                            evaluation += EvaluateVertexWealth(buildLocation.Item1, buildLocation.Item2) / 2;
+                        }
                     }
                 }
             }

@@ -185,9 +185,11 @@ public class Evaluator : IEvaluator
             {
                 continue;
             }
-            if (_board.GetTileResource(i, j) != EResource.None)
+
+            var tileNumber = _board.GetTileNumber(i, j);
+            if (_board.GetTileResource(i, j) != EResource.None && tileNumber != 7)
             {
-                vertexProduction += 6 - Math.Abs(_board.GetTileNumber(i, j) - 7);
+                vertexProduction += 6 - Math.Abs(tileNumber - 7);
             }
         }
 

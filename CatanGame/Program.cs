@@ -38,7 +38,7 @@ var logger = new JsonFileManager<List<Scores>>(builder.FinalScorePath!);
 var scores = new List<Scores>();
 for (var i = 0; i < 1; i++)
 {
-    var game = GameFactory.Create1PlayerGame(BuilderFactory.Create1ParallelExpectimaxPlayerFullBuilder());
+    var game = GameFactory.Create1PlayerGame(BuilderFactory.Create1ParallelMinMaxExpectancyPlayerFullBuilder());
     scores.Add(new Scores
     {
         Game = i + 1,

@@ -93,4 +93,23 @@ public static class BuilderFactory
         
         return builder;
     }
+    
+    public static Builder Create1ParallelMinMaxExpectancyPlayerFullBuilder()
+    {
+        var builder = CreateParallelWithSimpleHistoryBuilder();
+        builder.Judge = new ParallelJudge(
+            builder.System!, 
+            builder.Ui!, 
+            EPlayer.Player1);
+        builder.Players = new List<IPlayer>
+        {
+            new ParallelMinMaxExpectancyPlayer(
+                builder.Judge!, 
+                builder.Evaluator!,
+                builder.System!)
+        };
+        builder.Game = GameFactory.Create1PlayerGame(builder);
+        
+        return builder;
+    }
 }

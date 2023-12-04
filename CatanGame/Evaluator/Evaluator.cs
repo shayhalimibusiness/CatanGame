@@ -63,8 +63,6 @@ public class Evaluator : IEvaluator
             Math.Max(EvaluateResourcesForAUse(GlobalResources.CityResources), 
                      EvaluateResourcesForAUse(GlobalResources.CardResources))));
 
-        evaluation = evaluation / 26;
-
         return evaluation;
     }
 
@@ -102,7 +100,6 @@ public class Evaluator : IEvaluator
                         if (buildLocation.Item1 != -1)
                         {
                             evaluation += 0.2m;
-                            evaluation += EvaluateVertexWealth(i, j) / 2;
                             evaluation += EvaluateVertexWealth(buildLocation.Item1, buildLocation.Item2) / 2;
                         }
                     }

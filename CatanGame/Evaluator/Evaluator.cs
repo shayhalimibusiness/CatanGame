@@ -1,5 +1,4 @@
 using CatanGame.Enums;
-using CatanGame.Game;
 using CatanGame.System;
 using CatanGame.System.Board;
 using CatanGame.System.Cards;
@@ -11,9 +10,9 @@ public class Evaluator : IEvaluator
 {
     private readonly EPlayer _ePlayer;
 
-    private readonly ISystem _system;
-    private readonly ICards _cards;
-    private readonly IBoard _board;
+    private ISystem _system;
+    private ICards _cards;
+    private IBoard _board;
     
     public Evaluator(ISystem system, EPlayer ePlayer)
     {
@@ -22,6 +21,19 @@ public class Evaluator : IEvaluator
         _system = system;
         _cards = system.GetCards(ePlayer);
         _board = system.GetBoard();
+    }
+    
+    public decimal EvaluateSystem(ISystem system)
+    {
+        var originalSystem = _system;
+        _system = system;
+        _board = _system.GetBoard();
+        _cards = _system.GetCards(_ePlayer);
+        var result = Evaluate();
+        _system = originalSystem;
+        _board = _system.GetBoard();
+        _cards = _system.GetCards(_ePlayer);
+        return result;
     }
 
     public decimal Evaluate()
@@ -45,17 +57,11 @@ public class Evaluator : IEvaluator
 
     private decimal EvaluateResources()
     {
-        // var evaluation = GlobalResources.Resources
-        //     .Aggregate<EResource, decimal>(0, (current, eResource) => 
-        //         current + (decimal)_cards.GetResources()[eResource] / 30);
-
         var evaluation = 
             Math.Max(EvaluateResourcesForAUse(GlobalResources.RoadResources), 
             Math.Max(EvaluateResourcesForAUse(GlobalResources.SettlementResources), 
             Math.Max(EvaluateResourcesForAUse(GlobalResources.CityResources), 
                      EvaluateResourcesForAUse(GlobalResources.CardResources))));
-
-        evaluation = evaluation / 26;
 
         return evaluation;
     }
@@ -90,6 +96,12 @@ public class Evaluator : IEvaluator
                     if (_board.GetRoadOwner(i, j, eRoad) == _ePlayer)
                     {
                         evaluation += 0.2m;
+                        var buildLocation = _board.CanBuildWithRoad(eRoad, i, j);
+                        if (buildLocation.Item1 != -1)
+                        {
+                            evaluation += 0.2m;
+                            evaluation += EvaluateVertexWealth(buildLocation.Item1, buildLocation.Item2) / 2;
+                        }
                     }
                 }
             }
@@ -111,11 +123,11 @@ public class Evaluator : IEvaluator
                 {
                     continue;
                 }
-                
+
                 evaluation += EvaluateVertexWealth(i, j);
-                if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
+                if (IsUsefulPort(i, j))
                 {
-                    evaluation += 0.25m;
+                    evaluation += 0.08m;
                 }
             }
         }
@@ -136,11 +148,11 @@ public class Evaluator : IEvaluator
                 {
                     continue;
                 }
-                
+
                 evaluation += 2 * EvaluateVertexWealth(i, j);
-                if (_board.PlayerHasPortIn(_ePlayer, i, j) != EResource.None)
+                if (IsUsefulPort(i, j))
                 {
-                    evaluation += 0.25m;
+                    evaluation += 0.08m;
                 }
             }
         }
@@ -170,9 +182,11 @@ public class Evaluator : IEvaluator
             {
                 continue;
             }
-            if (_board.GetTileResource(i, j) != EResource.None)
+
+            var tileNumber = _board.GetTileNumber(i, j);
+            if (_board.GetTileResource(i, j) != EResource.None && tileNumber != 7)
             {
-                vertexProduction += Math.Abs(_board.GetTileNumber(i, j) - 7);
+                vertexProduction += 6 - Math.Abs(tileNumber - 7);
             }
         }
 
@@ -182,5 +196,11 @@ public class Evaluator : IEvaluator
     private bool IsTileInRange(int x, int y)
     {
         return x >= 0 && x < GlobalResources.TilesSize && y >= 0 && y < GlobalResources.TilesSize;
+    }
+
+    private bool IsUsefulPort(int i, int j)
+    {
+        var port = _board.PlayerHasPortIn(_ePlayer, i, j);
+        return (port != EResource.None) && (!_cards.HasPort(port));
     }
 }

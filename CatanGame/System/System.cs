@@ -75,6 +75,40 @@ public class System : ISystem
         DistributeResourcesUndo();
     }
 
+    public void SetExpectancyRoll(int turns)
+    {
+        var neighborVerticesOffset = new[] { (0, 0), (0, 1), (1, 0), (1, 1) }; 
+        for (var i = 0; i < GlobalResources.TilesSize; i++)
+        {
+            for (var j = 0; j < GlobalResources.TilesSize; j++)
+            {
+                if (_board.GetTileResource(i, j) == EResource.None)
+                {
+                    continue;
+                }
+
+                var amount = _board.GetTileNumber(i, j) * turns / 36m;
+                var fractionalPart = amount - (int)amount;
+                amount = (int)amount + (new Random().NextDouble() < (double)fractionalPart ? 1 : 0);
+                
+                foreach (var offset in neighborVerticesOffset)
+                {
+                    var (x, y) = offset;
+                    if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.Settlement)
+                    {
+                        GetCards(_board.GetVertexOwner(i + x, j + y))
+                            .TransferResources(_board.GetTileResource(i, j), 1 * (int)amount);
+                    }
+                    if (_board.GetVertexStatus(i + x, j + y) == EVertexStatus.City)
+                    {
+                        GetCards(_board.GetVertexOwner(i + x, j + y))
+                            .TransferResources(_board.GetTileResource(i, j), 2 * (int)amount);
+                    }
+                }
+            }
+        }
+    }
+
     public IBoard GetBoard()
     {
         return _board;
@@ -358,7 +392,7 @@ public class System : ISystem
             }
         }
     }
-    
+
     private void DistributeResourcesUndo()
     {
         if (_dice == 7)

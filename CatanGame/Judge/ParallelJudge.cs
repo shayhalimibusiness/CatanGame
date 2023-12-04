@@ -21,7 +21,10 @@ public class ParallelJudge : IJudge
     
     public List<IAction> GetActions()
     {
-        var actions = new List<IAction>();
+        var actions = new List<IAction>
+        {
+            new Pass(_system)
+        };
         
         actions.AddRange(GetBuyCardAction());
         actions.AddRange(GetBuildRoadActions());

@@ -1,15 +1,13 @@
-using System.Diagnostics;
 using CatanGame.Action;
 using CatanGame.Enums;
 using CatanGame.Evaluator;
 using CatanGame.Judge;
 using CatanGame.System;
-using CatanGame.UI;
 using CatanGame.Utils;
 
 namespace CatanGame.Player;
 
-public class ParallelExpectimaxPlayer: IPlayer
+public class ParallelMinMaxExpectancyPlayer : IPlayer
 {
     private const int MaxDepth = 3;
     
@@ -17,7 +15,7 @@ public class ParallelExpectimaxPlayer: IPlayer
     private readonly IEvaluator _evaluator;
     private readonly ISystem _system;
 
-    public ParallelExpectimaxPlayer(IJudge judge, IEvaluator evaluator, ISystem system)
+    public ParallelMinMaxExpectancyPlayer(IJudge judge, IEvaluator evaluator, ISystem system)
     {
         _judge = judge;
         _evaluator = evaluator;
@@ -26,7 +24,7 @@ public class ParallelExpectimaxPlayer: IPlayer
 
     public void Play()
     {
-        var result = ParallelExpectimax(_system, MaxDepth, EGameStatus.NormalRound);
+        var result = ParallelMinMaxExpectancy(_system, MaxDepth, EGameStatus.NormalRound);
         if (result == null)
         {
             return;
@@ -39,7 +37,7 @@ public class ParallelExpectimaxPlayer: IPlayer
     {
         var firstTurn = _system.GetCards(EPlayer.Player1).GetTotalPoints() == 0;
         var status = firstTurn ? EGameStatus.FirstRoundSettlement : EGameStatus.SecondRoundSettlement;
-        var result = ParallelExpectimax(_system, MaxDepth, status);
+        var result = ParallelMinMaxExpectancy(_system, MaxDepth, status);
         if (result == null)
         {
             throw new Exception("There should be plenty of options for the first turns!");
@@ -48,7 +46,7 @@ public class ParallelExpectimaxPlayer: IPlayer
         result.Action.Show();
         
         status = firstTurn ? EGameStatus.FirstRoundRoad : EGameStatus.SecondRoundRoad;
-        result = ParallelExpectimax(_system, MaxDepth, status);
+        result = ParallelMinMaxExpectancy(_system, MaxDepth, status);
         if (result == null)
         {
             throw new Exception("There should be plenty of options for the first turns!");
@@ -57,17 +55,15 @@ public class ParallelExpectimaxPlayer: IPlayer
         result.Action.Show();
     }
 
-    private ParallelExpectimaxResult ParallelExpectimax(ISystem system, int depth, EGameStatus status)
+    private ParallelMinMaxExpectancyResult ParallelMinMaxExpectancy(ISystem system, int depth, EGameStatus status)
     {
-        var bestValue = -1000m;
         IAction? bestAction = null;
         if (depth == 0)
         {
-            bestValue = _evaluator.EvaluateSystem(system);
-            return new ParallelExpectimaxResult
+            return new ParallelMinMaxExpectancyResult
             {
                 Action = bestAction,
-                Value = bestValue
+                Value = _evaluator.EvaluateSystem(system)
             };
         }
 
@@ -112,7 +108,7 @@ public class ParallelExpectimaxPlayer: IPlayer
                     decimal expectation = 0;
                     var systemCopy = SystemFactory.CopySystem(changedSystem)!;
                     systemCopy.SetDiceRoll(diceRoll);
-                    var result = ParallelExpectimax(
+                    var result = ParallelMinMaxExpectancy(
                         changedSystem, 
                         depth - 1, 
                         status);
@@ -126,7 +122,7 @@ public class ParallelExpectimaxPlayer: IPlayer
             }
             else
             {
-                var result = ParallelExpectimax(
+                var result = ParallelMinMaxExpectancy(
                     changedSystem, 
                     depth - 1, 
                     status);
@@ -139,13 +135,10 @@ public class ParallelExpectimaxPlayer: IPlayer
             .OrderByDescending(r => r.Expectation)
             .FirstOrDefault();
         
-        bestAction = bestResult.Action;
-        bestValue = bestResult.Expectation;
-
-        return new ParallelExpectimaxResult
+        return new ParallelMinMaxExpectancyResult
         {
-            Action = bestAction,
-            Value = bestValue
+            Action = bestResult.Action,
+            Value = bestResult.Expectation
         };
     }
 
@@ -173,26 +166,15 @@ public class ParallelExpectimaxPlayer: IPlayer
         {
             var changedSystem = action.Do();
             
-            var diceRollsExpectations = new List<(int diceRoll, decimal Expectation)>();
-            Parallel.For(2, 13, diceRoll =>
-            {
-                decimal expectation = 0;
-                var systemCopy = SystemFactory.CopySystem(changedSystem)!;
-                systemCopy.SetDiceRoll(diceRoll);
-                var judgeCopyGetActions = JudgeFactory.CopyParallelJudgeChangeSystem(_judge, systemCopy)!.GetActions;
-                Expectimax(
-                    depth - 1, 
-                    judgeCopyGetActions, 
-                    out var childValue);
+            var systemCopy = SystemFactory.CopySystem(changedSystem)!;
+            systemCopy.SetExpectancyRoll(10);
+            var judgeCopyGetActions = JudgeFactory.CopyParallelJudgeChangeSystem(_judge, systemCopy)!.GetActions;
+            Expectimax(
+                depth - 1, 
+                judgeCopyGetActions, 
+                out var expectation);
 
-                expectation += childValue * Utils.Utils.Probability(diceRoll);
-                diceRollsExpectations.Add((diceRoll, expectation));
-            });
-            
-            action.Undo();
-
-            actionsExpectations.Add((action, diceRollsExpectations
-                .Sum(pair => pair.Expectation)));
+            actionsExpectations.Add((action, expectation));
         });
 
         // Find the best result outside the parallel loop
@@ -209,7 +191,7 @@ public class ParallelExpectimaxPlayer: IPlayer
         return bestAction;
     }
     
-    private class ParallelExpectimaxResult
+    private class ParallelMinMaxExpectancyResult
     {
         public decimal Value { get; set; }
         public IAction? Action { get; set; }

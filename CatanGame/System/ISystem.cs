@@ -10,6 +10,7 @@ public interface ISystem
      void RoleDice();
      void SetDiceRoll(int dice);
      void SetDiceRollUndo(int dice);
+     void SetExpectancyRoll(int turns);
      IBoard GetBoard();
      ICards GetCards(EPlayer ePlayer);
      Dictionary<EPlayer, ICards> GetAllCards();
